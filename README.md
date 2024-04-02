@@ -332,9 +332,6 @@ the food.
 • Verify that the order status changes from "Ready to pickup" to
 "completed."
 
-SC/CE/CZ2002 Object-Oriented Design & Programming Assignment
-
-Page 10
 
 9. Error Handling:
 • Test Case 19:
