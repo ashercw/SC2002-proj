@@ -293,10 +293,6 @@ choose takeaway option.
 5. Staff Actions:
 • Test Case 9:
 • Login as a staff member and display new orders.
-
-SC/CE/CZ2002 Object-Oriented Design & Programming Assignment
-
-Page 9
 • Verify that the staff can see all the new orders in the branch he/she is
 working.
 • Test Case 10:
