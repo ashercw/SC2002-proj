@@ -1,5 +1,5 @@
 package Entity;
 
-public class Admin {
+public class Admin implements EmployeeUser{
 
 }
