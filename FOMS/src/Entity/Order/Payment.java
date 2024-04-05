@@ -1,4 +1,4 @@
-package Entity;
+package Entity.Order;
 
 public interface Payment {
 

@@ -1,4 +1,4 @@
-package Entity;
+package Entity.User;
 
 public interface EmployeeUser {
 

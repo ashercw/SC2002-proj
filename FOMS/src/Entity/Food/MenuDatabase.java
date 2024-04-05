@@ -1,4 +1,4 @@
-package Entity;
+package Entity.Food;
 
 public class MenuDatabase {
 

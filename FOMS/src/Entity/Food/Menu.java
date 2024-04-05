@@ -1,5 +1,7 @@
-package Entity;
+package Entity.Food;
 import java.util.ArrayList;
+
+import Entity.BranchType;
 
 public class Menu {
     private BranchType branchName;

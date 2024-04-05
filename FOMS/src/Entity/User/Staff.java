@@ -1,4 +1,4 @@
-package Entity;
+package Entity.User;
 
 public class Staff implements EmployeeUser{
     private boolean isPromoted;

@@ -1,4 +1,4 @@
-package Entity;
+package Entity.User;
 
 public class Manager extends Staff{
     private int numStaff;

@@ -1,6 +1,10 @@
 package Entity;
 import java.util.ArrayList;
 
+import Entity.Food.Menu;
+import Entity.User.Manager;
+import Entity.User.Staff;
+
 public class Branch {
     private BranchType branchName;
 	private ArrayList<Staff> staffList;

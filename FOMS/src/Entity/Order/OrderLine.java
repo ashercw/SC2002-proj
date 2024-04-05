@@ -1,4 +1,6 @@
-package Entity;
+package Entity.Order;
+
+import Entity.Food.FoodItem;
 
 public class OrderLine {
     private FoodItem item;
