@@ -52,10 +52,11 @@ public class StartMenuUI {
 		{
 			int userChoice = UserInput.userInputInt();
 
-			if(userChoice == 1) {} //Call employee login 
-			else if(userChoice == 2) {} //Call customer "login"
+			if(userChoice == 1) { System.out.println("Login as employee");} //Call employee login 
+			else if(userChoice == 2) {System.out.println("Continue as customer");} //Call customer "login"
 			else if(userChoice == 3) { LogOutUI.LogOut();} //
 			else System.out.println("Invalid response. Please enter 1-3!");
+			System.out.print("Your choice (1-3): ");
 		}
 
 	}

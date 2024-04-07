@@ -1,3 +1,5 @@
+package Controller;
+
 public class AdminController {
 
 	/**
@@ -10,6 +12,7 @@ public class AdminController {
 	 * @param branch
 	 * @param role
 	 */
+
 	public Staff addStaff(String username, String password, String name, int age, Gender gender, Branch branch, Role role) {
 		// TODO - implement AdminController.addStaff
 		throw new UnsupportedOperationException();
@@ -107,6 +110,6 @@ public class AdminController {
 	public List<User> displayStaffList(Filter filter) {
 		// TODO - implement AdminController.displayStaffList
 		throw new UnsupportedOperationException();
-	}
+	} 
 
 }

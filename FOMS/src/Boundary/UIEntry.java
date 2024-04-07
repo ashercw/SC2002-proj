@@ -1,5 +1,6 @@
 package Boundary;
-
+import Controller.AccountController;
+import Controller.MenuController;
 
 public class UIEntry {
 
@@ -10,12 +11,14 @@ public class UIEntry {
 
 	public static void UIstart() {
 
-		boolean isFirstStart = true; //placeholder
+		boolean isFirstStart = false; //placeholder
 		//TODO - write functions to check if the various repositories are empty.
 
 		if(isFirstStart)
 		{
 			// initialise repositories
+			AccountController.loadEmployees();
+			MenuController.loadMenuItems();
 		}
 
 		StartMenuUI.startMenuUI();

@@ -1,3 +1,5 @@
+package Controller;
+
 public class MenuController {
 
 	public MenuController() {
@@ -42,7 +44,7 @@ public class MenuController {
 		throw new UnsupportedOperationException();
 	}
 
-	private void loadMenuItems() {
+	public static void loadMenuItems() {
 		// TODO - implement MenuController.loadMenuItems
 		throw new UnsupportedOperationException();
 	}

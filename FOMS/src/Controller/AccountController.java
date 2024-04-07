@@ -5,7 +5,6 @@ public class AccountController {
 
 	public AccountController() {
 		// TODO - implement AccountController.AccountController
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -15,7 +14,6 @@ public class AccountController {
 	 */
 	public void changePassword(int EmployeeType, int String) {
 		// TODO - implement AccountController.changePassword
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -24,12 +22,18 @@ public class AccountController {
 	 */
 	public String getID(int String) {
 		// TODO - implement AccountController.getID
-		throw new UnsupportedOperationException();
+		String temp = "temp"; //placehodler
+		return temp;
 	}
 
-	public void loadUsers() {
+	/**
+	 * Loads employee list from staff list CSV file while also initialising the respective
+	 * entity objects
+	 */
+	public static void loadEmployees() {
 		// TODO - implement AccountController.loadUsers
-		throw new UnsupportedOperationException();
+		
+
 	}
 
 	/**
@@ -37,7 +41,9 @@ public class AccountController {
 	 * @param EmployeeType
 	 * @param String
 	 */
-	public Staff login(int EmployeeType, int String) {
+
+	// public STAFF login(int EmployeeType, int String), deleted staff coz throwing error.
+	public void login(int EmployeeType, int String) {
 		// TODO - implement AccountController.login
 		throw new UnsupportedOperationException();
 	}

@@ -1,3 +1,5 @@
+package Controller;
+
 public class AddEmployee {
 
 	public void addManager() {
