@@ -1,13 +1,24 @@
+package Boundary;
+
+
 public class UIEntry {
 
-	public boolean firstStart() {
-		// TODO - implement UIEntry.firstStart
+	/*private boolean firstStart() {
+		//TODO - implement UIEntry.firstStart
 		throw new UnsupportedOperationException();
-	}
+	}*/
 
-	private void start() {
-		// TODO - implement UIEntry.start
-		throw new UnsupportedOperationException();
+	public static void UIstart() {
+
+		boolean isFirstStart = true; //placeholder
+		//TODO - write functions to check if the various repositories are empty.
+
+		if(isFirstStart)
+		{
+			// initialise repositories
+		}
+
+		StartMenuUI.startMenuUI();
 	}
 
 }

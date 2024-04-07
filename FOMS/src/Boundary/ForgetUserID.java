@@ -1,3 +1,4 @@
+package Boundary;
 public class ForgetUserID {
 
 	public void forgetID() {

@@ -1,3 +1,4 @@
+package Boundary;
 public class AdminMainPage {
 
 	private String adminID;

@@ -1,3 +1,4 @@
+package Boundary;
 public class PaymentList {
 
 	public void displayPaymentMethodList() {

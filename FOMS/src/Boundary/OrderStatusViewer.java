@@ -1,3 +1,5 @@
+package Boundary;
+
 public class OrderStatusViewer {
 
 	private String orderID;

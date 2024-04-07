@@ -1,3 +1,4 @@
+package Boundary;
 public class OrderUI {
 
 	private String orderID;

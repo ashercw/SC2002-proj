@@ -1,3 +1,4 @@
+package Boundary;
 public class StaffList {
 
 	private String staffID;

@@ -1,3 +1,5 @@
+package Boundary;
+
 public class MenuList {
 
 	private String branchID;

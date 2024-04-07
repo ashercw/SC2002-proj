@@ -1,3 +1,5 @@
+
+package Boundary;
 public class ReadyToPickUpList {
 
 	private String orderID;

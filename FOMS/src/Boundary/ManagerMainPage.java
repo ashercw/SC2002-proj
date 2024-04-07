@@ -1,3 +1,5 @@
+package Boundary;
+
 public class ManagerMainPage {
 
 	private String managerID;

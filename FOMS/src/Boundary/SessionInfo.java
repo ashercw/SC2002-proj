@@ -1,3 +1,4 @@
+package Boundary;
 public class SessionInfo {
 
 	public SessionInfo() {

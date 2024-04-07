@@ -1,3 +1,4 @@
+package Boundary;
 public class PaymentUI {
 
 	private String orderID;
