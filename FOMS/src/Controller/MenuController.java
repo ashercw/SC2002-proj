@@ -1,52 +1,49 @@
-package Controller;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MenuController {
+public class MenuController 
+{
+    private Map<String, MenuItem> menuItems;
 
-	public MenuController() {
-		// TODO - implement MenuController.MenuController
-		throw new UnsupportedOperationException();
-	}
+    public MenuController() {
+        this.menuItems = new HashMap<>();
+    }
 
-	/**
-	 * 
-	 * @param name
-	 * @param price
-	 * @param description
-	 */
-	public MenuValidator addMenuItem(String name, double price, String description) {
-		// TODO - implement MenuController.addMenuItem
-		throw new UnsupportedOperationException();
-	}
+    public MenuValidator addMenuItem(String name, double price, String description) {
+        if (menuItems.containsKey(name)) {
+            return new MenuValidator(false, "Item already exists.");
+        }
+        MenuItem newItem = new MenuItem(name, price, description);
+        menuItems.put(name, newItem);
+        return new MenuValidator(true, "Item added successfully.");
+    }
 
-	/**
-	 * 
-	 * @param itemId
-	 * @param newName
-	 * @param newPrice
-	 * @param newDescription
-	 */
-	public void updateMenuItem(String itemId, String newName, double newPrice, String newDescription) {
-		// TODO - implement MenuController.updateMenuItem
-		throw new UnsupportedOperationException();
-	}
+    public void updateMenuItem(String itemId, String newName, double newPrice, String newDescription) {
+        if (!menuItems.containsKey(itemId)) {
+            System.out.println("Item does not exist.");
+            return;
+        }
+        MenuItem item = menuItems.get(itemId);
+        item.setName(newName);
+        item.setPrice(newPrice);
+        item.setDescription(newDescription);
+        // Assuming the item ID does not change. If it does, you'll need to remove and re-add the item to the map.
+    }
 
-	/**
-	 * 
-	 * @param itemId
-	 */
-	public void removeMenuItem(String itemId) {
-		// TODO - implement MenuController.removeMenuItem
-		throw new UnsupportedOperationException();
-	}
+    public void removeMenuItem(String itemId) {
+        if (!menuItems.containsKey(itemId)) {
+            System.out.println("Item does not exist.");
+            return;
+        }
+        menuItems.remove(itemId);
+    }
 
-	public boolean isMenuEmpty() {
-		// TODO - implement MenuController.isMenuEmpty
-		throw new UnsupportedOperationException();
-	}
+    public boolean isMenuEmpty() {
+        return menuItems.isEmpty();
+    }
 
-	public static void loadMenuItems() {
-		// TODO - implement MenuController.loadMenuItems
-		throw new UnsupportedOperationException();
-	}
-
+    public static void loadMenuItems() {
+        // Implementation depends on how you intend to load items (e.g., from a file, database, etc.)
+    }
+	
 }
