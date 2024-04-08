@@ -1,5 +1,5 @@
 package Boundary;
-import Others.UserInput;
+import Others.IO;
 
 /**
  * The StartMenuUI class displays the starting UI that the user will see
@@ -50,7 +50,7 @@ public class StartMenuUI {
 
 		while(true)
 		{
-			int userChoice = UserInput.userInputInt();
+			int userChoice = IO.userInputInt();
 
 			if(userChoice == 1) { System.out.println("Login as employee");} //Call employee login 
 			else if(userChoice == 2) {System.out.println("Continue as customer");} //Call customer "login"

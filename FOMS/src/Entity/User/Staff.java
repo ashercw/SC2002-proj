@@ -9,9 +9,10 @@ public class Staff implements EmployeeUser{
     private Gender gender;
     private int age;
     private BranchType branch;
+    private String password;
 
     //Constructor
-    public Staff(boolean _ip, String _en, String _lID, EmployeeType _et, Gender _g, int _a, BranchType _bt)
+    public Staff(boolean _ip, String _en, String _lID, EmployeeType _et, Gender _g, int _a, BranchType _bt, String _p)
     {
         this.isPromoted = false;
         this.empName = _en;
@@ -20,6 +21,7 @@ public class Staff implements EmployeeUser{
         this.gender = _g;
         this.age = _a;
         this.branch = _bt;
+        this.password = _p;
     }
 
 
