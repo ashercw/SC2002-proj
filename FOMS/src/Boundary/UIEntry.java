@@ -11,14 +11,14 @@ public class UIEntry {
 
 	public static void UIstart() {
 
-		boolean isFirstStart = false; //placeholder
+		boolean isFirstStart = true; //placeholder
 		//TODO - write functions to check if the various repositories are empty.
 
 		if(isFirstStart)
 		{
 			// initialise repositories
 			AccountController.loadEmployees();
-			MenuController.loadMenuItems();
+			//MenuController.loadMenuItems();
 		}
 
 		StartMenuUI.startMenuUI();

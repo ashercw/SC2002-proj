@@ -1,27 +1,17 @@
 package Entity.User;
 import Entity.BranchType;
 
-public class Staff implements EmployeeUser{
+public class Staff extends User{
     private boolean isPromoted;
-    private String empName;
-    private String loginID;
-    private EmployeeType empType;
-    private Gender gender;
-    private int age;
-    private BranchType branch;
-    private String password;
+    private String branch;
 
     //Constructor
-    public Staff(boolean _ip, String _en, String _lID, EmployeeType _et, Gender _g, int _a, BranchType _bt, String _p)
+    public Staff(String _en, String _lID, EmployeeType _et, String _g, String _a, String _bt, String _p)
     {
+        super( _en, _lID, _et, _g, _a, _p);
         this.isPromoted = false;
-        this.empName = _en;
-        this.loginID = _lID;
-        this.empType = _et;
-        this.gender = _g;
-        this.age = _a;
         this.branch = _bt;
-        this.password = _p;
+        System.out.println("Creating staff" + _en);
     }
 
 
@@ -30,27 +20,8 @@ public class Staff implements EmployeeUser{
     {
         return this.isPromoted;
     }
-    public String getEmployeeName()
-    {
-        return this.empName;
-    }
-    public String getLoginID()
-    {
-        return this.loginID;
-    }
-    public EmployeeType getEmployeeType()
-    {
-        return this.empType;
-    }
-    public Gender getGender()
-    {
-        return this.gender;
-    }
-    public int getAge()
-    {
-        return this.age;
-    }
-    public BranchType getBranch()
+    
+    public String getBranch()
     {
         return this.branch;
     } 

@@ -1,5 +1,5 @@
 package Controller;
-
+import Entity.User.*;
 import java.util.List;
 import Others.IO;
 
@@ -31,12 +31,10 @@ public class AccountController {
 	}
 
 	/**
-	 * Loads employee list from staff list CSV file. Additionally calls the XX function to initialise the
-	 * respective entity objects
+	 * Loads employee list from staff list CSV file. Additionally initialises the respective User entity objects
 	 */
 	
 	public static void loadEmployees() {
-		// TODO - implement AccountController.loadUsers
 		List<List<String>> empList = IO.readCSV(FILEPATH);
 
 		for (List<String> str : empList) {
@@ -50,21 +48,35 @@ public class AccountController {
 			System.out.println(str.size());
 
 			if (role.equals("S")) {
-				System.out.print("STAFF ");
 				branch = str.get(5);
-				System.out.println(name + " " + userID + " " + role + " " + gender + " " + age + " " + branch);
-			} else if (role.equals("M")) {
-				System.out.print("MANAGER ");
+				User staffObj = new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
+				//add to repo
+			} 
+			else if (role.equals("M")) {
 				branch = str.get(5);
-				System.out.println(name + " " + userID + " " + role + " " + gender + " " + age + " " + branch);
-			} else if (role.equals("A")) {
-				System.out.print("ADMIN ");
-				System.out.println(name + " " + userID + " " + role + " " + gender + " " + age + " " + branch);
+				User managerObj = new Manager(name, userID, EmployeeType.S, gender, age, branch, "password");
+				//add to repo
+			} 
+			else if (role.equals("A")) {
+				User adminObk = new Admin(name, userID, EmployeeType.S, gender, age, "password");
+				//add to repo
 			}
 
 		}
 
 	}
+
+	/**
+	 * Adds the user object to the EmployeeRepository for data persistence purposes
+	 * @param user Object of User type (Staff, Admin, Manager)
+	 * 
+	 */
+	// TO-DO: this.
+	public static void addToEmployeeRepo(User user) 
+	{
+
+	}
+
 
 	
 

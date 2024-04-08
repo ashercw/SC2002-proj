@@ -2,53 +2,19 @@ package Entity.User;
 
 import Entity.BranchType;
 
-public class Admin implements EmployeeUser{
-    private String empName;
-    private String loginID;
-    private EmployeeType empType;
-    private Gender gender;
-    private int age;
-    private BranchType branch;
-    private String password;
+public class Admin extends User{
+    
 
     //Constructor
-    public Admin(boolean _ip, String _en, String _lID, EmployeeType _et, Gender _g, int _a, BranchType _bt, String _p)
+    public Admin(String _en, String _lID, EmployeeType _et, String _g, String _a, String _p)
     {
-        this.empName = _en;
-        this.loginID = _lID;
-        this.empType = _et;
-        this.gender = _g;
-        this.age = _a;
-        this.branch = _bt;
-        this.password = _p;
+        super( _en, _lID, _et, _g, _a, _p);
+        System.out.println("Creating admin" + _en);
     }
     
 
     //Accessors and mutators
-    public String getEmployeeName()
-    {
-        return this.empName;
-    }
-    public String getLoginID()
-    {
-        return this.loginID;
-    }
-    public EmployeeType getEmployeeType()
-    {
-        return this.empType;
-    }
-    public Gender getGender()
-    {
-        return this.gender;
-    }
-    public int getAge()
-    {
-        return this.age;
-    }
-    public BranchType getBranch()
-    {
-        return this.branch;
-    } 
+    
 
 
 }

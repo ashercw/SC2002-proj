@@ -4,9 +4,10 @@ import Entity.BranchType;
 public class Manager extends Staff{
 
 	//constructor 
-	public Manager(boolean _ip, String _en, String _lID, EmployeeType _et, Gender _g, int _a, BranchType _bt, String _p)
+	public Manager(String _en, String _lID, EmployeeType _et, String _g, String _a, String _bt, String _p)
 	{
-		super(_ip, _en, _lID, _et, _g, _a, _bt, _p);
+		super(_en, _lID, _et, _g, _a, _bt, _p);
+		System.out.println("Creating manager" + _en);
 	}
 	
 }
