@@ -1,51 +1,42 @@
-package Controller;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderController {
+    private List<OrderLine> orders;
 
-	/**
-	 * 
-	 * @param order
-	 */
-	public void addOrder(OrderLine order) {
-		// TODO - implement OrderController.addOrder
-		throw new UnsupportedOperationException();
-	}
+    public OrderController() {
+        this.orders = new ArrayList<>();
+    }
 
-	/**
-	 * 
-	 * @param order
-	 */
-	public void updateOrder(OrderLine order) {
-		// TODO - implement OrderController.updateOrder
-		throw new UnsupportedOperationException();
-	}
+    public void addOrder(OrderLine order) {
+        orders.add(order);
+    }
 
-	/**
-	 * 
-	 * @param order
-	 */
-	public void cancelOrder(OrderLine order) {
-		// TODO - implement OrderController.cancelOrder
-		throw new UnsupportedOperationException();
-	}
+    public void updateOrder(OrderLine order) {
+        // This simplistic approach assumes you can identify orders uniquely,
+        // e.g., by an ID within the OrderLine class.
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i).getId().equals(order.getId())) {
+                orders.set(i, order);
+                return;
+            }
+        }
+        System.out.println("Order not found.");
+    }
 
-	/**
-	 * 
-	 * @param order
-	 */
-	public void displayOrderStatus(OrderID order) {
-		// TODO - implement OrderController.displayOrderStatus
-		throw new UnsupportedOperationException();
-	}
+    public void cancelOrder(OrderLine order) {
+        orders.removeIf(o -> o.getId().equals(order.getId()));
+    }
 
-	/**
-	 * 
-	 * @param order
-	 * @param customization
-	 */
-	public void customizeOrder(OrderID order, Customization customization) {
-		// TODO - implement OrderController.customizeOrder
-		throw new UnsupportedOperationException();
-	}
+    public void displayOrderStatus(OrderID order) {
+        // Implementation depends on how you're tracking order status.
+        // For simplicity, let's just print something.
+        System.out.println("Order status for " + order + ": [status]");
+    }
 
+    public void customizeOrder(OrderID order, Customization customization) {
+        // Find the order and apply customization.
+        // This is a placeholder implementation.
+        System.out.println("Customizing order: " + order);
+    }
 }
