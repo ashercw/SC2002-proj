@@ -1,0 +1,74 @@
+package Boundary;
+
+import Entity.Order.OrderNew;
+import Entity.Order.OrderStatus;
+import Entity.Order.OrderType;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StaffMainPage {
+
+ private String staffID;
+ private List<OrderNew> orders; 
+
+ public StaffMainPage(String staffID) {
+        this.staffID = staffID;
+        this.orders = new ArrayList<>(); 
+    }
+
+ public void displayStaffMainPage() {
+  // TODO - implement StaffMainPage.displayStaffMainPage
+  throw new UnsupportedOperationException();
+ }
+
+ // Method to simulate adding orders to the list (for demonstration purposes)
+    public void addOrder(OrderNew order) {
+        orders.add(order);
+    }
+
+    // Display orders that are new
+    public void displayNewOrders() {
+        System.out.println("New Orders:");
+        for (OrderNew order : orders) {
+            if (order.getOrderStatus() == OrderStatus.ORDERPLACED) {
+                System.out.println("Order ID: " + order.getOrderID() + " - Total Price: " + order.getTotalPrice());
+            }
+        }
+    }
+
+    // View details of a specific order by its ID
+    public void viewOrderDetails(int orderId) {
+        for (OrderNew order : orders) {
+            if (order.getOrderID() == orderId) {
+                System.out.println("Order ID: " + order.getOrderID());
+                System.out.println("Items:");
+                order.getItems().forEach((item, quantity) -> System.out.println(item.getName() + ", Quantity: " + quantity));
+                System.out.println("Total Price: " + order.getTotalPrice());
+                return;
+            }
+        }
+        System.out.println("Order with ID " + orderId + " not found.");
+    }
+
+    // Process an order by ID, updating its status to Ready to Pickup
+    public void processOrder(int orderId) {
+        for (OrderNew order : orders) {
+            if (order.getOrderID() == orderId && (order.getOrderStatus() == OrderStatus.ORDERPLACED || order.getOrderStatus() == OrderStatus.PROCESSING)) {
+                order.setOrderStatus(OrderStatus.READY);
+                System.out.println("Order ID " + orderId + " is now ready to pick up.");
+                return;
+            }
+        }
+        System.out.println("Order with ID " + orderId + " not found or not in a 'new' status.");
+    }
+
+    // Getters and Setters
+    public String getStaffID() {
+        return staffID;
+    }
+
+    public void setStaffID(String staffID) {
+        this.staffID = staffID;
+    }
+
+}
