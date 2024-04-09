@@ -39,7 +39,7 @@ public class AttributeGetter {
 			}
 			else if(userInput == 4)
 			{
-				System.out.println("\nExiting page...");
+				System.out.println("\nExiting page...\n\n\n");
 				return null;
 			}
 			else

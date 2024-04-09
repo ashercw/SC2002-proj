@@ -53,17 +53,20 @@ public class AccountController {
 				branch = str.get(5);
 				User staffObj = new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
 				// add to repo
+				System.out.println("writing to repo");
 				addToEmployeeRepo(staffObj);
-				
+
 			} else if (role.equals("M")) {
 				branch = str.get(5);
 				User managerObj = new Manager(name, userID, EmployeeType.S, gender, age, branch, "password");
 				// add to repo
+				System.out.println("writing to repo");
 				addToEmployeeRepo(managerObj);
 				
 			} else if (role.equals("A")) {
 				User adminObj = new Admin(name, userID, EmployeeType.S, gender, age, "password");
 				// add to repo
+				System.out.println("writing to repo");
 				addToEmployeeRepo(adminObj);
 			}
 
@@ -87,7 +90,7 @@ public class AccountController {
 			list.add(user);
 			// list.remove(p); // remove if p equals object in the list
 
-			IO.writeSerializedObject("Employee.dat", list);
+			IO.writeSerializedObject("Employee.txt", list);
 
 		} catch (Exception e) {
 			System.out.println("Exception >> " + e.getMessage());
