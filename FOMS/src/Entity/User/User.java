@@ -1,6 +1,6 @@
 package Entity.User;
-
-public class User implements EmployeeUser{
+import java.io.*;
+public class User implements EmployeeUser, Serializable{
 
     private String empName;
     private String loginID;
