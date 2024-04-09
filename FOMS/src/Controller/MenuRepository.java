@@ -1,6 +1,7 @@
 package Controller;
+import Entity.Food.*;
 
-public class MenuRepositoryw {
+public class MenuRepository {
 
 	/**
 	 * 

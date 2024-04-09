@@ -11,7 +11,6 @@ public class Staff extends User{
         super( _en, _lID, _et, _g, _a, _p);
         this.isPromoted = false;
         this.branch = _bt;
-        System.out.println("Creating staff" + _en);
     }
 
 

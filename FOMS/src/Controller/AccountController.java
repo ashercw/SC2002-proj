@@ -2,6 +2,7 @@ package Controller;
 import Entity.User.*;
 import java.util.List;
 import Others.IO;
+import Boundary.AttributeGetter;
 
 public class AccountController {
 	// CHANGE DEPENDING ON YOUR SYSTEM
@@ -45,8 +46,6 @@ public class AccountController {
 			String age = str.get(4);
 			String branch = "";
 
-			System.out.println(str.size());
-
 			if (role.equals("S")) {
 				branch = str.get(5);
 				User staffObj = new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
@@ -81,16 +80,23 @@ public class AccountController {
 	
 
 	/**
-	 * 
+	 * Handles the login of employees.
 	 * @param EmployeeType
-	 * @param String
 	 */
 
 	// public STAFF login(int EmployeeType, int String), deleted staff coz throwing
 	// error.
-	public void login(int EmployeeType, int String) {
+	public static void login(EmployeeType EmployeeType) {
 		// TODO - implement AccountController.login
-		throw new UnsupportedOperationException();
+
+		String userID = AttributeGetter.getUserID();
+		String password = AttributeGetter.getPassword();
+		System.out.println("Success!"); //temp
+
+		// FIND USER
+		// CHECK PASSWORD
+		// CHANGE PASSWORD IF NECESSARY
+		
 	}
 
 }

@@ -46,15 +46,28 @@ public class StartMenuUI {
         System.out.println("\t1. Login as Employee");
         System.out.println("\t2. Continue as Customer");
         System.out.println("\t3. Exit FOMS");
-        System.out.print("Your choice (1-3): ");
+        System.out.print("\n\nYour choice (1-3): ");
 
 		while(true)
 		{
 			int userChoice = IO.userInputInt();
 
-			if(userChoice == 1) { System.out.println("Login as employee");} //Call employee login 
-			else if(userChoice == 2) {System.out.println("Continue as customer");} //Call customer "login"
-			else if(userChoice == 3) { LogOutUI.LogOut();} //
+			if(userChoice == 1) //Call employee login 
+			{ 
+				System.out.println("Login as employee...");
+				System.out.println("\n\n\n\n\n");
+				EmployeeMainPage.displayEmployeeMainPage();
+			} 
+			else if(userChoice == 2) //Call customer "login"
+			{
+				System.out.println("Continue as customer...");
+				System.out.println("\n\n\n\n\n");
+			} 
+			else if(userChoice == 3) 
+			{ 
+				System.out.println("\n\n\n\n\n");
+				LogOutUI.LogOut();
+			} //
 			else System.out.println("Invalid response. Please enter 1-3!");
 			System.out.print("Your choice (1-3): ");
 		}

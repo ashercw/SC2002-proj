@@ -13,21 +13,37 @@ import java.util.ArrayList;
 
 public class IO {
 
-    static Scanner scInt = new Scanner(System.in);
+    
 
     /**
      * Gets integer user input.
-     * 
      * @return an integer
      */
 
     public static int userInputInt() {
+        Scanner sc = new Scanner(System.in);
         try {
-            int userInput = scInt.nextInt();
+            int userInput = sc.nextInt();
             return userInput;
         } catch (Exception e) {
             System.out.println("Please enter an integer.");
             return userInputInt();
+        }
+    }
+
+    /**
+     * Gets String user input.
+     * @return a String.
+     */
+    public static String userInpuString()
+    {
+        Scanner sc = new Scanner(System.in);
+        try {
+            String userInput = sc.nextLine();
+            return userInput;
+        } catch (Exception e) {
+            System.out.println("Please enter an integer.");
+            return userInpuString();
         }
     }
 
@@ -38,7 +54,7 @@ public class IO {
      * @return List<List<String>>. Each item in List<List<String>> is a row that is
      *         represented as a List<String>.
      */
-    
+
     public static List<List<String>> readCSV(String FilePath) {
         String line = "";
         List<List<String>> list = new ArrayList<>();
@@ -69,4 +85,11 @@ public class IO {
 
     }
 
+    /**
+     * Displays a string that acts as a divider in menus.
+     */
+    public static void displayDivider() 
+    {
+        System.out.println("||||||||||||||||||||||||||||||||||||||||");
+    }
 }
