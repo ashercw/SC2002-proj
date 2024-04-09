@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * The UserInput class will provide functions that gets various user inputs
@@ -21,6 +22,7 @@ public class IO {
      */
 
     public static int userInputInt() {
+        @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
         try {
             int userInput = sc.nextInt();
@@ -37,6 +39,7 @@ public class IO {
      */
     public static String userInpuString()
     {
+        @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
         try {
             String userInput = sc.nextLine();
@@ -92,4 +95,38 @@ public class IO {
     {
         System.out.println("||||||||||||||||||||||||||||||||||||||||");
     }
+
+    public static List readSerializedObject(String filename) {
+		List pDetails = null;
+		FileInputStream fis = null;
+		ObjectInputStream in = null;
+		try {
+			fis = new FileInputStream(filename);
+			in = new ObjectInputStream(fis);
+			pDetails = (ArrayList) in.readObject();
+			in.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		// print out the size
+		//System.out.println(" Details Size: " + pDetails.size());
+		//System.out.println();
+		return pDetails;
+	}
+
+	public static void writeSerializedObject(String filename, List list) {
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try {
+			fos = new FileOutputStream(filename);
+			out = new ObjectOutputStream(fos);
+			out.writeObject(list);
+			out.close();
+		//	System.out.println("Object Persisted");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
 }

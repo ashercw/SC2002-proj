@@ -57,7 +57,7 @@ public class AccountController {
 				//add to repo
 			} 
 			else if (role.equals("A")) {
-				User adminObk = new Admin(name, userID, EmployeeType.S, gender, age, "password");
+				User adminObj = new Admin(name, userID, EmployeeType.S, gender, age, "password");
 				//add to repo
 			}
 
