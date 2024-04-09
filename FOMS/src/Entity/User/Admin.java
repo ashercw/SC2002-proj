@@ -2,9 +2,9 @@ package Entity.User;
 
 import Entity.BranchDatabase;
 import Entity.Branch;
-import Entity.Manager;
+import Entity.User.Manager;
 import Entity.BranchType;
-import Entity.EmployeeType;
+import Entity.User.EmployeeType;
 
 public class Admin extends User {
 
@@ -12,7 +12,6 @@ public class Admin extends User {
     public Admin(String _en, String _lID, EmployeeType _et, String _g, String _a, String _p)
     {
         super( _en, _lID, _et, _g, _a, _p);
-        System.out.println("Creating admin" + _en);
     }
 
     // Accessors and mutators
@@ -28,11 +27,11 @@ public class Admin extends User {
         return this.empType;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return this.gender;
     }
 
-    public int getAge() {
+    public String getAge() {
         return this.age;
     }
 
