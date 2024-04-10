@@ -2,8 +2,10 @@ package Controller;
 
 import Entity.User.*;
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
+import Others.TextDB;
 import Boundary.AttributeGetter;
 
 public class AccountController {
@@ -39,6 +41,8 @@ public class AccountController {
 	 */
 
 	public static void loadEmployees() {
+		List al = new ArrayList();
+        
 		List<List<String>> empList = IO.readCSV(FILEPATH);
 
 		for (List<String> str : empList) {
@@ -54,23 +58,25 @@ public class AccountController {
 				User staffObj = new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
 				// add to repo
 				System.out.println("writing to repo");
-				addToEmployeeRepo(staffObj);
+				al.add(staffObj);
 
 			} else if (role.equals("M")) {
 				branch = str.get(5);
-				User managerObj = new Manager(name, userID, EmployeeType.S, gender, age, branch, "password");
+				User managerObj = new Manager(name, userID, EmployeeType.M, gender, age, branch, "password");
 				// add to repo
 				System.out.println("writing to repo");
-				addToEmployeeRepo(managerObj);
+				al.add(managerObj);
 				
 			} else if (role.equals("A")) {
-				User adminObj = new Admin(name, userID, EmployeeType.S, gender, age, "password");
+				User adminObj = new Admin(name, userID, EmployeeType.A, gender, age, "password");
 				// add to repo
 				System.out.println("writing to repo");
-				addToEmployeeRepo(adminObj);
+				al.add(adminObj);
+
 			}
 
 		}
+		addToEmployeeRepo("EmployeeRepo.txt", al);
 
 	}
 
@@ -81,21 +87,14 @@ public class AccountController {
 	 * 
 	 */
 	// TO-DO: this.
-	public static void addToEmployeeRepo(User user) {
-		List list = new ArrayList();;
+	public static void addToEmployeeRepo(String FILEPATH, List al) {
+		TextDB txtDB = new TextDB();
 		try {
-
-			// write to serialized file - update/insert/delete
-			// add to list
-			list.add(user);
-			// list.remove(p); // remove if p equals object in the list
-
-			IO.writeSerializedObject("Employee.txt", list);
-
-		} catch (Exception e) {
-			System.out.println("Exception >> " + e.getMessage());
+			
+			TextDB.saveEmployee(FILEPATH, al);
+		}catch (IOException e) {
+			System.out.println("IOException > " + e.getMessage());
 		}
-
 	}
 
 	/**

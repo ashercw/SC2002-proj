@@ -44,4 +44,9 @@ public class User implements EmployeeUser{
         this.password = _p;
     }
 
+    public String getPassword()
+    {
+        return this.password;
+    }
+
 }

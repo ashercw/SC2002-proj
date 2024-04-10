@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 import Entity.User.*;
 
-public class ReadWriteTxt {
+public class TextDB {
     public static final String SEPARATOR = "|";
 
     // an example of reading
@@ -34,7 +34,7 @@ public class ReadWriteTxt {
             {
                 String branch = star.nextToken().trim();
                 String password = star.nextToken().trim();
-                User userEmp = new Staff(name, userID, EmployeeType.S, gender, age, branch, password);
+                Staff userEmp = new Staff(name, userID, EmployeeType.S, gender, age, branch, password);
                 // add to Users list
                 alr.add(userEmp);
             }
@@ -42,14 +42,14 @@ public class ReadWriteTxt {
             {
                 String branch = star.nextToken().trim();
                 String password = star.nextToken().trim();
-                User userEmp = new Staff(name, userID, EmployeeType.M, gender, age, branch, password);
+                Manager userEmp = new Manager(name, userID, EmployeeType.M, gender, age, branch, password);
                 // add to Users list
                 alr.add(userEmp);
             }
             else if(role.equals("A"))
             {
                 String password = star.nextToken().trim();
-                User userEmp = new Admin(name, userID, EmployeeType.S, gender, age, password);
+                Admin userEmp = new Admin(name, userID, EmployeeType.S, gender, age, password);
                 // add to Users list
                 alr.add(userEmp);
             }
@@ -107,18 +107,45 @@ public class ReadWriteTxt {
     }
 
     // an example of saving
-    public static void saveText(String filename, List al) throws IOException {
+    public static void saveEmployee(String filename, List al) throws IOException {
         List alw = new ArrayList();// to store Professors data
 
         for (int i = 0; i < al.size(); i++) {
-            //Professor prof = (Professor) al.get(i);
+            User emp = (User) al.get(i);
             StringBuilder st = new StringBuilder();
-            //st.append(prof.getName().trim());
+            st.append(emp.getEmployeeName().trim());
             st.append(SEPARATOR);
-            //st.append(prof.getEmail().trim());
+            st.append(emp.getLoginID().trim());
             st.append(SEPARATOR);
-            //st.append(prof.getContact());
-            alw.add(st.toString());
+            st.append(emp.getEmployeeType());
+            st.append(SEPARATOR);
+            st.append(emp.getGender());
+            st.append(SEPARATOR);
+            st.append(emp.getAge());
+            st.append(SEPARATOR);
+            if(emp.getEmployeeType() == EmployeeType.A)
+            {
+                Admin ad = (Admin) al.get(i);
+                st.append(ad.getPassword());
+                alw.add(st.toString());
+            }
+            else if(emp.getEmployeeType() == EmployeeType.S)
+            {
+                Staff staff = (Staff) al.get(i);
+                st.append(staff.getBranch());
+                st.append(SEPARATOR);
+                st.append(staff.getPassword());
+                alw.add(st.toString());
+            }
+            else if(emp.getEmployeeType() == EmployeeType.M)
+            {
+                Manager man = (Manager) al.get(i);
+                st.append(man.getBranch());
+                st.append(SEPARATOR);
+                st.append(man.getPassword());
+                alw.add(st.toString());
+            }
+
         }
         write(filename, alw);
     }
