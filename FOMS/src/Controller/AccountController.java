@@ -81,12 +81,12 @@ public class AccountController {
 	}
 
 	/**
-	 * Adds the user object to the EmployeeRepository for data persistence purposes
-	 * 
-	 * @param user Object of User type (Staff, Admin, Manager)
+	 * This function writes employee data to a txt file for data storage purposes.
+	 * @param FILEPATH is the String directory of the file to write to.
+	 * @param al is a List of various Entity objects (i.e., Staff objects, 
+     * Admin objects, and Manager objects) whose content will be saved in the txt file.
 	 * 
 	 */
-	// TO-DO: this.
 	public static void addToEmployeeRepo(String FILEPATH, List al) {
 		TextDB txtDB = new TextDB();
 		try {
