@@ -1,5 +1,7 @@
+package Controller.Menu;
 import Entity.Food.Menu;
 import Entity.Food.FoodItem;
+import Entity.Food.ItemType;
 
 public class MenuController {
     private Menu menu; // Assuming 'Menu' handles the collection of menu items.

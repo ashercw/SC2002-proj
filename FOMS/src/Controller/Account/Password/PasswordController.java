@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Account.Password;
 
 public class PasswordController {
 

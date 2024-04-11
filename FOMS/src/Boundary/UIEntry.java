@@ -1,6 +1,6 @@
 package Boundary;
-import Controller.AccountController;
-import Controller.MenuController;
+import Controller.Account.AccountController;
+import Controller.Menu.MenuController;
 
 public class UIEntry {
 

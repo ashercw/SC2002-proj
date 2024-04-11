@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Account;
 
 import Entity.User.*;
 import java.util.List;
