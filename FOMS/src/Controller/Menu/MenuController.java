@@ -1,49 +1,44 @@
-import java.util.HashMap;
-import java.util.Map;
+import Entity.Food.Menu;
+import Entity.Food.FoodItem;
 
-public class MenuController 
-{
-    private Map<String, MenuItem> menuItems;
+public class MenuController {
+    private Menu menu; // Assuming 'Menu' handles the collection of menu items.
+    private MenuRepository menuRepository; // For persistence.
 
-    public MenuController() {
-        this.menuItems = new HashMap<>();
+    public MenuController(Menu menu, MenuRepository menuRepository) {
+        this.menu = menu;
+        this.menuRepository = menuRepository;
     }
 
-    public MenuValidator addMenuItem(String name, double price, String description) {
-        if (menuItems.containsKey(name)) {
-            return new MenuValidator(false, "Item already exists.");
+    public boolean addMenuItem(String name, double price, String description, ItemType category) {
+        // Use MenuValidator here if needed
+        FoodItem newItem = new FoodItem(name, price, description, category);
+        // Adding to the 'Menu' object for runtime representation
+        boolean added = menu.addMenuItem(newItem);
+        if (added) {
+            // Persist the new state of the menu
+            menuRepository.save(menu);
         }
-        MenuItem newItem = new MenuItem(name, price, description);
-        menuItems.put(name, newItem);
-        return new MenuValidator(true, "Item added successfully.");
+        return added;
     }
 
-    public void updateMenuItem(String itemId, String newName, double newPrice, String newDescription) {
-        if (!menuItems.containsKey(itemId)) {
-            System.out.println("Item does not exist.");
-            return;
+    public boolean updateMenuItem(String name, double newPrice, String newDescription) {
+        // Update operation logic, potentially involving MenuValidator
+        boolean updated = menu.updateMenuItem(name, newPrice, newDescription);
+        if (updated) {
+            // Persist changes
+            menuRepository.update(menu);
         }
-        MenuItem item = menuItems.get(itemId);
-        item.setName(newName);
-        item.setPrice(newPrice);
-        item.setDescription(newDescription);
-        // Assuming the item ID does not change. If it does, you'll need to remove and re-add the item to the map.
+        return updated;
     }
 
-    public void removeMenuItem(String itemId) {
-        if (!menuItems.containsKey(itemId)) {
-            System.out.println("Item does not exist.");
-            return;
+    public boolean removeMenuItem(String name) {
+        // Removal logic
+        boolean removed = menu.removeMenuItem(name);
+        if (removed) {
+            // Persist the new state of the menu
+            menuRepository.delete(menu);
         }
-        menuItems.remove(itemId);
+        return removed;
     }
-
-    public boolean isMenuEmpty() {
-        return menuItems.isEmpty();
-    }
-
-    public static void loadMenuItems() {
-        // Implementation depends on how you intend to load items (e.g., from a file, database, etc.)
-    }
-	
 }

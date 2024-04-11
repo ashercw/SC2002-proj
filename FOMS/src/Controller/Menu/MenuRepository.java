@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Menu;
 import Entity.Food.*;
 
 public class MenuRepository {

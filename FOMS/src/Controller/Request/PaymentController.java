@@ -1,27 +1,16 @@
-package Controller;
-
 public class PaymentController {
-
-	/**
-	 * 
-	 * @param user
-	 * @param cardDetails
-	 * @param amount
-	 */
-	public boolean processCreditCardPayment(User user, CardDetails cardDetails, double amount) {
-		// TODO - implement PaymentController.processCreditCardPayment
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param user
-	 * @param paymentPlatform
-	 * @param amount
-	 */
-	public boolean processOnlinePayment(User user, PaymentPlatform paymentPlatform, double amount) {
-		// TODO - implement PaymentController.processOnlinePayment
-		throw new UnsupportedOperationException();
-	}
-
+    public boolean processPayment(double amount, String paymentMethod) {
+        Payment paymentProcessor;
+        switch (paymentMethod.toLowerCase()) {
+            case "credit/debit":
+                paymentProcessor = new CreditAndDebit();
+                break;
+            case "paynow":
+                paymentProcessor = new PayNow();
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported payment method: " + paymentMethod);
+        }
+        return paymentProcessor.processPayment(amount);
+    }
 }
