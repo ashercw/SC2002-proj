@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderStatusViewer {
-	private static final Map<Integer, String> Status = new HashMap<>(); //Stores the status of list of orderID
+	private static final Map<Integer, String> Status = new HashMap<Integer, String>(); //Stores the status of list of orderID
 	// Integer represents orderID
 	// String represents Status
 
