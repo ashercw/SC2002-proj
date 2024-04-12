@@ -1,0 +1,2 @@
+Cajun Fish|5.6|JP|BURGER|No item description.
+Chicken Nugget|6.9|JP|SIDE|No item description.

@@ -1,0 +1,3 @@
+Fries|3.2|NTU|SIDE|No item description.
+3pc Set Meal|9.9|NTU|SETMEAL|No item description.
+Chicken Nugget|6.6|NTU|SIDE|No item description.

@@ -1,0 +1,3 @@
+Cole Slaw|2.7|JE|SIDE|No item description.
+3pc Set Meal|10.4|JE|SETMEAL|No item description.
+Pepsi|2.1|JE|DRINK|No item description.
