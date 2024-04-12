@@ -8,6 +8,9 @@ public class User implements EmployeeUser{
     private String age;
     private String password;
 
+    public User()
+    {}
+
     public User(String _en, String _lID, EmployeeType _et, String _g, String _a, String _p)
     {
         this.empName = _en;

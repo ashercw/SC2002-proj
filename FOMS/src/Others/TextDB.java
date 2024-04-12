@@ -101,11 +101,11 @@ public class TextDB {
         return alr;
     }
 
-    public static ArrayList readBranch(String filename, Boolean isA) throws IOException {
+    public static ArrayList readBranch(String filename, Boolean createObj) throws IOException {
         // read String from text file
         ArrayList stringArray = (ArrayList) read(filename);
         ArrayList alr = new ArrayList();// to store Professors data
-
+        
         for (int i = 0; i < stringArray.size(); i++) {
             String st = (String) stringArray.get(i);
             // get individual 'fields' of the string separated by SEPARATOR
@@ -113,13 +113,21 @@ public class TextDB {
                                                                        // using delimiter ","
 
             String name = star.nextToken().trim(); // first token
-            String location = star.nextToken().trim(); // second token
-            int quota = Integer.parseInt(star.nextToken().trim()); // third token
-            // create Branch object from file data
-            Branch branchObj = new Branch(name, location, quota);
+            if(createObj == false) //only get the branch names
+            {
+                alr.add(name);
+            }
+            else
+            {
+                String location = star.nextToken().trim(); // second token
+                int quota = Integer.parseInt(star.nextToken().trim()); // third token
+                // create Branch object from file data
+                Branch branchObj = new Branch(name, location, quota);
             
-            // add to Branch list
-            alr.add(branchObj);
+                // add to Branch list
+                alr.add(branchObj);
+            }
+            
         }
         return alr;
     }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Others.IO;
 import Others.TextDB;
 import Boundary.AttributeGetter;
+import Controller.Request.BranchController;
 
 public class AccountController {
 	// CHANGE DEPENDING ON YOUR SYSTEM  C:\\Users\\Saffron Lim\\Downloads\\staff_listCSV.csv
@@ -46,38 +47,44 @@ public class AccountController {
 		List<List<String>> empList = IO.readCSV(FILEPATH);
 
 		for (List<String> str : empList) {
-			String name = str.get(0);
-			String userID = str.get(1);
+			
 			String role = str.get(2);
-			String gender = str.get(3);
-			String age = str.get(4);
-			String branch = "";
-
-			if (role.equals("S")) {
-				branch = str.get(5);
-				User staffObj = new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
-				// add to repo
-				System.out.println("writing to repo");
-				al.add(staffObj);
-
-			} else if (role.equals("M")) {
-				branch = str.get(5);
-				User managerObj = new Manager(name, userID, EmployeeType.M, gender, age, branch, "password");
-				// add to repo
-				System.out.println("writing to repo");
-				al.add(managerObj);
-				
-			} else if (role.equals("A")) {
-				User adminObj = new Admin(name, userID, EmployeeType.A, gender, age, "password");
-				// add to repo
-				System.out.println("writing to repo");
-				al.add(adminObj);
-
-			}
+			al.add(createEmployeeObj(str, role));
 
 		}
 		addToEmployeeRepo("EmployeeRepo.txt", al);
+		BranchController.createStaffListbyBranch(empList);
 
+	}
+
+	/**
+	 * Creates a User object.
+	 * @param str List of Strings containing information about a single employee entity (staff, manager, admin).
+	 * @param role is a String representing the role of an employee (S, A, M).
+	 * @return a User object.
+	 * 
+	 */
+	public static User createEmployeeObj(List<String> str, String role)
+	{
+		String name = str.get(0);
+		String userID = str.get(1);
+		String gender = str.get(3);
+		String age = str.get(4);
+		String branch = "";
+		User uObj = new User();
+
+		if (role.equals("S")) {
+			branch = str.get(5);
+			uObj= new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
+
+		} else if (role.equals("M")) {
+			branch = str.get(5);
+			uObj = new Manager(name, userID, EmployeeType.M, gender, age, branch, "password");
+			
+		} else if (role.equals("A")) {
+			uObj = new Admin(name, userID, EmployeeType.A, gender, age, "password");
+		}
+		return uObj;
 	}
 
 	/**
