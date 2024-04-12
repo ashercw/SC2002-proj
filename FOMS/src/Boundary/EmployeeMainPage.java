@@ -2,6 +2,7 @@ package Boundary;
 import Others.IO;
 import Entity.User.EmployeeType;
 import Controller.Account.AccountController;
+import Boundary.StaffMainPage;
 
 /**
  * This class allows the employee (Staff, Admin, Manager) to select their doman for login. 
@@ -15,7 +16,6 @@ public class EmployeeMainPage {
 	 * for logging in.
 	 */
 	public static void displayEmployeeMainPage() {
-		// TODO - implement StaffMainPage.displayStaffMainPage
 		System.out.println("\t    EMPLOYEE LOGIN");
 		IO.displayDivider();
 		System.out.println("\t1) Login as Staff");
@@ -32,7 +32,10 @@ public class EmployeeMainPage {
 		IO.displayDivider();
 		AccountController.login(domain);
 
-
+		if(domain == EmployeeType.S){
+			// TODO: int userID = ...
+			new StaffMainPage(userID).displayStaffMainPage();
+		}
 		
 	}
 

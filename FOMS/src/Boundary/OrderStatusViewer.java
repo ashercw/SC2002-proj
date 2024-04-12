@@ -13,7 +13,6 @@ public class OrderStatusViewer {
 	 * @param orderID
 	 */
 	public static void displayOrderStatus(int orderID) {
-		// TODO - implement OrderStatusViewer.displayOrderStatus
 		if(!Status.containsKey(orderID)){  //orderID does not exist
 			System.out.println("Order ID Not Found!");
 			return;
@@ -28,10 +27,8 @@ public class OrderStatusViewer {
 	 * @param orderID
 	 */
 	public static void changeOrderStatus(int orderID, String newStatus) {
-		// TODO - implement OrderStatusViewer.changeOrderStatus
 		Status.put(orderID, newStatus); //changes order status
 		System.out.println(orderID + "status changed to: " + newStatus);
-		throw new UnsupportedOperationException();
 	}
 
 }
