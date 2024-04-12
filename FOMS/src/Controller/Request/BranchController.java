@@ -106,7 +106,7 @@ public class BranchController {
 				List childBranchList = new ArrayList();
 				System.out.println( branchList.get(i));
 				String branchName = (String) branchList.get(i);
-				String FILENAME = branchName + "StaffList.txt";
+				String FILENAME = branchName + "StaffListRepo.txt";
 				for(List<String> str : empList)
 				{
 					String role = str.get(2);

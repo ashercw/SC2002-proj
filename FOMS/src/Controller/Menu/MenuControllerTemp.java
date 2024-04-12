@@ -17,7 +17,7 @@ import Boundary.AttributeGetter;
  */
 public class MenuControllerTemp {
 
-    public static String FILEPATH;
+    public static String FILEPATH = "FOMS\\src\\Others\\menu_listCSV.csv";
 
     /**
      * Loads food item list from menu CSV file. Additionally initialises the
@@ -31,6 +31,7 @@ public class MenuControllerTemp {
 
         for (List<String> str : empList) {
             String name = str.get(0);
+            name = IO.toDisplayCase(name);
             double price = Double.parseDouble(str.get(1));
             String branch = str.get(2);
             String item = str.get(3);
@@ -51,6 +52,7 @@ public class MenuControllerTemp {
 
         }
         // add to repo
+        addToFoodRepo("FoodItemRepo", al);
 
     }
     
@@ -59,7 +61,7 @@ public class MenuControllerTemp {
 		TextDB txtDB = new TextDB();
 		try {
 			
-			TextDB.saveEmployee(FILEPATH, al);
+			TextDB.saveFood(FILEPATH, al);
 		}catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}

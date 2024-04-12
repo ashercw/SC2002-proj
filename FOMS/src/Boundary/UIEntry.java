@@ -1,14 +1,10 @@
 package Boundary;
 import Controller.Account.AccountController;
 import Controller.Menu.MenuController;
+import Controller.Menu.MenuControllerTemp;
 import Controller.Request.BranchController;
 
 public class UIEntry {
-
-	/*private boolean firstStart() {
-		//TODO - implement UIEntry.firstStart
-		throw new UnsupportedOperationException();
-	}*/
 
 	public static void UIstart() {
 
@@ -20,8 +16,7 @@ public class UIEntry {
 			// initialise repositories
 			AccountController.loadEmployees();
 			BranchController.loadBranches();
-			
-			//MenuController.loadMenuItems();
+			MenuControllerTemp.loadFoodItems();
 		}
 
 		StartMenuUI.startMenuUI();
