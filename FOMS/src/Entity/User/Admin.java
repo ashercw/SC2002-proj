@@ -1,9 +1,6 @@
 package Entity.User;
 
 
-import Entity.BranchType;
-
-
 public class Admin extends User {
 
     // Constructor

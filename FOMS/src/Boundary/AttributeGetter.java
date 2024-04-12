@@ -1,7 +1,6 @@
 package Boundary;
 import Entity.User.EmployeeType;
 import Others.IO;
-import java.util.Scanner;
 
 /**
  * Accepts user input to retrieve respective attributes.
