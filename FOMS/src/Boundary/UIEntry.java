@@ -1,6 +1,7 @@
 package Boundary;
 import Controller.Account.AccountController;
 import Controller.Menu.MenuController;
+import Controller.Request.BranchController;
 
 public class UIEntry {
 
@@ -18,6 +19,8 @@ public class UIEntry {
 		{
 			// initialise repositories
 			AccountController.loadEmployees();
+			BranchController.loadBranches();
+			
 			//MenuController.loadMenuItems();
 		}
 

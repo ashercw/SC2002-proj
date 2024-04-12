@@ -5,6 +5,8 @@ import java.util.StringTokenizer;
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
+
+import Entity.Branch;
 import Entity.User.*;
 
 /**
@@ -32,7 +34,7 @@ public class TextDB {
     public static ArrayList readEmployee(String FILENAME) throws IOException {
         // read String from text file
         ArrayList stringArray = (ArrayList) read(FILENAME);
-        ArrayList alr = new ArrayList();// to store Professors data
+        ArrayList alr = new ArrayList();// to store Employee data
 
         for (int i = 0; i < stringArray.size(); i++) {
             
@@ -111,13 +113,13 @@ public class TextDB {
                                                                        // using delimiter ","
 
             String name = star.nextToken().trim(); // first token
-            String email = star.nextToken().trim(); // second token
-            int contact = Integer.parseInt(star.nextToken().trim()); // third token
-            // create Professor object from file data
-            //Professor prof = new Professor(name, email, contact);
+            String location = star.nextToken().trim(); // second token
+            int quota = Integer.parseInt(star.nextToken().trim()); // third token
+            // create Branch object from file data
+            Branch branchObj = new Branch(name, location, quota);
             
-            // add to Professors list
-            //alr.add(prof);
+            // add to Branch list
+            alr.add(branchObj);
         }
         return alr;
     }
@@ -171,6 +173,27 @@ public class TextDB {
                 st.append(man.getPassword());
                 alw.add(st.toString());
             }
+
+        }
+        write(FILENAME, alw);
+    }
+
+
+    public static void saveBranch(String FILENAME, List al) throws IOException {
+        List alw = new ArrayList();// to store Professors data
+
+        for (int i = 0; i < al.size(); i++) {
+            //get object
+            Branch branchObj = (Branch) al.get(i);
+            StringBuilder st = new StringBuilder();
+            //get attributes
+            st.append(branchObj.getBranchName().trim());
+            st.append(SEPARATOR);
+            st.append(branchObj.getLocation().trim());
+            st.append(SEPARATOR);
+            st.append(branchObj.getQuota());
+            
+            alw.add(st.toString());
 
         }
         write(FILENAME, alw);

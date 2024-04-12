@@ -17,7 +17,7 @@ import Boundary.AttributeGetter;
 
 public class BranchController {
 
-	public static String FILEPATH;
+	public static String FILEPATH = "FOMS\\src\\Others\\branch_listCSV.csv";
 
 	/**
 	 * 
@@ -60,27 +60,32 @@ public class BranchController {
 
         for (List<String> str : empList) {
             String name = str.get(0);
-            double price = Double.parseDouble(str.get(1));
-            String branch = str.get(2);
-            String item = str.get(3);
-            ItemType itemType = ItemType.BURGER; // for initialisation purposes
+            String location = str.get(1);
+            int quota = Integer.parseInt(str.get(2));
 
-            // changing item type
-            if (item.equals("side"))
-                itemType = ItemType.SIDE;
-            else if (item.equals("set meal"))
-                itemType = ItemType.SETMEAL;
-            else if (item.equals("burger"))
-                itemType = ItemType.BURGER;
-            else if (item.equals("drink"))
-                itemType = ItemType.DRINK;
-
-            FoodItem food = new FoodItem(name, price, branch, itemType);
-            al.add(food);
+            Branch branchObj = new Branch(name, location, quota);
+            al.add(branchObj);
 
         }
         // add to repo
+		addToBranchRepo("BranchRepo.txt", al);
 
     }
+
+	/**
+	 * This function writes branch data to a txt file for data storage purposes.
+	 * @param FILEPATH is the String directory of the file to write to.
+	 * @param al is a List of Branch objects whose content will be saved in the txt file.
+	 * 
+	 */
+	public static void addToBranchRepo(String FILEPATH, List al) {
+		TextDB txtDB = new TextDB();
+		try {
+			
+			TextDB.saveBranch(FILEPATH, al);
+		}catch (IOException e) {
+			System.out.println("IOException > " + e.getMessage());
+		}
+	}
 
 }

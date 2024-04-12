@@ -9,8 +9,8 @@ import Others.TextDB;
 import Boundary.AttributeGetter;
 
 public class AccountController {
-	// CHANGE DEPENDING ON YOUR SYSTEM
-	private final static String FILEPATH = "C:\\Users\\Saffron Lim\\Downloads\\staff_listCSV.csv";
+	// CHANGE DEPENDING ON YOUR SYSTEM  C:\\Users\\Saffron Lim\\Downloads\\staff_listCSV.csv
+	private final static String FILEPATH = "FOMS\\src\\Others\\staff_listCSV.csv";
 
 	public AccountController() {
 		// TODO - implement AccountController.AccountController
