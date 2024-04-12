@@ -11,7 +11,7 @@ import java.util.List;
 
 import Controller.Account.AccountController;
 
-pdisplayStaffMainPagublic class StaffMainPage {
+public class StaffMainPage {
 
  private String staffID;
  private List<OrderNew> orders; 
