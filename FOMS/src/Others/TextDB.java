@@ -14,7 +14,7 @@ import Entity.User.*;
  * for the purpose of data persistence. The repositories come in the form of text files which can be read 
  * from and written to using the readXX and saveXX functions, where XX represents the entity.
  * 
- * The code fpr this class was adapted from the code provided on NTULearn.
+ * The code for this class was adapted from the code provided on NTULearn.
  * @author Saffron Lim
  */
 
@@ -26,8 +26,8 @@ public class TextDB {
      * and Manager objects) from a txt file. It first reads String from a given text file by calling 
      * the read() function. It then creates the objects based on the read data and returns a list of the
      * different objects.
-     * @param FILENAME is the path of the txt file to read from
-     * @return ArrayList of Entity objects (i.e., Staff objects, Admin objects, and Manager objects)
+     * @param FILENAME is the path of the txt file to read from.
+     * @return ArrayList of Entity objects (i.e., Staff objects, Admin objects, and Manager objects).
      * @throws IOException
      * 
      */
@@ -101,6 +101,18 @@ public class TextDB {
         return alr;
     }
 
+    /**
+     * This function is meant to create various Branch objects or a list of branch names from a txt file. 
+     * It first reads String from a given text file by calling the read() function. 
+     * If createObj = true, it then creates the objects based on the read data and returns a list of the
+     * different objects.
+     * If createObj = false, it returns an ArrayList of branch names in String.
+     * @param filename is the path of the txt file to read from.
+     * @param createObj is a boolean variable that determines the operation of the function.
+     * @return an ArrayList of Branch objects or an ArrayList of Strings (branch names).
+     * @throws IOException
+     * 
+     */
     public static ArrayList readBranch(String filename, Boolean createObj) throws IOException {
         // read String from text file
         ArrayList stringArray = (ArrayList) read(filename);
@@ -187,6 +199,13 @@ public class TextDB {
     }
 
 
+    /**
+     * This function saves the data of Branch objects in a given txt file.
+     * @param FILENAME is the String directory of the file to write to.
+     * @param al is a List of Branch objects whose content will be saved in the txt file.
+     * @throws IOException
+     * 
+     */
     public static void saveBranch(String FILENAME, List al) throws IOException {
         List alw = new ArrayList();// to store Professors data
 

@@ -94,10 +94,8 @@ public class BranchController {
 	}
 
 	/**
-	 * 
-	 * @param FILEPATH
-	 * @param al       is a List of employee objects
-	 * 
+	 * Creates a staff list for each branch. This function is called by loadEmployees() in AccountController.
+	 * @param empList a List<List<String>> of all the employees.
 	 */
 	public static void createStaffListbyBranch(List<List<String>> empList) {
 		
