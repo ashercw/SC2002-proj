@@ -1,5 +1,4 @@
 package Entity.User;
-import Entity.BranchType;
 
 public interface EmployeeUser {
 
@@ -8,6 +7,7 @@ public interface EmployeeUser {
     public EmployeeType getEmployeeType();
     public String getGender();
     public String getAge();
+    public String getPassword();
     
 
 }

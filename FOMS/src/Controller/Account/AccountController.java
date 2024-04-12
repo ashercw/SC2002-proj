@@ -7,10 +7,15 @@ import java.util.ArrayList;
 import Others.IO;
 import Others.TextDB;
 import Boundary.AttributeGetter;
+import Boundary.LogOutUI;
+import Boundary.StaffMainPage;
 import Controller.Request.BranchController;
+import Controller.Account.Password.*;;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class AccountController {
-	// CHANGE DEPENDING ON YOUR SYSTEM  C:\\Users\\Saffron Lim\\Downloads\\staff_listCSV.csv
+	// CHANGE DEPENDING ON YOUR SYSTEM C:\\Users\\Saffron
+	// Lim\\Downloads\\staff_listCSV.csv
 	private final static String FILEPATH = "FOMS\\src\\Others\\staff_listCSV.csv";
 
 	public AccountController() {
@@ -18,36 +23,18 @@ public class AccountController {
 	}
 
 	/**
-	 * 
-	 * @param EmployeeType
-	 * @param String
-	 */
-	public void changePassword(int EmployeeType, int String) {
-		// TODO - implement AccountController.changePassword
-	}
-
-	/**
-	 * 
-	 * @param String
-	 */
-	public String getID(int String) {
-		// TODO - implement AccountController.getID
-		String temp = "temp"; // placehodler
-		return temp;
-	}
-
-	/**
 	 * Loads employee list from staff list CSV file. Additionally initialises the
 	 * respective User entity objects
 	 */
 
+
 	public static void loadEmployees() {
 		List al = new ArrayList();
-        
+
 		List<List<String>> empList = IO.readCSV(FILEPATH);
 
 		for (List<String> str : empList) {
-			
+
 			String role = str.get(2);
 			al.add(createEmployeeObj(str, role));
 
@@ -59,13 +46,14 @@ public class AccountController {
 
 	/**
 	 * Creates a User object.
-	 * @param str List of Strings containing information about a single employee entity (staff, manager, admin).
+	 * 
+	 * @param str  List of Strings containing information about a single employee
+	 *             entity (staff, manager, admin).
 	 * @param role is a String representing the role of an employee (S, A, M).
 	 * @return a User object.
 	 * 
 	 */
-	public static User createEmployeeObj(List<String> str, String role)
-	{
+	public static User createEmployeeObj(List<String> str, String role) {
 		String name = str.get(0);
 		String userID = str.get(1);
 		String gender = str.get(3);
@@ -75,12 +63,12 @@ public class AccountController {
 
 		if (role.equals("S")) {
 			branch = str.get(5);
-			uObj= new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
+			uObj = new Staff(name, userID, EmployeeType.S, gender, age, branch, "password");
 
 		} else if (role.equals("M")) {
 			branch = str.get(5);
 			uObj = new Manager(name, userID, EmployeeType.M, gender, age, branch, "password");
-			
+
 		} else if (role.equals("A")) {
 			uObj = new Admin(name, userID, EmployeeType.A, gender, age, "password");
 		}
@@ -89,39 +77,64 @@ public class AccountController {
 
 	/**
 	 * This function writes employee data to a txt file for data storage purposes.
+	 * 
 	 * @param FILEPATH is the String directory of the file to write to.
-	 * @param al is a List of various Entity objects (i.e., Staff objects, 
-     * Admin objects, and Manager objects) whose content will be saved in the txt file.
+	 * @param al       is a List of various Entity objects (i.e., Staff objects,
+	 *                 Admin objects, and Manager objects) whose content will be
+	 *                 saved in the txt file.
 	 * 
 	 */
 	public static void addToEmployeeRepo(String FILEPATH, List al) {
-		TextDB txtDB = new TextDB();
 		try {
-			
+
 			TextDB.saveEmployee(FILEPATH, al);
-		}catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Handles the login of employees.
+	 * This function allows the employee user to login by calling other functions. 
+	 * The user has a limit of 3 login attempts, after which the user will be automatically logged out of FOMS. 
+	 * @param employeeType EmployeeType of the user trying to login (STAFF, ADMIN, MANAGER).
 	 * 
-	 * @param EmployeeType
 	 */
 
-	// public STAFF login(int EmployeeType, int String), deleted staff coz throwing
-	// error.
-	public static void login(EmployeeType EmployeeType) {
-		// TODO - implement AccountController.login
+	public static void login(EmployeeType employeeType) {
+		// TODO - CHANGE PASSWORD OPTION
 
+		int loginResult = -100;
+		int numTries = 0;
 		String userID = AttributeGetter.getUserID();
 		String password = AttributeGetter.getPassword();
-		System.out.println("Success!"); // temp
 
-		// FIND USER
-		// CHECK PASSWORD
-		// CHANGE PASSWORD IF NECESSARY
+		while (loginResult != 1 && numTries < 3) {
+			//check existence of user, and if password and userID can be found in EmployeeRepo
+			loginResult = PasswordController.checkCredentials(employeeType, password, userID);
+			if (loginResult == 1) // login successful
+			{
+				System.out.println("Success! Welcome " + userID + "!");
+				if (employeeType == EmployeeType.S) {
+					new StaffMainPage(userID).displayStaffMainPage();
+				}
+			} else if (loginResult == 0) // wrong password
+			{
+				System.out.println("Wrong password! Try again.");
+				numTries++;
+			} else if (loginResult == -1) // user not found
+			{
+				System.out.println("User does not exist! Try again.");
+				numTries++;
+			}
+			userID = AttributeGetter.getUserID();
+			password = AttributeGetter.getPassword();
+		}
+
+		if(numTries > 3)
+		{
+			System.out.println("You have exceeded the number of login attempts. Goodbye.");
+			LogOutUI.LogOut();
+		}
 
 	}
 

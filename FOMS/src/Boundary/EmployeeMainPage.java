@@ -32,10 +32,7 @@ public class EmployeeMainPage {
 		IO.displayDivider();
 		AccountController.login(domain);
 
-		if(domain == EmployeeType.S){
-			// TODO: int userID = ...
-			new StaffMainPage(userID).displayStaffMainPage();
-		}
+	
 		
 	}
 

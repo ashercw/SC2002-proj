@@ -21,7 +21,7 @@ public class StaffMainPage {
         this.orders = new ArrayList<>(); 
     }
 
- public void e() {
+ public void displayStaffMainPage() {
     while (true) {
         System.out.println("Welcome to the staff page!\n");
         System.out.println("What would you like to do today?");
