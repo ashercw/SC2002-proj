@@ -24,5 +24,7 @@ public class FoodItem implements IFoodItem{
 
 
 
-
+    public String getName() {
+        return name;
+    }
 }

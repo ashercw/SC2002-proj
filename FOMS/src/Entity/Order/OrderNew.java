@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Entity.BranchType;
-import Entity.Food.IMenuItem;
+import Entity.Food.FoodItem;
 
 public class OrderNew {
     private OrderStatus orderStatus;
@@ -12,7 +12,7 @@ public class OrderNew {
  private double totalPrice;
  private int orderID;
  private static int totalOrder = 0;
-    private Map<IMenuItem,Integer> items;
+    private Map<FoodItem,Integer> items;
     private BranchType branchName;
  
  
@@ -27,8 +27,8 @@ public class OrderNew {
         this.branchName = _bt;
  }
 
-    public void addItem(IMenuItem ImenuItem, int quantity) {
-        items.put(ImenuItem, items.getOrDefault(ImenuItem, 0) + quantity);
+    public void addItem(FoodItem menuItem, int quantity) {
+        items.put(menuItem, items.getOrDefault(menuItem, 0) + quantity);
     }
     
     public void setOrderStatus(OrderStatus orderStatus) {
@@ -56,7 +56,7 @@ public class OrderNew {
   return this.orderID;
  }
 
-    public Map<IMenuItem, Integer> getItems(){
+    public Map<FoodItem, Integer> getItems(){
         return items;
     }
 }
