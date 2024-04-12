@@ -1,5 +1,6 @@
 package Controller.Menu;
 import Entity.Food.Menu;
+import Entity.BranchType;
 import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
 
@@ -12,9 +13,9 @@ public class MenuController {
         this.menuRepository = menuRepository;
     }
 
-    public boolean addMenuItem(String name, double price, String description, ItemType category) {
+    public boolean addMenuItem(String name, double price, String branch, ItemType category) {
         // Use MenuValidator here if needed
-        FoodItem newItem = new FoodItem(name, price, description, category);
+        FoodItem newItem = new FoodItem(name, price, branch, category);
         // Adding to the 'Menu' object for runtime representation
         boolean added = menu.addMenuItem(newItem);
         if (added) {

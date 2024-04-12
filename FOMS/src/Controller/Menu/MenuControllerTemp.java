@@ -1,5 +1,6 @@
-package Controller.Request;
-import Entity.Branch;
+package Controller.Menu;
+
+import Entity.BranchType;
 import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
 import Entity.User.*;
@@ -11,49 +12,19 @@ import Others.TextDB;
 import Boundary.AttributeGetter;
 
 /**
- * Handles any sort of data control/ manipulation for branch entities.
- * @author Christian Asher, Saffron Lim
+ * Temporary because idt i can run the current menucontroller coz of code issues
+ * @author Saffron Lim;
  */
+public class MenuControllerTemp {
 
-public class BranchController {
+    public static String FILEPATH;
 
-	public static String FILEPATH;
-
-	/**
-	 * 
-	 * @param branchName
-	 */
-	public Branch addBranch(String branchName) {
-		// TODO - implement BranchController.addBranch
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param branchId
-	 * @param newName
-	 */
-	public void updateBranch(String branchId, String newName) {
-		// TODO - implement BranchController.updateBranch
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param branchId
-	 */
-	public void removeBranch(String branchId) {
-		// TODO - implement BranchController.removeBranch
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-     * Loads branch list from branch list CSV file. Additionally initialises the
-     * respective Branch entity objects.
-	 * INCOMPLETE
+    /**
+     * Loads food item list from menu CSV file. Additionally initialises the
+     * respective FoodItem entity objects.
      */
 
-	 public static void loadBranches() {
+    public static void loadFoodItems() {
         List al = new ArrayList();
 
         List<List<String>> empList = IO.readCSV(FILEPATH);
@@ -82,5 +53,16 @@ public class BranchController {
         // add to repo
 
     }
+    
+
+    public static void addToFoodRepo(String FILEPATH, List al) {
+		TextDB txtDB = new TextDB();
+		try {
+			
+			TextDB.saveEmployee(FILEPATH, al);
+		}catch (IOException e) {
+			System.out.println("IOException > " + e.getMessage());
+		}
+	}
 
 }
