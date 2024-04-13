@@ -118,15 +118,22 @@ public class AccountController {
 				//GO TO STAFF MAIN PAGE
 				if (employeeType == EmployeeType.S) { 
 					new StaffMainPage(userID).displayStaffMainPage();
+					//return to FOMS
 					return;
 				}
 				//GO TO MANAGER MAIN PAGE
 				else if (employeeType == EmployeeType.M) {
-					new StaffMainPage(userID).displayStaffMainPage();
+					//call manager main page
+
+					//return to FOMS
+					return;
 				}
 				//GO TO ADMIN MAIN PAGE
 				else if (employeeType == EmployeeType.A) {
-					new StaffMainPage(userID).displayStaffMainPage();
+					//call admin main page
+					
+					//return to FOMS
+					return;
 				}
 			} 
 			// wrong password
