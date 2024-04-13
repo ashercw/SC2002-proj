@@ -103,7 +103,7 @@ public class MenuControllerTemp {
 		}
 	}
 
-
+    // for use by manager
     public boolean addMenuItem(String name, double price, String branch, ItemType category) {
         // Use MenuValidator here if needed
         boolean added = false;
