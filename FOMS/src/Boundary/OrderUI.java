@@ -50,7 +50,7 @@ public class OrderUI {
 		while(moreItems.equalsIgnoreCase("Y")){
 			System.out.println("Add new item :");
 			String Item = scanner.nextLine();
-			FoodItem fooditem = new FoodItem(newItem);
+			FoodItem fooditem = new FoodItem(newItem); //????
 
 			System.out.println("Enter quantity: ");
 			int quantity = scanner.nextInt();

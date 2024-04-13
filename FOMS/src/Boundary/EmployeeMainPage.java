@@ -30,8 +30,6 @@ public class EmployeeMainPage {
 		//Login
 		IO.displayDivider();
 		AccountController.login(domain);
-
-	
 		
 	}
 

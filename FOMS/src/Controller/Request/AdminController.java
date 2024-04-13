@@ -1,4 +1,11 @@
-package Controller;
+package Controller.Request;
+
+import java.util.List;
+
+import Entity.Branch;
+import Entity.User.User;
+import Entity.Order.Payment;
+import Entity.User.Staff;
 
 public class AdminController {
 
@@ -70,7 +77,7 @@ public class AdminController {
 	 * @param userId
 	 * @param paymentMethod
 	 */
-	public void addPaymentMethod(String userId, PaymentMethod paymentMethod) {
+	public void addPaymentMethod(String userId, Payment paymentMethod) {
 		// TODO - implement AdminController.addPaymentMethod
 		throw new UnsupportedOperationException();
 	}
@@ -80,7 +87,7 @@ public class AdminController {
 	 * @param userId
 	 * @param paymentMethod
 	 */
-	public void removePaymentMethod(String userId, PaymentMethod paymentMethod) {
+	public void removePaymentMethod(String userId, Payment paymentMethod) {
 		// TODO - implement AdminController.removePaymentMethod
 		throw new UnsupportedOperationException();
 	}
@@ -107,7 +114,7 @@ public class AdminController {
 	 * 
 	 * @param filter
 	 */
-	public List<User> displayStaffList(Filter filter) {
+	public List<User> displayStaffList(Filter filter) { //?????
 		// TODO - implement AdminController.displayStaffList
 		throw new UnsupportedOperationException();
 	} 

@@ -17,6 +17,7 @@ public class StaffMainPage {
  private List<OrderNew> orders; 
 
  public StaffMainPage(String staffID) {
+    //TO-DO: instantiate staff obj?
         this.staffID = staffID;
         this.orders = new ArrayList<>(); 
     }
@@ -27,7 +28,8 @@ public class StaffMainPage {
         System.out.println("What would you like to do today?");
         System.out.println("\t1. Display new order");
         System.out.println("\t2. Process new order");
-        System.out.print("\n\nYour choice (1-2): ");
+        System.out.println("\t3. Go back");
+        System.out.print("\n\nYour choice (1-3): ");
         int userChoice = IO.userInputInt();
 
         if (userChoice == 1) 
@@ -51,9 +53,13 @@ public class StaffMainPage {
                 }
             }
         } 
+        else if (userChoice == 3) 
+        {
+            return;
+        }
         else
-            System.out.println("Invalid response. Please enter 1-2!");
-            System.out.print("Your choice (1-2): ");
+            System.out.println("Invalid response. Please enter 1-3!");
+            System.out.print("Your choice (1-3): ");
     }
  }
 

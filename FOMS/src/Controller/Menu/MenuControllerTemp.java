@@ -2,6 +2,7 @@ package Controller.Menu;
 
 import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
+import Entity.Food.Menu;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,12 +18,20 @@ public class MenuControllerTemp {
 
     public static String FILEPATH = "FOMS\\src\\Others\\menu_listCSV.csv";
 
+    private Menu menu; // Assuming 'Menu' handles the collection of menu items.
+    private MenuRepository menuRepository; // For persistence.
+
+    public MenuControllerTemp(Menu menu, MenuRepository menuRepository) {
+        this.menu = menu;
+        this.menuRepository = menuRepository;
+    }
+
+
     /**
      * Loads food item list from menu CSV file. Additionally initialises the
      * respective FoodItem entity objects.
      */
 
-    
     public static void loadFoodItems() {
         
         List al = new ArrayList();
@@ -53,12 +62,12 @@ public class MenuControllerTemp {
         }
         // add to repo
         addToFoodRepo("FoodItemRepo.txt", al);
-        loadMenuitems(al);
+        loadMenuItems(al);
 
     }
 
 
-    public static void loadMenuitems(List al)
+    public static void loadMenuItems(List al)
     {
         try {
 			ArrayList branchList = TextDB.readBranch("BranchRepo.txt", false);
@@ -93,5 +102,30 @@ public class MenuControllerTemp {
 			System.out.println("IOException > " + e.getMessage());
 		}
 	}
+
+
+    public boolean addMenuItem(String name, double price, String branch, ItemType category) {
+        // Use MenuValidator here if needed
+        boolean added = false;
+        FoodItem newItem = new FoodItem(name, price, branch, category);
+        // Adding to the 'Menu' object for runtime representation
+        // TO-DO: Write to repo (using TextDB functions)
+        return added;
+    }
+
+    public boolean updateMenuItem(String name, double newPrice, String newDescription) {
+        // Update operation logic, potentially involving MenuValidator
+        boolean updated = false;
+        //How to choose which description to update??
+        // update in repo
+        return updated;
+    }
+
+    public boolean removeMenuItem(String name) {
+        // Removal logic
+        boolean removed = false;
+        //remove 
+        return removed;
+    }
 
 }

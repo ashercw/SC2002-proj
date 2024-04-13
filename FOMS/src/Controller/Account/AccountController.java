@@ -108,20 +108,35 @@ public class AccountController {
 		String userID = AttributeGetter.getUserID();
 		String password = AttributeGetter.getPassword();
 
-		while (loginResult != 1 && numTries < 3) {
+		while (loginResult != 1 && numTries < 2) {
 			//check existence of user, and if password and userID can be found in EmployeeRepo
 			loginResult = PasswordController.checkCredentials(employeeType, password, userID);
-			if (loginResult == 1) // login successful
+			// login successful
+			if (loginResult == 1) 
 			{
 				System.out.println("Success! Welcome " + userID + "!");
-				if (employeeType == EmployeeType.S) {
+				//GO TO STAFF MAIN PAGE
+				if (employeeType == EmployeeType.S) { 
+					new StaffMainPage(userID).displayStaffMainPage();
+					return;
+				}
+				//GO TO MANAGER MAIN PAGE
+				else if (employeeType == EmployeeType.M) {
 					new StaffMainPage(userID).displayStaffMainPage();
 				}
-			} else if (loginResult == 0) // wrong password
+				//GO TO ADMIN MAIN PAGE
+				else if (employeeType == EmployeeType.A) {
+					new StaffMainPage(userID).displayStaffMainPage();
+				}
+			} 
+			// wrong password
+			else if (loginResult == 0) 
 			{
 				System.out.println("Wrong password! Try again.");
 				numTries++;
-			} else if (loginResult == -1) // user not found
+			} 
+			// user not found
+			else if (loginResult == -1) 
 			{
 				System.out.println("User does not exist! Try again.");
 				numTries++;
@@ -130,10 +145,11 @@ public class AccountController {
 			password = AttributeGetter.getPassword();
 		}
 
-		if(numTries > 3)
+		if(numTries >= 2)
 		{
-			System.out.println("You have exceeded the number of login attempts. Goodbye.");
+			System.out.println("\n\n\nYou have exceeded the number of login attempts. Goodbye.\n\n\n");
 			LogOutUI.LogOut();
+			
 		}
 
 	}

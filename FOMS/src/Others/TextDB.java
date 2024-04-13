@@ -49,8 +49,8 @@ public class TextDB {
             String name = star.nextToken().trim(); // first token
             String userID = star.nextToken().trim(); // second token
             String role = star.nextToken().trim();
-            String gender = star.nextToken().trim();
-            String age = star.nextToken().trim();
+            String gender = star.nextToken();
+            String age = star.nextToken();
             
             // Create respective entity
             if(role.equals("S"))

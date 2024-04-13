@@ -60,7 +60,7 @@ public class StartMenuUI {
 			{
 				System.out.println("Continue as customer...");
 				System.out.println("\n\n\n\n\n");
-			} else if (userChoice == 3) {
+			} else if (userChoice == 3) { //Exit and Logout
 				System.out.println("\n\n\n\n\n");
 				LogOutUI.LogOut();
 			} //

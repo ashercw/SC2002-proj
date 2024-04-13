@@ -29,7 +29,7 @@ public class PasswordController {
 		boolean isPWCorrect = false;
 
 		try {
-			ArrayList employeeList = TextDB.readEmployee("BranchRepo.txt");
+			ArrayList employeeList = TextDB.readEmployee("EmployeeRepo.txt");
 			User emp = new User();
 
 			for (int i = 0; i < employeeList.size(); i++) {
