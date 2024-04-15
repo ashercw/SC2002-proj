@@ -56,7 +56,10 @@ public class FoodItem implements IFoodItem{
         this.description = _d;
     }
 
-    
+    public double setPrice(double price)
+    {
+        return this.price;
+    }
 
 
 
