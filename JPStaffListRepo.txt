@@ -1,2 +1,0 @@
-Tom Chan|TomC|M|M|56|JP|password
-Justin Loh|JustinL|S|M|49|JP|password

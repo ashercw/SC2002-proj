@@ -28,13 +28,13 @@ public class AttributeGetter {
 			}
 			else if(userInput == 2)
 			{
-				System.out.println("Logging in as Admin:");
-				return EmployeeType.A;
+				System.out.println("Logging in as Manager:");
+				return EmployeeType.M;
 			}
 			else if(userInput == 3)
 			{
-				System.out.println("Logging in as Manager:");
-				return EmployeeType.M;
+				System.out.println("Logging in as Admin:");
+				return EmployeeType.A;
 			}
 			else if(userInput == 4)
 			{

@@ -1,8 +1,0 @@
-Fries|3.2|NTU|SIDE|No item description.
-3pc Set Meal|9.9|NTU|SETMEAL|No item description.
-Cajun Fish|5.6|JP|BURGER|No item description.
-Cole Slaw|2.7|JE|SIDE|No item description.
-3pc Set Meal|10.4|JE|SETMEAL|No item description.
-Chicken Nugget|6.9|JP|SIDE|No item description.
-Chicken Nugget|6.6|NTU|SIDE|No item description.
-Pepsi|2.1|JE|DRINK|No item description.

@@ -1,20 +1,16 @@
 package Boundary;
 
-import Entity.Order.OrderNew;
+import Entity.Order.Order;
 import Entity.Order.OrderStatus;
-import Entity.Order.OrderType;
-import Entity.User.EmployeeType;
 import Others.IO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Controller.Account.AccountController;
-
 public class StaffMainPage {
 
  private String staffID;
- private List<OrderNew> orders; 
+ private List<Order> orders; 
 
  public StaffMainPage(String staffID) {
     //TO-DO: instantiate staff obj?
@@ -64,18 +60,18 @@ public class StaffMainPage {
  }
 
  // Method to simulate adding orders to the list (for demonstration purposes)
-    public void addOrder(OrderNew order) {
+    public void addOrder(Order order) {
         orders.add(order);
     }
 
     // Display orders that are new
     public void displayNewOrders() {
         System.out.println("New Orders:");
-        for (OrderNew order : orders) {
+        for (Order order : orders) {
             System.out.println("Order ID: " + order.getOrderID());
             System.out.println("Status: " + order.getOrderStatus());
             System.out.println("Items:");
-            order.getItems().forEach((item, quantity) -> System.out.println(item.getName() + ", Quantity: " + quantity));
+            order.getOrderLine().forEach((item) -> System.out.println(item.getItem().getFoodItemName() + ", Quantity: " + item.getitemQuanity()));
             System.out.println("Total Price: " + order.getTotalPrice());
         }
     }
@@ -86,7 +82,7 @@ public class StaffMainPage {
         if(orderId <= 0){
             throw new UnsupportedOperationException("OrderID is not given.");
         }
-        for (OrderNew order : orders) {
+        for (Order order : orders) {
             if (order.getOrderID() == orderId && (order.getOrderStatus() == OrderStatus.ORDERPLACED || order.getOrderStatus() == OrderStatus.PROCESSING)) {
                 order.setOrderStatus(OrderStatus.READY);
                 System.out.println("Order ID " + orderId + " is now ready to pick up.");

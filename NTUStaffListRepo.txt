@@ -1,2 +1,0 @@
-kumar Blackmore|kumarB|S|M|32|NTU|password
-Alexei|Alexei|M|M|25|NTU|password
