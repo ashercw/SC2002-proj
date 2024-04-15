@@ -94,9 +94,8 @@ public class MenuControllerTemp {
     }
     
 
-    public static void addToFoodRepo(String FILEPATH, List al) {
+    public static void addToFoodRepo(String FILEPATH, List al) throws IOException{
 		try {
-			
 			TextDB.saveFood(FILEPATH, al);
 		}catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
@@ -105,27 +104,68 @@ public class MenuControllerTemp {
 
     // for use by manager
     public boolean addMenuItem(String name, double price, String branch, ItemType category) {
-        // Use MenuValidator here if needed
         boolean added = false;
+        // Check if item already exists
+        for (FoodItem item : menu.getMenuList()) {
+            if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch)) {
+                return false; // Item already exists
+            }
+        }
         FoodItem newItem = new FoodItem(name, price, branch, category);
-        // Adding to the 'Menu' object for runtime representation
-        // TO-DO: Write to repo (using TextDB functions)
+        //not sure why desription doesn't work
+        menu.getMenuList().add(newItem); // Adding to the menu list
+        added = true;
+        // Save to repository
+        try {
+            addToFoodRepo("FoodItemRepo.txt", menu.getMenuList());
+        } catch (IOException e) {
+            System.out.println("IOException > " + e.getMessage());
+            added = false;
+        }
         return added;
     }
 
     public boolean updateMenuItem(String name, double newPrice, String newDescription) {
-        // Update operation logic, potentially involving MenuValidator
         boolean updated = false;
-        //How to choose which description to update??
-        // update in repo
+        for (FoodItem item : menu.getMenuList()) {
+            if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch))
+             { //no clue why branch isnt valid
+                item.setPrice(newPrice);
+                item.setDescription(newDescription);
+                updated = true;
+                break;
+            }
+        }
+        if (updated) {
+            try {
+                addToFoodRepo("FoodItemRepo.txt", menu.getMenuList());
+            } catch (IOException e) {
+                System.out.println("IOException > " + e.getMessage());
+                updated = false;
+            }
+        }
         return updated;
     }
 
-    public boolean removeMenuItem(String name) {
-        // Removal logic
+    public boolean removeMenuItem(String name, String branch) {
         boolean removed = false;
-        //remove 
+        FoodItem toRemove = null;
+        for (FoodItem item : menu.getMenuList()) {
+            if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch)) {
+                toRemove = item;
+                break;
+            }
+        }
+        if (toRemove != null) {
+            menu.getMenuList().remove(toRemove);
+            removed = true;
+            try {
+                addToFoodRepo("FoodItemRepo.txt", menu.getMenuList());
+            } catch (IOException e) {
+                System.out.println("IOException > " + e.getMessage());
+                removed = false;
+            }
+        }
         return removed;
     }
-
 }
