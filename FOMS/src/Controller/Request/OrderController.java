@@ -1,23 +1,28 @@
 package Controller.Request;
-import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.List;
+import java.util.ArrayList;
 
-import Entity.Order.OrderLine;
+import Entity.Food.FoodItem;
+import Entity.Food.ItemType; // If ItemType is used for setting the type of food items.
 import Entity.Order.Order;
-import Entity.Order.OrderType;
+import Entity.Order.OrderLine;
+import Entity.Order.OrderStatus; // If setting the order status upon creation.
+import Entity.Order.OrderType; // For handling different types of orders (DINE-IN, TAKEAWAY).
+import Controller.Request.OrderController; 
 
-//Why is there an OrderNew Class? Just have a funciton in OrderController that places the order 
-// and adds to a repo or smth
+
 
 public class OrderController {
     private List<Order> orders = new ArrayList<>();
 
     public Order placeOrder(List<OrderLine> orderLines, OrderType orderType) {
-        Order newOrder = new Order(orderType);
+        double totalPrice = 0;
         for (OrderLine line : orderLines) {
-            newOrder.addOrderLine(line.getItem(), line.getQuantity(), line.getCustomisation());
+            totalPrice += line.getItem().getFoodItemPrice() * line.getQuantity();
         }
-        orders.add(newOrder); // Simulate persisting the order
+        Order newOrder = new Order(OrderStatus.NEW, orderType, totalPrice, orderLines, orderLines.size(), Order.totalOrder + 1);
+        orders.add(newOrder); // Simulating adding to a repository
         return newOrder;
     }
 }
