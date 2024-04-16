@@ -8,5 +8,9 @@ public class Manager extends Staff{
 		super(_en, _lID, _et, _g, _a, _bt, _p);
 		
 	}
+
+	public void setBranch(String _bt) {
+        	this.branch = (String) _bt;
+    	}
 	
 }
