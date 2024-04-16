@@ -2,10 +2,10 @@ package Entity;
 
 public class Customer {
     private int orderID;
-	private BranchType location;
+	private String location;
 
 	//Constructor
-	public Customer(int _oID, BranchType _b)
+	public Customer(int _oID, String _b)
 	{
 		this.orderID = _oID;
 		this.location = _b;
@@ -17,7 +17,7 @@ public class Customer {
 		return this.orderID;
 	}
 	
-	public BranchType getLoc()
+	public String getLoc()
 	{
 		return this.location;
 	}
