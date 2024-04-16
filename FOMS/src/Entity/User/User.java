@@ -25,6 +25,9 @@ public class User implements EmployeeUser{
     {
         return this.empName;
     }
+    public void setEmployeeName(String name) {
+       this.empName = name;
+    }
     public String getLoginID()
     {
         return this.loginID;
@@ -51,5 +54,7 @@ public class User implements EmployeeUser{
     {
         return this.password;
     }
+
+    
 
 }
