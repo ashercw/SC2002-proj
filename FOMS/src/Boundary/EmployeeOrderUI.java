@@ -11,6 +11,14 @@ import Entity.Order.OrderStatus;
 import Entity.Order.OrderType; 
 import Entity.Order.OrderLine;
 
+/*
+ * Page allows staff/ manager to do order related thing
+ * 1) Display the new orders.
+ * 2) View the details of a particular order.
+ * 3) Process order: select order to process, update the status of the
+processed order from a new order to be “Ready to pickup”.
+ */
+
 public class EmployeeOrderUI {
 
     public void displayOrderUI(int orderID) {

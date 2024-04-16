@@ -10,6 +10,13 @@ import Entity.Order.Order;
 import Entity.Order.OrderStatus;
 import Entity.Order.OrderType; 
 import Entity.Order.OrderLine;
+
+
+
+/** 
+ * This page allows customer to see the branch menu, place an order, customise order, view all of his 
+ * orders (track order status), make payment etc, collect food
+ */
 public class CustomerOrderUI {
 
 }
