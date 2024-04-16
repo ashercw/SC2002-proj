@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
 import Others.TextDB;
+import Others.TextDBBranch;
+import Others.TextDBStaff;
 import Boundary.AttributeGetter;
 import Controller.Account.*;
 
@@ -87,7 +89,7 @@ public class BranchController {
 		TextDB txtDB = new TextDB();
 		try {
 
-			TextDB.saveBranch(FILEPATH, al);
+			TextDBBranch.saveBranch(FILEPATH, al);
 		} catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}
@@ -100,7 +102,7 @@ public class BranchController {
 	public static void createStaffListbyBranch(List<List<String>> empList) {
 		
 		try {
-			ArrayList branchList = TextDB.readBranch("BranchRepo.txt", false);
+			ArrayList branchList = TextDBBranch.readBranch("BranchRepo.txt", false);
 
 			for (int i = 0; i < branchList.size(); i++) {
 				List childBranchList = new ArrayList();
@@ -115,7 +117,7 @@ public class BranchController {
 						childBranchList.add(AccountController.createEmployeeObj(str, role));
 					}
 				}
-				TextDB.saveEmployee(FILENAME, childBranchList);
+				TextDBStaff.saveEmployee(FILENAME, childBranchList);
 
 			}
 		} catch (IOException e) {

@@ -16,12 +16,12 @@ import Controller.Request.OrderController;
 public class OrderController {
     private List<Order> orders = new ArrayList<>();
 
-    public Order placeOrder(List<OrderLine> orderLines, OrderType orderType) {
+    public Order placeOrder(List<OrderLine> orderLines, OrderType orderType, String branchName) {
         double totalPrice = 0;
         for (OrderLine line : orderLines) {
             totalPrice += line.getItem().getFoodItemPrice() * line.getitemQuanity();
         }
-        Order newOrder = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLines, orderLines.size());
+        Order newOrder = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLines, orderLines.size(), branchName);
         orders.add(newOrder); // Simulating adding to a repository
         return newOrder;
     }

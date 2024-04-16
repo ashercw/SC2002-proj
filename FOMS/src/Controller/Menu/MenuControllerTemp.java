@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
 import Others.TextDB;
+import Others.TextDBBranch;
+import Others.TextDBFood;
 
 /**
  * Temporary because idt i can run the current menucontroller coz of code issues
@@ -71,7 +73,7 @@ public class MenuControllerTemp {
     public static void loadMenuItems(List al)
     {
         try {
-			ArrayList branchList = TextDB.readBranch("BranchRepo.txt", false);
+			ArrayList branchList = TextDBBranch.readBranch("BranchRepo.txt", false);
 
 			for (int i = 0; i < branchList.size(); i++) {
 				List menuList = new ArrayList();
@@ -86,7 +88,7 @@ public class MenuControllerTemp {
 						menuList.add(foodObj);
 					}
 				}
-				TextDB.saveFood(FILENAME, menuList);
+				TextDBFood.saveFood(FILENAME, menuList);
 
 			}
 		} catch (IOException e) {
@@ -97,7 +99,7 @@ public class MenuControllerTemp {
 
     public static void addToFoodRepo(String FILEPATH, List al) throws IOException{
 		try {
-			TextDB.saveFood(FILEPATH, al);
+			TextDBFood.saveFood(FILEPATH, al);
 		}catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}

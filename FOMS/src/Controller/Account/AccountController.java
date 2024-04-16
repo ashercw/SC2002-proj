@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
 import Others.TextDB;
+import Others.TextDBStaff;
 import Boundary.AttributeGetter;
 import Boundary.LogOutUI;
 import Boundary.StaffMainPage;
@@ -87,7 +88,7 @@ public class AccountController {
 	public static void addToEmployeeRepo(String FILEPATH, List al) {
 		try {
 
-			TextDB.saveEmployee(FILEPATH, al);
+			TextDBStaff.saveEmployee(FILEPATH, al);
 		} catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}
