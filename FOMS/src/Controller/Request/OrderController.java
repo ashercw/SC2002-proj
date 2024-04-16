@@ -21,7 +21,7 @@ public class OrderController {
         for (OrderLine line : orderLines) {
             totalPrice += line.getItem().getFoodItemPrice() * line.getitemQuanity();
         }
-        Order newOrder = new Order(OrderStatus.NEW, orderType, totalPrice, orderLines, orderLines.size());
+        Order newOrder = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLines, orderLines.size());
         orders.add(newOrder); // Simulating adding to a repository
         return newOrder;
     }
