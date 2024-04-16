@@ -40,6 +40,11 @@ public class Branch {
 		return this.branchName;
 	}
 
+	public void setBranchName(String _bn)
+	{
+		this.branchName = _bn;
+	}
+
 	public String getLocation()
 	{
 		return this.location;

@@ -175,10 +175,10 @@ public class AdminController {
 
 		Staff transferredStaff = new Staff(staffToTransfer.getEmployeeName(), staffToTransfer.getLoginID(),
 				staffToTransfer.getEmployeeType(), staffToTransfer.getGender(),
-				staffToTransfer.getAge(), newBranchName.getBranchType(),
+				staffToTransfer.getAge(), newBranchName.getBranchName(),
 				staffToTransfer.getPassword());
 
-		transferredStaff.setBranch(newBranchName.getBranchType());
+		transferredStaff.setBranch(newBranchName.getBranchName());
 
 		//addEmployee.addStaff(transferredStaff, newBranchName); // need to add parameter to AddEmployee
 
@@ -218,7 +218,7 @@ public class AdminController {
 	public void closeBranch(String branchName) {
 		//List<Branch> branches = branchController.getAllBranches(); // add getAllBranches to branchController
 		for (Branch branch : branches) {
-			if (branch.getBranchType().equals(branchName)) {
+			if (branch.getBranchName().equals(branchName)) {
 				//branchController.removeBranch(branch.getId()); // add getId for Branch (because closebranch requires
 																// branchID)
 				System.out.println("Branch '" + branchName + "' has been closed.");
@@ -281,7 +281,7 @@ public class AdminController {
 
 	public Branch getBranchByName(String branchName){
 		for (Branch branch : branches) {
-            if (branch.getBranchType().equals(branchName)) {
+            if (branch.getBranchName().equals(branchName)) {
                 return branch;
             }
         }
