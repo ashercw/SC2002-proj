@@ -3,6 +3,7 @@ package Controller.Account.Password;
 import java.io.IOException;
 import java.util.ArrayList;
 import Others.TextDB;
+import Others.TextDBStaff;
 import Entity.User.EmployeeType;
 import Entity.User.User;
 
@@ -29,7 +30,7 @@ public class PasswordController {
 		boolean isPWCorrect = false;
 
 		try {
-			ArrayList employeeList = TextDB.readEmployee("EmployeeRepo.txt");
+			ArrayList employeeList = TextDBStaff.readEmployee("EmployeeRepo.txt");
 			User emp = new User();
 
 			for (int i = 0; i < employeeList.size(); i++) {
