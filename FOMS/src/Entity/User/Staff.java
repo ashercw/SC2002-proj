@@ -18,6 +18,11 @@ public class Staff extends User{
     {
         return this.isPromoted;
     }
+
+    public void setPromotion(boolean promotion)
+    {
+        this.isPromoted = promotion;
+    }
     
     public String getBranch()
     {

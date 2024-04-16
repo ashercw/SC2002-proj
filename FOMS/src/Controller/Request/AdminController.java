@@ -10,7 +10,6 @@ import Entity.User.UserDatabase;
 import Entity.BranchDatabase;
 import Entity.Branch;
 import Entity.User.Manager;
-import Entity.BranchType;
 import Entity.Order.Payment;
 import Controller.Request.BranchController;
 import Controller.Request.PaymentController;
@@ -149,7 +148,7 @@ public class AdminController {
 				branchName,
 				staffToPromote.getPassword());
 
-		((Staff) staffToPromote).isPromoted = true;
+		((Staff) staffToPromote).setPromotion = true;
 
 		Branch branch = new Branch(branchName, null, new ArrayList<>(Collections.singletonList(promotedManager)), 0, 1,
 				null);
