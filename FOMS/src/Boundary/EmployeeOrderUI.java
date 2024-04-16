@@ -16,7 +16,7 @@ import Entity.Order.OrderLine;
  * 1) Display the new orders.
  * 2) View the details of a particular order.
  * 3) Process order: select order to process, update the status of the
-processed order from a new order to be “Ready to pickup”.
+      processed order from a new order to be “Ready to pickup”.
  */
 
 public class EmployeeOrderUI {
