@@ -23,4 +23,7 @@ public class Staff extends User{
     {
         return this.branch;
     } 
+    public void setBranch(String _bt) {
+        this.branch = (String) _bt;
+    }
 }
