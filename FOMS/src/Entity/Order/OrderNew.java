@@ -3,7 +3,6 @@ package Entity.Order;
 import java.util.HashMap;
 import java.util.Map;
 
-import Entity.BranchType;
 import Entity.Food.FoodItem;
 
 public class OrderNew {
@@ -13,11 +12,11 @@ public class OrderNew {
  private int orderID;
  private static int totalOrder = 0;
     private Map<FoodItem,Integer> items;
-    private BranchType branchName;
+    private String branchName;
  
  
  //constructor
- public OrderNew(OrderStatus _os, OrderType _ot, double _tp, BranchType _bt)
+ public OrderNew(OrderStatus _os, OrderType _ot, double _tp, String _bt)
  {
   this.orderStatus = _os;
   this.orderType = _ot;

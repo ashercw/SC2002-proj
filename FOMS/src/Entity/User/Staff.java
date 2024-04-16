@@ -1,5 +1,4 @@
 package Entity.User;
-import Entity.BranchType;
 
 public class Staff extends User{
     private boolean isPromoted;

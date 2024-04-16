@@ -2,7 +2,6 @@ package Entity.Order;
 
 import java.util.List;
 
-import Entity.BranchType;
 import Entity.Food.FoodItem;
 
 public class Order {
