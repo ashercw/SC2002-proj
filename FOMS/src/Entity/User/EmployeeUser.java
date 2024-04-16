@@ -3,7 +3,7 @@ package Entity.User;
 public interface EmployeeUser {
 
     public String getEmployeeName();
-    public void setEmployeeName();
+    public void setEmployeeName(String name);
     public String getLoginID();
     public EmployeeType getEmployeeType();
     public String getGender();
