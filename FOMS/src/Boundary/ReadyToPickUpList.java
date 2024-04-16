@@ -1,6 +1,10 @@
 package Boundary;
 import java.util.Set;
 import java.util.HashSet;
+/**
+*
+* @author Elbert
+*/
 public class ReadyToPickUpList {
 	private static final Set<Integer> DisplayOrder = new HashSet<>(); //orderID stored in Hashset
 
