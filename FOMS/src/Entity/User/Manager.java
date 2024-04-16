@@ -9,8 +9,5 @@ public class Manager extends Staff{
 		
 	}
 
-	public void setBranch(String _bt) {
-        	this.branch = (String) _bt;
-    	}
 	
 }
