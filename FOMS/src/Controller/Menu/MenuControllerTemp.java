@@ -30,9 +30,10 @@ public class MenuControllerTemp {
     /**
      * Loads food item list from menu CSV file. Additionally initialises the
      * respective FoodItem entity objects.
+     * @throws IOException 
      */
 
-    public static void loadFoodItems() {
+    public static void loadFoodItems() throws IOException {
         
         List al = new ArrayList();
 

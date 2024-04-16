@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import Boundary.UIEntry;
 
 /**
@@ -12,9 +14,10 @@ public class FOMSMain {
     /**
      * Calls the start() method from the UIEntry class to start up the first page of FOMS.
      * @param args Command line arguments passed to the program.
+     * @throws IOException 
      * 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
         UIEntry.UIstart();
 
