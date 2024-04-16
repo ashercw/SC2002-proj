@@ -130,7 +130,7 @@ public class MenuControllerTemp {
         boolean updated = false;
         for (FoodItem item : menu.getMenuList()) {
             if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch))
-             { //no clue why branch isnt valid
+             { //no clue why branch isnt valid FIX: need to access branch variable somehow 
                 item.setPrice(newPrice);
                 item.setDescription(newDescription);
                 updated = true;

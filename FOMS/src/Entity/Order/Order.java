@@ -12,12 +12,12 @@ public class Order {
 	private List<OrderLine> orderItemsList;
 	private int orderQuantity;
 	private int orderID;
-	private BranchType branchName;
+	private String branchName;
 	private static int totalOrder = 0;
 	
 	
 	//constructor
-	public Order(OrderStatus _os, OrderType _ot, double _tp, List<OrderLine> _orderLineList, int _oq, BranchType _bn)
+	public Order(OrderStatus _os, OrderType _ot, double _tp, List<OrderLine> _orderLineList, int _oq, String _bn)
 	{
 		this.orderStatus = _os;
 		this.orderType = _ot;
@@ -59,10 +59,16 @@ public class Order {
 		return this.orderID;
 	}
 
-	public BranchType getBranchName()
+	public String getBranchName()
 	{
 		return this.branchName;
 	}
+
+	public int getTotalOrder()
+	{
+		return this.totalOrder;
+	}
+
 
 	public void addItem(OrderLine newItem) {
         orderItemsList.add(newItem);
