@@ -3,9 +3,9 @@ package Controller.Account.Password;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Boundary.AttributeGetter;
-import Boundary.ChangePassword;
-import Others.TextDB;
+import Boundary.Account.AttributeGetter;
+import Boundary.Account.ChangePassword;
+import Others.IO;
 import Others.TextDBStaff;
 import Entity.User.EmployeeType;
 import Entity.User.User;
@@ -61,7 +61,7 @@ public class PasswordController {
 	 */
 	public static void changePassword() {
 		boolean isValid = false;
-		System.out.println("\n\n\n\n\n");
+		IO.printNewLine(5);
 
 		while(isValid == false)
 		{	

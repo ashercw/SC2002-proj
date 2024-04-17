@@ -96,6 +96,14 @@ public class IO {
         System.out.println("||||||||||||||||||||||||||||||||||||||||");
     }
 
+    public static void printNewLine(int x) 
+    {
+        for(int i = 0; i < x; i++)
+        {
+            System.out.println();
+        }
+    }
+
     /**
      * This function converts a String to Title Case (i.e., HeLLo world -> Hello World)
      * @param s A String

@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
 import Others.TextDBStaff;
-import Boundary.AttributeGetter;
-import Boundary.LogOutUI;
 import Boundary.StaffMainPage;
+import Boundary.Account.AttributeGetter;
+import Boundary.Account.LogOutUI;
 import Controller.Request.BranchController;
 import Controller.Account.Password.*;;
 

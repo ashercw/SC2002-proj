@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-import Boundary.UIEntry;
+import Boundary.Start.UIEntry;
 
 /**
  * The FOMSMain class is the entry point for the Fastfood Ordering and Management 

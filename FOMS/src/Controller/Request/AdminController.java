@@ -16,6 +16,10 @@ import Controller.Request.PaymentController;
 import java.util.stream.Collectors;
 import Controller.Account.AddEmployee;
 
+/**
+ * @author Reuben
+ */
+
 public class AdminController {
 	private List<User> staffList;
 	private UserDatabase userDatabase;
