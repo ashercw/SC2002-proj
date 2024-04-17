@@ -15,14 +15,13 @@ import Entity.Order.OrderLine;
 
 /**
  * This page allows customer to see the branch menu, place an order, customise
- * order,
- * search function to search by order ID to view own order, make payment etc,
- * collect food
+ * order, make payment etc
  * 
  * @author Saffron
  */
 public class CustomerOrderUI {
 
-    
+    protected String branch;
+
 
 }

@@ -4,6 +4,7 @@ import Others.IO;
 import Others.TextDBBranch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import Boundary.EmployeeMainPage;
 import Boundary.Account.LogOutUI;
@@ -68,7 +69,8 @@ public class StartMenuUI {
 				EmployeeMainPage.displayEmployeeMainPage();
 			} else if (userChoice == 2) // Call customer "login"
 			{
-				new CustomerPage(TextDBBranch.readBranch(FileNames.BRANCHREPO, false));
+				ArrayList branchList = TextDBBranch.readBranch(FileNames.BRANCHREPO, false);
+				new CustomerPage(branchList);
 				System.out.println("Continue as customer...");
 				IO.printNewLine(5);
 				CustomerPage.displayCustomerMainPg();

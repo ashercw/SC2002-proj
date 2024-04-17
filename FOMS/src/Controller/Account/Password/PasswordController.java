@@ -59,7 +59,7 @@ public class PasswordController {
 	 * @param User
 	 * @param String
 	 */
-	public static void changePassword() {
+	public static void changePassword(EmployeeType employeeType, String userID) {
 		boolean isValid = false;
 		IO.printNewLine(5);
 
@@ -79,8 +79,7 @@ public class PasswordController {
 				if(CredentialsValidator.newPasswordValidator(newPassword))
 				{
 					ChangePassword.dispSuccess();
-					//write to file
-					
+					//write to Staff List repos
 					return;
 				}
 				

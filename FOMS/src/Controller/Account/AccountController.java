@@ -117,7 +117,7 @@ public class AccountController {
 				if(CredentialsValidator.isDefaultPassW(password))
 				{
 					//call change password
-					PasswordController.changePassword();
+					PasswordController.changePassword(employeeType, userID);
 					//once successful, return back to main page.
 					return;
 				}
