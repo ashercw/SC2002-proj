@@ -28,7 +28,7 @@ public class EmployeeMainPage {
 		if(domain == null) return;
 
 		//Login
-		IO.displayDivider();
+		
 		AccountController.login(domain);
 		
 	}

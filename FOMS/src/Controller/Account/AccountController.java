@@ -114,10 +114,10 @@ public class AccountController {
 			// login successful
 			if (loginResult == 1) 
 			{
-				if(password.equals("password"))
+				if(CredentialsValidator.isDefaultPassW(password))
 				{
 					//call change password
-
+					PasswordController.changePassword();
 					//once successful, return back to main page.
 					return;
 				}

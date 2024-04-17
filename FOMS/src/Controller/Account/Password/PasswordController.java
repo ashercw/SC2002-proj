@@ -59,23 +59,31 @@ public class PasswordController {
 	 * @param User
 	 * @param String
 	 */
-	public void changePassword(String userID) {
-		// TODO - implement PasswordController.changePassword
+	public static void changePassword() {
 		boolean isValid = false;
+		System.out.println("\n\n\n\n\n");
 
 		while(isValid == false)
-		{
+		{	
+			// display menu to change password
 			ChangePassword.dispChangePassword();
 			String newPassword = AttributeGetter.getPassword();
-			if(newPassword != "password")
+			// check if newPassword is DEFAULT password
+			if(CredentialsValidator.isDefaultPassW(newPassword))
 			{
-				isValid = CredentialsValidator.newPasswordValidator(newPassword);
-				ChangePassword.dispSuccess();
-				return;
+				// show error msg
+				ChangePassword.dispDefaultPasswordErr();
 			}
 			else
 			{
-				ChangePassword.dispDefaultPasswordErr();
+				if(CredentialsValidator.newPasswordValidator(newPassword))
+				{
+					ChangePassword.dispSuccess();
+					//write to file
+					
+					return;
+				}
+				
 			}
 		}
 	}

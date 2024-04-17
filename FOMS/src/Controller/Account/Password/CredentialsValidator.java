@@ -9,7 +9,7 @@ import Entity.User.User;
  */
 public class CredentialsValidator {
 
-    private static String MIN_LENGTH = "8";
+    private static String MIN_LENGTH = "12";
     private static String MAX_LENGTH = "20";
     private static boolean SPECIAL_CHAR_NEEDED = false;
 
@@ -50,7 +50,8 @@ public class CredentialsValidator {
 
     public static boolean isDefaultPassW(String inputPassw)
     {
-
+        if(inputPassw.equals(DEFAULT)) return true;
+        else return false;
     }
 
     public static boolean newPasswordValidator(String inputPassw)

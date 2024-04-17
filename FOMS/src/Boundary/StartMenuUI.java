@@ -65,8 +65,10 @@ public class StartMenuUI {
 				LogOutUI.LogOut();
 			} //
 			else
+			{
 				System.out.println("Invalid response. Please enter 1-3!");
-			System.out.print("Your choice (1-3): ");
+				System.out.print("Your choice (1-3): ");
+			}
 		}
 
 	}
