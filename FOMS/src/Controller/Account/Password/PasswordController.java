@@ -2,6 +2,9 @@ package Controller.Account.Password;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import Boundary.AttributeGetter;
+import Boundary.ChangePassword;
 import Others.TextDB;
 import Others.TextDBStaff;
 import Entity.User.EmployeeType;
@@ -12,8 +15,10 @@ import Entity.User.User;
  * @author Christian Asher, Saffron Lim
  */
 
- @SuppressWarnings("rawtypes")
+@SuppressWarnings("rawtypes")
 public class PasswordController {
+
+
 
 	/**
 	 * This function checks the login credentials of the user such as whether information like 
@@ -25,9 +30,7 @@ public class PasswordController {
 	 * 1: login is successful).
 	 */
 	public static int checkCredentials(EmployeeType empType, String inputPassw, String inputUserID) {
-		boolean isIDCorrect = false;
-		boolean isUserTypeCorrect = false;
-		boolean isPWCorrect = false;
+		boolean isUserValid = false;
 
 		try {
 			ArrayList employeeList = TextDBStaff.readEmployee("EmployeeRepo.txt");
@@ -35,12 +38,10 @@ public class PasswordController {
 
 			for (int i = 0; i < employeeList.size(); i++) {
 				emp = (User)employeeList.get(i);
-				isIDCorrect = emp.getLoginID().equals(inputUserID);
-				isUserTypeCorrect = emp.getEmployeeType() == empType;
-				if(isIDCorrect && isUserTypeCorrect)
+				isUserValid = CredentialsValidator.checkUserValidity(emp, empType, inputUserID);
+				if(isUserValid)
 				{
-					isPWCorrect = emp.getPassword().equals(inputPassw);
-					if(isPWCorrect) return 1; //successful login
+					if(CredentialsValidator.checkPassW(emp, inputPassw)) return 1; //successful login
 					else return 0; //wrong password
 				}
 			}
@@ -58,9 +59,25 @@ public class PasswordController {
 	 * @param User
 	 * @param String
 	 */
-	public void changePassword(int User, int String) {
+	public void changePassword(String userID) {
 		// TODO - implement PasswordController.changePassword
-		throw new UnsupportedOperationException();
+		boolean isValid = false;
+
+		while(isValid == false)
+		{
+			ChangePassword.dispChangePassword();
+			String newPassword = AttributeGetter.getPassword();
+			if(newPassword != "password")
+			{
+				isValid = CredentialsValidator.newPasswordValidator(newPassword);
+				ChangePassword.dispSuccess();
+				return;
+			}
+			else
+			{
+				ChangePassword.dispDefaultPasswordErr();
+			}
+		}
 	}
 
 }

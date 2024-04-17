@@ -5,7 +5,6 @@ import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
-import Others.TextDB;
 import Others.TextDBStaff;
 import Boundary.AttributeGetter;
 import Boundary.LogOutUI;
@@ -115,6 +114,13 @@ public class AccountController {
 			// login successful
 			if (loginResult == 1) 
 			{
+				if(password.equals("password"))
+				{
+					//call change password
+
+					//once successful, return back to main page.
+					return;
+				}
 				System.out.println("Success! Welcome " + userID + "!");
 				//GO TO STAFF MAIN PAGE
 				if (employeeType == EmployeeType.S) { 
