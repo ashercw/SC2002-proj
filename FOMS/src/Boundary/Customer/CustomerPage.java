@@ -87,7 +87,7 @@ public class CustomerPage {
     }
 
     /**
-     * Displays available branches and allows the user to select one to browse
+     * Displays available branches and allows the customer to select one to browse
      * further.
      * @return String representing the customer's selected branch.
      */
@@ -120,7 +120,7 @@ public class CustomerPage {
 
 
     /**
-     * Prints out the menu to allow customer to track order
+     * Prints out the menu to allow customer to track their order.
      */
     public static void trackOrderDisplay()
     {
@@ -130,6 +130,10 @@ public class CustomerPage {
 
         // allow customer to select branch in order to track ID
         String custBranch = branchBrowsing();
+
+        // READ ME !!!!!!!!!!!!!!!!!!!!!
+        // below should be implemented in OrderController but im writing it here
+        // so i remember -saff
 
         // read orderByBranchRepo (orderByBranchRepo) is not done
         // check if orderByBranchRepo is empty
