@@ -9,6 +9,9 @@ import Entity.Order.OrderLine;
 import Entity.Order.OrderStatus;
 import Entity.Order.OrderType;
 import Entity.Order.Customisation;
+/***
+    @author Elbert Gunawan
+*/
 
 public class OrderController {
     Scanner scanner = new Scanner(System.in);
@@ -42,10 +45,10 @@ public class OrderController {
                 double newTotalPrice = calculateTotalPrice(orderLines);
                 orderUpdate.setTotalPrice(newTotalPrice);
             }else{
-                System.out.println("No OrderLine items found to update.");
+                return;
             }
         }else{
-            System.out.println("Order ID not found.");
+            return;
         }
 }
 
@@ -63,7 +66,7 @@ public class OrderController {
         if(OrderCancel != null){
             Orders.remove(orderID);
         }else{
-            System.out.println("Order not found!");
+            return;
         }
     }
     public void displayOrder(int orderID){
@@ -83,7 +86,7 @@ public class OrderController {
                 line.getitemQuanity();
             }
         }else{
-            System.out.println("Order not found!");
+            return;
         }
     }
 
@@ -95,10 +98,10 @@ public class OrderController {
                 OrderLine orderLine = orderLines.get(orderID);  // Get the specific order line
                 orderLine.setCustomisation(customisation);  // Set the new customization for the order line
             }else{
-                System.out.println("Order not in queue!");
+                return;
             }
         }else{
-            System.out.println("Order not found!");
+            return;
         }
     }
 }
