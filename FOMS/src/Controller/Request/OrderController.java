@@ -16,13 +16,8 @@ public class OrderController {
     String moreItems = "1";
     
     public void addOrder(OrderLine orderLine){
-        System.out.println("Enter order status");
         OrderStatus orderStatus = OrderStatus.valueOf(scanner.nextLine().toUpperCase());
-
-        System.out.println("Enter order type");
         OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
-
-        System.out.println("Enter Branch (NTU, JP, JE)");
         String branchName = scanner.nextLine();
 
         List<OrderLine> orderLines = new ArrayList<>();
@@ -32,7 +27,6 @@ public class OrderController {
 
         Order newOrder = new Order(orderStatus, orderType, totalPrice, orderLines, orderLines.size(), branchName);
         Orders.put(newOrder.getOrderID(), newOrder);
-        System.out.println("Order added successfully. Order ID: " + newOrder.getOrderID());
     }
 
     public void updateOrder(OrderLine updatedOrderLine){
@@ -47,9 +41,8 @@ public class OrderController {
                 orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getitemQuanity());
                 double newTotalPrice = calculateTotalPrice(orderLines);
                 orderUpdate.setTotalPrice(newTotalPrice);
-                System.out.println("OrderLine updated successfully.");
             }else{
-            System.out.println("No OrderLine items found to update.");
+                System.out.println("No OrderLine items found to update.");
             }
         }else{
             System.out.println("Order ID not found.");
@@ -76,19 +69,18 @@ public class OrderController {
     public void displayOrder(int orderID){
         Order displayOrderID = Orders.get(orderID);
         if(displayOrderID != null){
-            System.out.println("Order ID: " + displayOrderID.getOrderID());
-            System.out.println("Branch Name: " + displayOrderID.getBranchName());
-            System.out.println("Order Status: " + displayOrderID.getOrderStatus());
-            System.out.println("Order Type: " + displayOrderID.getOrderType());
-            System.out.println("Total Price: $" + displayOrderID.getTotalPrice());
-            System.out.println("Total Items: " + displayOrderID.getOrderQuantity());
+            displayOrderID.getOrderID();
+            displayOrderID.getBranchName();
+            displayOrderID.getOrderStatus();
+            displayOrderID.getOrderType();
+            displayOrderID.getTotalPrice();
+            displayOrderID.getOrderQuantity();
 
             List<OrderLine> orderLines = displayOrderID.getOrderLine();
-            System.out.println("Items in Order:");
             for (OrderLine line : orderLines) {
-                System.out.println(" - Item Name: " + line.getItem().getName());
-                System.out.println("   Price: $" + line.getItem().getFoodItemPrice());
-                System.out.println("   Quantity: " + line.getitemQuanity());
+                line.getItem().getName();
+                line.getItem().getFoodItemPrice();
+                line.getitemQuanity();
             }
         }else{
             System.out.println("Order not found!");
@@ -102,7 +94,6 @@ public class OrderController {
             if (orderID >= 0 && orderID < orderLines.size()) {
                 OrderLine orderLine = orderLines.get(orderID);  // Get the specific order line
                 orderLine.setCustomisation(customisation);  // Set the new customization for the order line
-                System.out.println("Order ID " + orderID + " has been customized to " + customisation + ".");
             }else{
                 System.out.println("Order not in queue!");
             }
