@@ -2,103 +2,112 @@ package Controller.Request;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-
-import Entity.Food.FoodItem;
-import Entity.Food.ItemType; // If ItemType is used for setting the type of food items.
-import Entity.Order.Customisation;
+import java.util.Map;
+import java.util.HashMap;
 import Entity.Order.Order;
 import Entity.Order.OrderLine;
-import Entity.Order.OrderStatus; // If setting the order status upon creation.
-import Entity.Order.OrderType; // For handling different types of orders (DINE-IN, TAKEAWAY).
-import Controller.Request.OrderController; 
-
-
+import Entity.Order.OrderStatus;
+import Entity.Order.OrderType;
+import Entity.Order.Customisation;
 
 public class OrderController {
-    private List<Order> orders = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
+    private Map<Integer, Order> Orders = new HashMap<>();
+    String moreItems = "1";
+    
+    public void addOrder(OrderLine orderLine){
+        System.out.println("Enter order status");
+        OrderStatus orderStatus = OrderStatus.valueOf(scanner.nextLine().toUpperCase());
 
-    public Order placeOrder(List<OrderLine> orderLines, OrderType orderType) {
-        double totalPrice = 0;
-        for (OrderLine line : orderLines) {
-            totalPrice += line.getItem().getFoodItemPrice() * line.getitemQuanity();
-        }
-        //TODO:get branch name when placing order
-        Order newOrder = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLines, orderLines.size(),branchName);
-        orders.add(newOrder); // Simulating adding to a repository
-        return newOrder;
+        System.out.println("Enter order type");
+        OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
+
+        System.out.println("Enter Branch (NTU, JP, JE)");
+        String branchName = scanner.nextLine();
+
+        List<OrderLine> orderLines = new ArrayList<>();
+        orderLines.add(orderLine);
+
+        double totalPrice = calculateTotalPrice(orderLines);
+
+        Order newOrder = new Order(orderStatus, orderType, totalPrice, orderLines, orderLines.size(), branchName);
+        Orders.put(newOrder.getOrderID(), newOrder);
+        System.out.println("Order added successfully. Order ID: " + newOrder.getOrderID());
     }
 
-    /**
-	 * 
-	 * @param orderID
-	 */
-	public void addOrderItem(int orderID) {
-		Scanner scanner = new Scanner(System.in);
-		List<OrderLine> orderLines = new ArrayList<>();
-		String moreItems;
+    public void updateOrder(OrderLine updatedOrderLine){
+        int orderID = updatedOrderLine.getOrderId();
+        Order orderUpdate = Orders.get(orderID);
+        if(orderUpdate != null){
+            // Get the first OrderLine item
+            List<OrderLine> orderLines = orderUpdate.getOrderLine();
+            if (orderID >= 0 && orderID < orderLines.size()) {
+                OrderLine orderLineToBeUpdated = orderLines.get(orderID);
+                orderLineToBeUpdated.setItem(updatedOrderLine.getItem());
+                orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getitemQuanity());
+                double newTotalPrice = calculateTotalPrice(orderLines);
+                orderUpdate.setTotalPrice(newTotalPrice);
+                System.out.println("OrderLine updated successfully.");
+            }else{
+            System.out.println("No OrderLine items found to update.");
+            }
+        }else{
+            System.out.println("Order ID not found.");
+        }
+}
 
-		//collect order status and type before putting in new item
-		System.out.println("Enter order status (e.g., NEW, PROCESSING, COMPLETED):");
-        	OrderStatus orderStatus = OrderStatus.valueOf(scanner.nextLine().toUpperCase());
+    private double calculateTotalPrice(List<OrderLine> orderLines) {
+        double total = 0.0;
+        for (OrderLine line : orderLines) {
+            total += line.getItem().getFoodItemPrice() * line.getitemQuanity();
+        }
+        return total;
+    }
 
-        	System.out.println("Enter order type (e.g., DINE_IN, TAKE_OUT):");
-        	OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
+    public void cancelOrder(OrderLine cancel){
+        int orderID = cancel.getOrderId();
+        Order OrderCancel = Orders.get(orderID);
+        if(OrderCancel != null){
+            Orders.remove(orderID);
+        }else{
+            System.out.println("Order not found!");
+        }
+    }
+    public void displayOrder(int orderID){
+        Order displayOrderID = Orders.get(orderID);
+        if(displayOrderID != null){
+            System.out.println("Order ID: " + displayOrderID.getOrderID());
+            System.out.println("Branch Name: " + displayOrderID.getBranchName());
+            System.out.println("Order Status: " + displayOrderID.getOrderStatus());
+            System.out.println("Order Type: " + displayOrderID.getOrderType());
+            System.out.println("Total Price: $" + displayOrderID.getTotalPrice());
+            System.out.println("Total Items: " + displayOrderID.getOrderQuantity());
 
-		//when adding order items
-		while(moreItems.equalsIgnoreCase("Y")){
-			System.out.println("Add new item :");
-			String Item = scanner.nextLine();
-			FoodItem fooditem = new FoodItem(newItem); //????
+            List<OrderLine> orderLines = displayOrderID.getOrderLine();
+            System.out.println("Items in Order:");
+            for (OrderLine line : orderLines) {
+                System.out.println(" - Item Name: " + line.getItem().getName());
+                System.out.println("   Price: $" + line.getItem().getFoodItemPrice());
+                System.out.println("   Quantity: " + line.getitemQuanity());
+            }
+        }else{
+            System.out.println("Order not found!");
+        }
+    }
 
-			System.out.println("Enter quantity: ");
-			int quantity = scanner.nextInt();
-
-			//customisation of item
-			System.out.println("Customise? (YESCUSTOM/NOCUSTOM)");
-			Customisation customise = Customisation.valueOf(scanner.nextLine().toUpperCase());
-			String newCustomise = "";
-			if(customise.equals(Customisation.YESCUSTOM)){
-				System.out.println("Describe the customization:");
-            			newCustomise = scanner.nextLine();
-			}
-			
-			OrderLine orderline = new OrderLine(fooditem, quantity, customise, newCustomise);
-			orderLines.add(orderline);
-			System.out.println("Add more items? (Y/N)");
-			moreItems = scanner.nextLine();
-		}
-        	int orderQuantity = Integer.parseInt(scanner.nextLine());
-		double newPrice = calculateTotalPrice();
-		orderID++;
-		Order newOrder = new Order(orderStatus, orderType, newPrice, orderLines, orderQuantity, orderID);
-		Orders.put(newOrder.getOrderID(), newOrder);
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param orderID
-	 */
-	public void deleteOrderItem(int orderID) {
-		// TODO - implement OrderUI.deleteOrderItem
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param orderID
-	 */
-	public void editOrderItem(int orderID) {
-		// TODO - implement OrderUI.editOrderItem
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param orderID
-	 */
-	public void generateOrderDetails(int orderID) {
-		// TODO - implement OrderUI.generateOrderDetails
-		throw new UnsupportedOperationException();
-	}
+    public void customizeOrder(int orderID, Customisation customisation) {
+        Order order = Orders.get(orderID);  // Retrieve the order using the order ID
+        if (order != null) {
+            List<OrderLine> orderLines = order.getOrderLine();
+            if (orderID >= 0 && orderID < orderLines.size()) {
+                OrderLine orderLine = orderLines.get(orderID);  // Get the specific order line
+                orderLine.setCustomisation(customisation);  // Set the new customization for the order line
+                System.out.println("Order ID " + orderID + " has been customized to " + customisation + ".");
+            }else{
+                System.out.println("Order not in queue!");
+            }
+        }else{
+            System.out.println("Order not found!");
+        }
+    }
 }
