@@ -2,20 +2,36 @@ package Boundary;
 
 import Entity.Order.Order;
 import Entity.Order.OrderStatus;
+import Entity.User.Staff;
+import Entity.User.User;
 import Others.IO;
+import Others.TextDBStaff;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StaffMainPage {
 
- private String staffID;
+ private Staff staff;
  private List<Order> orders; 
 
  public StaffMainPage(String staffID) {
-    //TO-DO: instantiate staff obj?
-        this.staffID = staffID;
-        this.orders = new ArrayList<>(); 
+        this.orders = new ArrayList<Order>(); 
+        try {
+			ArrayList employeeList = TextDBStaff.readEmployee("EmployeeRepo.txt");
+            User emp = new User();
+
+			for (int i = 0; i < employeeList.size(); i++) {
+				emp = (User)employeeList.get(i);
+				if (emp.getLoginID() == staffID) {
+                    staff = (Staff)emp;
+                    break;
+                }
+			}
+		} catch (IOException e) {
+			System.out.println("IOException > " + e.getMessage());
+		}
     }
 
  public void displayStaffMainPage() {
@@ -59,13 +75,9 @@ public class StaffMainPage {
     }
  }
 
- // Method to simulate adding orders to the list (for demonstration purposes)
-    public void addOrder(Order order) {
-        orders.add(order);
-    }
-
     // Display orders that are new
     public void displayNewOrders() {
+        // TODO: switch to OrderByBranchRepo
         System.out.println("New Orders:");
         for (Order order : orders) {
             System.out.println("Order ID: " + order.getOrderID());
@@ -92,13 +104,33 @@ public class StaffMainPage {
         System.out.println("Order with ID " + orderId + " not found or not in a 'new' status.");
     }
 
+    public void trackOrderStatus(int orderID){
+        for (Order order : orders) {
+            if (order.getOrderID() == orderID) {
+                switch(order.getOrderStatus()){
+                    case ORDERPLACED:
+                        System.out.println("The order is placed.");
+                        break;
+                    case PROCESSING:
+                        System.out.println("The order is processing.");
+                        break;
+                    case READY:
+                        System.out.println("The order is ready.");
+                        break;
+                    case COLLECTED:
+                        System.out.println("The order is collected.");
+                        break;
+                    case DISCARDED:
+                        System.out.println("The order is discarded.");
+                        break;
+                }
+                return;
+            }
+        }
+    }
+
     // Getters and Setters
     public String getStaffID() {
-        return staffID;
+        return staff.getLoginID();
     }
-
-    public void setStaffID(String staffID) {
-        this.staffID = staffID;
-    }
-
 }
