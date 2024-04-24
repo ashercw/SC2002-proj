@@ -9,13 +9,12 @@ import Entity.Branch;
 import java.util.*;
 
 public class AdminMainPage {
-	Scanner scanner = new Scanner(System.in);
-	private String adminID;
-	private AdminController adminController;
+	static Scanner scanner = new Scanner(System.in);
+	private static AdminController adminController;
 
 	// Constructor
 	public AdminMainPage(AdminController adminController) {
-		this.adminController = adminController;
+		AdminMainPage.adminController = adminController;
 	}
 
 	public void displayAdminMainPage() {
@@ -35,7 +34,6 @@ public class AdminMainPage {
 			System.out.println("10. Display Staff List.");
 			System.out.println("0. Exit.");
 			System.out.print("Please enter your choice (from 0 to 10): ");
-			Scanner scanner = new Scanner(System.in);
 			choice = scanner.nextInt();
 
 			switch (choice) {
@@ -78,121 +76,113 @@ public class AdminMainPage {
 		} while (choice != 0);
 	}
 
-	private void addStaff() {
-		System.out.println("===== Add Staff =====");
-		System.out.print("Enter username: ");
-		String username = scanner.nextLine();
-		System.out.print("Enter password: ");
-		String password = scanner.nextLine();
-		System.out.print("Enter name: ");
-		String name = scanner.nextLine();
-		System.out.print("Enter age: ");
-		String age = scanner.nextLine();
-		System.out.print("Enter gender (M/F): ");
-		String genderStr = scanner.nextLine();
-		String gender = String.valueOf(genderStr.toUpperCase());
-		System.out.print("Enter branch: ");
-		String branch = scanner.nextLine();
-		System.out.print("Enter role (STAFF/MANAGER): ");
-		String roleStr = scanner.nextLine();
-		EmployeeType role = EmployeeType.valueOf(roleStr.toUpperCase());
-		adminController.addStaff(username, password, name, age, gender, branch, role);
-	}
+	private static void addStaff() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter age: ");
+        String age = scanner.nextLine();
+        System.out.print("Enter gender: ");
+        String gender = scanner.nextLine();
+        System.out.print("Enter branch: ");
+        String branch = scanner.nextLine();
+        System.out.print("Enter role: ");
+        String roleStr = scanner.nextLine();
+        EmployeeType role = EmployeeType.valueOf(roleStr.toUpperCase());
 
-	public void editStaff() {
-		System.out.println("Enter the ID of the staff to edit:");
-		String userId = scanner.nextLine();
+        boolean added = adminController.addStaff(username, password, name, age, gender, branch, role);
+        if (added) {
+            System.out.println("Staff added successfully.");
+        } else {
+            System.out.println("Failed to add staff.");
+        }
+    }
 
-		System.out.println("Enter the new name:");
-		String newName = scanner.nextLine();
+	private static void editStaff() {
+        System.out.print("Enter user ID: ");
+        String userId = scanner.nextLine();
+        System.out.print("Enter new name: ");
+        String newName = scanner.nextLine();
+        System.out.print("Enter new age: ");
+        String newAge = scanner.nextLine();
+        System.out.print("Enter new gender: ");
+        String newGender = scanner.nextLine();
+        System.out.print("Enter new role: ");
+        String newRoleStr = scanner.nextLine();
+        EmployeeType newRole = EmployeeType.valueOf(newRoleStr.toUpperCase());
+        System.out.print("Enter new branch: ");
+        String newBranch = scanner.nextLine();
 
-		System.out.println("Enter the new age:");
-		int newAge = Integer.parseInt(scanner.nextLine());
+        adminController.editStaff(userId, newName, newAge, newGender, newRole, newBranch);
+    }
 
-		System.out.println("Enter the new gender (M/F):");
-		Gender newGender = Gender.valueOf(scanner.nextLine().toUpperCase());
+    private static void removeStaff() {
+        System.out.print("Enter user ID: ");
+        String userId = scanner.nextLine();
 
-		System.out.println("Enter the new role (STAFF/MANAGER/ADMIN):");
-		EmployeeType newRole = EmployeeType.valueOf(scanner.nextLine().toUpperCase());
-
-		System.out.println("Enter the new branch:");
-		String newBranch = scanner.nextLine();
-
-		adminController.editStaff(userId, newName, newAge, newGender, newRole, newBranch);
-	}
-
-	private void removeStaff() {
-		System.out.println("Enter the ID of the staff member to remove:");
-		String userId = scanner.next();
-		scanner.nextLine();
-		adminController.removeStaff(userId);
-	}
+        adminController.removeStaff(userId);
+    }
 
 	private void assignManagerToBranch() {
 		System.out.println("Enter the ID of the manager:");
 		String managerId = scanner.next();
 		System.out.println("Enter the name of the branch:");
 		String branchName = scanner.next();
-
-		adminController.assignManagerToBranch(managerId, null, branchName);// i think this is wrong
+		System.out.println("Enter the type of the branch:");
+		String branchType = scanner.next();
+	
+		adminController.assignManagerToBranch(managerId, branchName, branchType);
 	}
-
+	
 	private void promoteToBranchManager() {
 		System.out.println("Enter the ID of the staff member to promote:");
 		String staffId = scanner.next();
 		System.out.println("Enter the name of the branch:");
 		String branchName = scanner.next();
-		System.out.println("Enter the role of the promoted manager (S/M/A):");
+		System.out.println("Enter the role of the promoted manager (STAFF/MANAGER/ADMIN):");
 		String managerRoleStr = scanner.next();
 		EmployeeType managerRole = EmployeeType.valueOf(managerRoleStr.toUpperCase());
-
+	
 		adminController.promoteStaffToManager(staffId, branchName, managerRole);
 	}
-
+	
 	private void transferUserToBranch() {
 		System.out.println("Enter the ID of the user to transfer:");
 		String userId = scanner.next();
-
+	
 		System.out.println("Enter the name of the new branch:");
 		String newBranchName = scanner.next();
-
+	
 		System.out.println("Enter the name of the current branch:");
 		String currentBranchName = scanner.next();
-
-		Branch newBranch = adminController.getBranchByName(newBranchName);
-		Branch currentBranch = adminController.getBranchByName(currentBranchName);
-
-		if (newBranch == null || currentBranch == null) {
-			System.out.println("One of the branches does not exist.");
-			return;
-		}
-
-		adminController.transferUserToBranch(userId, newBranch, currentBranch);
+	
+		adminController.transferUserToBranch(userId, newBranchName, currentBranchName);
 	}
 	
+	
 	private void addPaymentMethod() {
-		System.out.println("Enter the ID of the user:");
-		String userId = scanner.next();
 		System.out.println("Enter the payment method:");
 		String paymentMethod = scanner.next();
-
-		adminController.addPaymentMethod(userId, paymentMethod);
-	}
-
-	private void openBranch() {
+	
+		adminController.addPaymentMethod(paymentMethod);
+	}	
+	 
+	 private void openBranch() {
 		System.out.println("Enter the name of the branch to open:");
 		String branchName = scanner.next();
 		adminController.openBranch(branchName);
 	}
-
+	
 	private void closeBranch() {
 		System.out.println("Enter the name of the branch to close:");
 		String branchName = scanner.next();
 		adminController.closeBranch(branchName);
 	}
-
+	
 	private void displayStaffList() {
-		Scanner scanner = new Scanner(System.in);
 		System.out.println("===== Display Staff List =====");
 		System.out.println("Choose filter criterion:");
 		System.out.println("1. Gender");
@@ -212,17 +202,17 @@ public class AdminMainPage {
 				filterValue = scanner.nextLine();
 				break;
 			case 3:
-				System.out.print("Enter role (S/M/A/All): ");
+				System.out.print("Enter role (STAFF/MANAGER/ADMIN/All): ");
 				filterValue = scanner.nextLine().toUpperCase();
 				break;
 			default:
 				System.out.println("Invalid choice.");
 				return;
 		}
-
+	
 		System.out.print("Sort by age? (true/false): ");
 		boolean sortByAge = scanner.nextBoolean();
-
+	
 		adminController.displayStaffList(filterChoice, filterValue, sortByAge);
-	}
+	}	
 }
