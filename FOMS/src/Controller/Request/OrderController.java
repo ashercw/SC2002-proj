@@ -356,10 +356,11 @@ public class OrderController {
         if (custOrder.getOrderStatus() == OrderStatus.READY) {
             System.out.println("Your order is ready for collection! Collect order? (1) Yes (2) No");
             int collectOrder = IO.userInputInt();
-            if (collectOrder != 1 || collectOrder != 2)
+            if (collectOrder < 1 && collectOrder > 2)
                 System.out.println("Wrong input!");
             else if (collectOrder == 1) {
                 updateOrderStatus(userOrderID, OrderStatus.COLLECTED);
+                System.out.println("Thank you for collecting your order! Enjoy your meal!");
                 return;
             }
         } else {

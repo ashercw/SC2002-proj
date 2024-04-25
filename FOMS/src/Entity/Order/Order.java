@@ -1,6 +1,7 @@
 package Entity.Order;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Order implements Serializable{
 	private int orderID;
 	private String branchName;
 	private static int totalOrder = 0;
+	private LocalTime placeOrderTime;
 	
 	
 	//constructor
