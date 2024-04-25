@@ -149,6 +149,18 @@ public class MenuControllerTemp {
 	public static void addToFoodRepo(String name, double price, String branch, ItemType itemType, String desc)
 			throws IOException {
 		try {
+			ArrayList currentFood = TextDBFood.readFoodList("FoodItemRepo.txt");
+			for(int i = 0; i < currentFood.size(); i++)
+			{
+				FoodItem foodObj = (FoodItem) currentFood.get(i);
+				String foodBranch = foodObj.getFoodItemBranch();
+				String foodName = foodObj.getFoodItemName();
+				if(foodBranch.equals(branch) && foodName.equals(name))
+				{
+					System.out.println("Error! Cannot add duplicate items to the same menu!");
+					return;
+				}
+			}
 			List<FoodItem> foodItems = TextDBFood.readFoodList("FoodItemRepo.txt");
 			FoodItem newFoodItem = new FoodItem(name, price, branch, itemType, desc);
 			foodItems.add(newFoodItem);
