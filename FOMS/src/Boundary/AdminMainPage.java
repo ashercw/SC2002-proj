@@ -1,6 +1,7 @@
 package Boundary;
 
 import Entity.Order.Payment;
+import Entity.User.Admin;
 import Entity.User.EmployeeType;
 
 import java.io.IOException;
@@ -26,23 +27,17 @@ public class AdminMainPage {
 	private String userID;
 
 	/**
-	 * Constructs an AdminMainPage object with the specified AdminController.
-	 * 
-	 * @param adminController The AdminController to handle administrative requests.
-	 */
-	// Constructor
-	public AdminMainPage(AdminController adminController) {
-		AdminMainPage.adminController = adminController;
-	}
-
-	/**
 	 * Constructs an AdminMainPage object with the specified user ID.
 	 * 
 	 * @param userID The user ID of the administrator.
 	 */
+	// Constructor
 	public AdminMainPage(String userID) {
 		this.userID = userID;
+		AdminController adminController = new AdminController();
 	}
+
+
 
 	/**
 	 * Displays the main menu for the admin user interface and handles user input.
@@ -67,6 +62,7 @@ public class AdminMainPage {
 			System.out.println("0. Exit.");
 			System.out.print("Please enter your choice (from 0 to 10): ");
 			choice = scanner.nextInt();
+			System.out.println("USER CHOICE " + choice);
 			scanner.nextLine();
 
 			switch (choice) {
@@ -80,6 +76,7 @@ public class AdminMainPage {
 					removeStaff();
 					break;
 				case 4:
+					System.out.println("option 4");
 					assignManagerToBranch();
 					break;
 				case 5:
@@ -131,7 +128,7 @@ public class AdminMainPage {
 		}
 		String password = AttributeGetter.getPassword();
 
-		boolean added = adminController.addStaff(name, loginID, role, gender, age, branch, password);
+		boolean added = AdminController.addStaff(name, loginID, role, gender, age, branch, password);
 		if (added) {
 			System.out.println("Staff added successfully.");
 		} else {
@@ -143,10 +140,7 @@ public class AdminMainPage {
 	 * Edits the information of an existing staff member.
 	 */
 	private static void editStaff() {
-		scanner.nextLine();
-		System.out.print("Enter staff login ID: ");
 		String loginID = scanner.nextLine();
-
 		String newName = AttributeGetter.getName();
 		String newAge = AttributeGetter.getAge();
 		String newGender = AttributeGetter.getGender();
@@ -159,19 +153,16 @@ public class AdminMainPage {
 			return;
 		}
 
-		adminController.editStaff(loginID, newName, newAge, newGender, newRole, newBranch);
+		AdminController.editStaff(loginID, newName, newAge, newGender, newRole, newBranch);
 	}
 
 	/**
 	 * Removes a staff member based on Admin's input.
 	 */
 	private static void removeStaff() {
-		scanner.nextLine();
-
-		System.out.println("Enter user ID:");
 		String userId = AttributeGetter.getUserID();
 
-		adminController.removeStaff(userId);
+		AdminController.removeStaff(userId);
 	}
 
 	/**
@@ -180,16 +171,13 @@ public class AdminMainPage {
 	 * @throws IOException If an I/O error occurs.
 	 */
 	private void assignManagerToBranch() throws IOException {
-		scanner.nextLine();
 
-		System.out.println("Enter the ID of the manager:");
 		String managerId = AttributeGetter.getUserID();
-		System.out.println("Enter the name of the branch:");
+		System.out.println("In admin main page " +managerId);
 		String branchName = AttributeGetter.getBranch();
-		System.out.println("Enter the type of the branch:");
-		String branchType = scanner.next();
 
-		adminController.assignManagerToBranch(managerId, branchName, branchType);
+		System.out.println("In admin main page " +branchName);
+		AdminController.assignManagerToBranch(managerId, branchName);
 	}
 
 	/**
@@ -207,7 +195,7 @@ public class AdminMainPage {
 		System.out.println("Enter the role of the promoted manager (STAFF/MANAGER/ADMIN):");
 		EmployeeType managerRole = AttributeGetter.getEmpType();
 
-		adminController.promoteStaffToManager(staffId, branchName, managerRole);
+		AdminController.promoteStaffToManager(staffId, branchName, managerRole);
 	}
 
 	/**
@@ -225,7 +213,7 @@ public class AdminMainPage {
 		System.out.println("Enter the name of the current branch:");
 		String currentBranchName = AttributeGetter.getBranch();
 
-		adminController.transferUserToBranch(userId, newBranchName, currentBranchName);
+		AdminController.transferUserToBranch(userId, newBranchName, currentBranchName);
 	}
 
 	/**
@@ -243,7 +231,7 @@ public class AdminMainPage {
 		try {
 			@SuppressWarnings("unchecked")
 			Class<? extends Payment> paymentClass = (Class<? extends Payment>) Class.forName(paymentClassName);
-			adminController.addPaymentMethod(paymentMethod, paymentClass);
+			AdminController.addPaymentMethod(paymentMethod, paymentClass);
 			System.out.println("Payment method added successfully.");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Invalid class name. Payment method not added.");
@@ -261,7 +249,7 @@ public class AdminMainPage {
 		System.out.println("Enter the name of the branch to open:");
 		String branchName = AttributeGetter.getBranch();
 
-		adminController.openBranch(branchName);
+		AdminController.openBranch(branchName);
 	}
 
 	/**
@@ -274,7 +262,7 @@ public class AdminMainPage {
 
 		System.out.println("Enter the name of the branch to close:");
 		String branchName = AttributeGetter.getBranch();
-		adminController.closeBranch(branchName);
+		AdminController.closeBranch(branchName);
 	}
 
 	/**
@@ -313,6 +301,6 @@ public class AdminMainPage {
 		System.out.print("Sort by age? (true/false): ");
 		boolean sortByAge = scanner.nextBoolean();
 
-		adminController.displayStaffList(filterChoice, filterValue, sortByAge);
+		AdminController.displayStaffList(filterChoice, filterValue, sortByAge);
 	}
 }
