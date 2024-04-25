@@ -10,6 +10,13 @@ import Entity.Food.*;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class TextDBFood extends TextDB{
 
+    /**
+     * This function reads the food items from a given .txt file and returns them as an ArrayList of objects.
+     * @param FILENAME String representing the filepath of the .txt file to read from.
+     * @return an ArrayList of objects.
+     * @throws IOException
+     * 
+     */
     public static ArrayList readFoodList(String FILENAME) throws IOException {
         // read String from text file
         ArrayList stringArray = (ArrayList) read(FILENAME);
