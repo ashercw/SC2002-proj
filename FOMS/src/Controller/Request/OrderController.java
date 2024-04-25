@@ -103,24 +103,31 @@ public class OrderController {
 
         Order orderObj = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLinesList, orderQuant, branch);
         displayOrder(orderObj);
-        ordersList.add(orderObj);
+        
         int isConfirm = confirmOrder();
         if (isConfirm == 1) {
             // proceed to payment
+            ordersList.add(orderObj);
         } else if (isConfirm == 2) {
             // update order
+            ordersList.add(updateOrder(orderObj));
 
         } else if (isConfirm == 3) {
             // delete order
             System.out.println("Deleting order... proceeding back to customer page");
             return;
         }
+        
+
         TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
+        /*List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        Order obj = (Order) orderObjL.get(0);
+        System.out.println("NEW PRICE "+ obj.getTotalPrice());*/
 
     }
 
     public static int confirmOrder() {
-        int userInput = 0;
+        int userInput = 1;
         while (userInput >= 1 && userInput <= 3) {
             System.out.println("Please confirm the above order: (1) Confirm Order (2) Update Order (3) Delete Order");
             userInput = IO.userInputInt();
@@ -135,49 +142,67 @@ public class OrderController {
         // update order
         ArrayList orderLineList = orderObj.getOrderLine();
         int userInput = 0;
-        int updateInput = 0;
+        int updateInput = 1;
         displayOrderLineList(orderLineList);
-        while (userInput != -1) {
-            System.out.println("Which item would you like to update?");
+        while (userInput != -1) 
+        {
+            //choose item to update 
+            System.out.println("Which item would you like to update? Quit: (-1)");
             userInput = IO.userInputInt();
-            if (userInput > orderLineList.size() || userInput < 1)
+            if(userInput == -1) break;
+            updateInput = 1;
+            if (userInput > orderLineList.size() || userInput < 1) //check if item exists 
                 System.out.println("Item does not exist! Please try again.");
-            else {
+
+            else //carry on
+            {
                 OrderLine orderL = (OrderLine) orderLineList.get(userInput - 1);
-                while (updateInput >= 1 && updateInput <= 3) {
+                while (updateInput >= 1 && updateInput <= 3) 
+                {
+                    //update menu
                     System.out.println("Update " + orderL.getItem().getFoodItemName());
                     System.out.println("1) Delete item");
                     System.out.println("2) Update Quantity");
                     System.out.println("3) Update Customisation");
+                    System.out.println("[-1] Quit");
                     updateInput = IO.userInputInt();
                     if(updateInput == 1)
                     {
                         orderLineList.remove(userInput-1);
                     }
-                    else
+                    else if(updateInput == 2)
                     {
-                        orderL = updateItem(orderL, updateInput);
+                        //update quantity
+                        System.out.println("Enter new quantity: ");
+                        int newQuant = IO.userInputInt();
+                        orderL.setItemQuantity(newQuant);
+                        orderObj.setTotalPrice(calcNewTotal(orderLineList));
+                    }
+                    else if(updateInput == 3)
+                    {
+                        //update customisation
+                        System.out.println("Enter new customisation: ");
+                        String newCust = IO.userInpuString();
+                        orderL.setCustomisation(newCust);
                     }
                 }
             }
         }
-
+        displayOrder(orderObj);
         return orderObj;
     }
 
-    public static OrderLine updateItem(OrderLine orderL, int choice) 
+    public static double calcNewTotal(ArrayList orderLineList)
     {
-
-        // TO DO:
-        if(choice == 2)
+        double sum = 0;
+        for(int i = 0; i < orderLineList.size(); i++)
         {
-            //update quantity
+            OrderLine orderL = (OrderLine) orderLineList.get(i);
+            sum += orderL.getItemTotPrice();
         }
-        else if(choice == 3)
-        {
-            //update customisation
-        }
+        return sum;
     }
+
 
     public static void displayOrderLineList(ArrayList orderLineList) {
         for (int i = 0; i < orderLineList.size(); i++) {

@@ -56,6 +56,7 @@ public class OrderLine implements Serializable{
 
     public void setItemQuantity(int itemQuantity) {
         this.itemQuantity = itemQuantity;
+        this.itemTotal = this.itemQuantity*(getItem().getFoodItemPrice());
     }
 
     public String getCustomisation() {

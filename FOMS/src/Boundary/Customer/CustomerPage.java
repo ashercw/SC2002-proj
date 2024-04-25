@@ -75,7 +75,6 @@ public class CustomerPage {
                 }
             } else if (userChoice == 2) // allow customer to track order
             {
-                System.out.println("Continue as customer...");
                 IO.printNewLine(5);
             } else if (userChoice == 3) { // Exit page
                 System.out.println("Exiting page...");
