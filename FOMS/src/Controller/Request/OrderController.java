@@ -1,4 +1,5 @@
 package Controller.Request;
+
 import java.util.Scanner;
 import java.util.List;
 import java.io.IOException;
@@ -14,8 +15,8 @@ import Entity.Order.OrderType;
 import Others.IO;
 import Others.TextDBOrder;
 /***
-    @author Elbert Gunawan and Christian Asher Widjaja
-*/
+ * @author Elbert Gunawan, Saffron Lim and Christian Asher Widjaja
+ */
 
 public class OrderController {
     Scanner scanner = new Scanner(System.in);
@@ -62,9 +63,6 @@ public class OrderController {
             if(userInputItem == -1 ) break;
             FoodItem food = new FoodItem();
             food = (FoodItem) menuList.get(userInputItem-1);
-            
-
-            
 
             System.out.print("Enter the item quanity: ");
 
@@ -100,12 +98,61 @@ public class OrderController {
 
 
         Order orderObj = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLinesList, orderQuant, branch);
+        displayOrder(orderObj);
+        // TO DO
+        // CONFIRM ORDER: IF YES PROCEED TO PAYMENT
+        // IF NO UPDATE ORDER
+        // CONFIRM AGAIN
         ordersList.add(orderObj);
         TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
         
 
+    }
+
+    public static void displayOrder(Order orderObj)
+    {
+        IO.printNewLine(2);
+        IO.displayDivider();
+        System.out.println("\t\tYOUR ORDER");
+        IO.displayDivider();
+
+        System.out.format("%-15s", "Order ID:");
+		System.out.println("Branch:");
+
+        System.out.format("%-15s", orderObj.getOrderID());
+		System.out.println(orderObj.getBranchName());
+
+        System.out.format("%-15s", "Total Price:");
+		System.out.println("No. of Items:");
+
+        System.out.format("$%-15.2f", orderObj.getTotalPrice());
+		System.out.println(orderObj.getOrderQuantity());
+
+        System.out.format("%-15s", "Order Type:");
+		System.out.println("Order Status");
         
-        
+        System.out.format("%-15s", orderObj.getOrderType());
+		System.out.println(orderObj.getOrderStatus());
+        System.out.println("----------------------------------------");
+        ArrayList orderLineList = orderObj.getOrderLine();
+        for(int i = 0; i < orderLineList.size(); i++)
+        {
+            OrderLine orderL = (OrderLine) orderLineList.get(i);
+            System.out.format("%-15s", "Item:");
+		    System.out.println("No.:");
+            
+            System.out.format("%-15s", orderL.getItem().getFoodItemName());
+		    System.out.println(orderL.getItemQuantity());
+            
+            System.out.format("%-10s", "Price:");
+            System.out.format("$%.2f", orderL.getItemQuantity() * orderL.getItem().getFoodItemPrice());
+            System.out.println("\n" +orderL.getCustomisation());
+
+        }
+        IO.displayDivider();
+        IO.printNewLine(1);
+
+
     }
 
 
@@ -113,7 +160,7 @@ public class OrderController {
         //int orderID = myOrder.getOrderID();
         int orderID = updatedOrderLine.getOrderId();
         Order orderUpdate = Orders.get(orderID);
-        if(orderUpdate != null){
+        if (orderUpdate != null) {
             // Get the first OrderLine item
             List<OrderLine> orderLines = orderUpdate.getOrderLine();
             if (orderID >= 0 && orderID < orderLines.size()) {
@@ -122,13 +169,13 @@ public class OrderController {
                 orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getItemQuantity());
                 double newTotalPrice = calculateTotalPrice(orderLines);
                 orderUpdate.setTotalPrice(newTotalPrice);
-            }else{
+            } else {
                 return;
             }
-        }else{
+        } else {
             return;
         }
-}
+    }
 
     private double calculateTotalPrice(List<OrderLine> orderLines) {
         double total = 0.0;
@@ -138,19 +185,19 @@ public class OrderController {
         return total;
     }
 
-    public void cancelOrder(OrderLine cancel){
+    public void cancelOrder(OrderLine cancel) {
         int orderID = cancel.getOrderId();
         Order OrderCancel = Orders.get(orderID);
-        if(OrderCancel != null){
+        if (OrderCancel != null) {
             Orders.remove(orderID);
-        }else{
+        } else {
             return;
         }
     }
-    public void displayOrder(int orderID)
-    {
+
+    public void displayOrder(int orderID) {
         Order displayOrderID = Orders.get(orderID);
-        if(displayOrderID != null){
+        if (displayOrderID != null) {
             displayOrderID.getOrderID();
             displayOrderID.getBranchName();
             displayOrderID.getOrderStatus();
@@ -164,31 +211,32 @@ public class OrderController {
                 line.getItem().getFoodItemPrice();
                 line.getItemQuantity();
             }
-        }
-        else
-        {
+        } else {
             return;
         }
     }
 
     public void customizeOrder(int orderID, String customisation) {
-        Order order = Orders.get(orderID);  // Retrieve the order using the order ID
+        Order order = Orders.get(orderID); // Retrieve the order using the order ID
         if (order != null) {
             List<OrderLine> orderLines = order.getOrderLine();
-            if (orderID >= 0 && orderID < orderLines.size()) 
-            {
-                OrderLine orderLine = orderLines.get(orderID);  // Get the specific order line
-                orderLine.setCustomisation(customisation);  // Set the new customization for the order line
-            }
-            else
-            {
+            if (orderID >= 0 && orderID < orderLines.size()) {
+                OrderLine orderLine = orderLines.get(orderID); // Get the specific order line
+                orderLine.setCustomisation(customisation); // Set the new customization for the order line
+            } else {
                 return;
             }
-        }
-        else
-        {
+        } else {
             return;
         }
     }
-}
 
+    public Map<Integer, Order> getOrders() {
+        return this.Orders;
+    }
+
+    public Order getOrder(int orderID) {
+        return Orders.get(orderID);
+    }
+
+}

@@ -1,4 +1,5 @@
 package Boundary;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import Entity.Order.Order;
@@ -52,7 +53,7 @@ public class EmployeeOrderUI {
 
     public void displayAllOrders() {
         System.out.println("All Orders: ");
-        for (Order order : orderControl.getOrder().values()) {
+        for (Order order : orderControl.getOrders().values()) {
             if (order.getOrderStatus() == OrderStatus.ORDERPLACED) {
                 System.out.println("Order ID: " + order.getOrderID() + " Branch: " + order.getBranchName());
             }
@@ -69,7 +70,9 @@ public class EmployeeOrderUI {
             System.out.println("Total Price: $" + order.getTotalPrice());
             System.out.println("Items:");
             for (OrderLine line : order.getOrderLine()) {
-                System.out.println(" - " + line.getItem().getFoodItemName() + " x" + line.getItemQuantity() + " @ $" + line.getItem().getFoodItemPrice() + (line.getCustomisation() != null ? " Customisation: " + line.getCustomisation() : ""));
+                System.out.println(" - " + line.getItem().getFoodItemName() + " x" + line.getItemQuantity() + " @ $"
+                        + line.getItem().getFoodItemPrice()
+                        + (line.getCustomisation() != null ? " Customisation: " + line.getCustomisation() : ""));
             }
         } else {
             System.out.println("Order not found!");
@@ -93,4 +96,3 @@ public class EmployeeOrderUI {
         }
     }
 }
-

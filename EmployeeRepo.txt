@@ -1,4 +1,4 @@
-kumar Blackmore|kumarB|S|M|32|NTU|password
+kumar Blackmore|kumarB|M|M|32|NTU|ElbertChristian1#
 Alexei|Alexei|M|M|25|NTU|password
 Tom Chan|TomC|M|M|56|JP|password
 Alica Ang|AlicaA|M|F|27|JE|password
@@ -7,5 +7,5 @@ Justin Loh|JustinL|S|M|49|JP|password
 Boss|boss|A|F|62|ABCDEf12!
 benn|ben|S|M|25|JE|password
 jaaa|ja|M|M|50|JE|password
-raaaa|ra|M|M|45|NA|password
+raaaa|ra|M|M|45|JP|password
 owo|uwu|M|F|89|NTU|password

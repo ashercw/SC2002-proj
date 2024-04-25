@@ -186,13 +186,9 @@ public class AdminMainPage {
 	 * @throws IOException If an I/O error occurs.
 	 */
 	private void promoteToBranchManager() throws IOException {
-		scanner.nextLine();
-
-		System.out.println("Enter the ID of the staff member to promote:");
 		String staffId = AttributeGetter.getUserID();
-		System.out.println("Enter the name of the branch:");
 		String branchName = AttributeGetter.getBranch();
-		System.out.println("Enter the role of the promoted manager (STAFF/MANAGER/ADMIN):");
+		System.out.println("Enter the role of the promoted manager (MANAGER/ADMIN):");
 		EmployeeType managerRole = AttributeGetter.getEmpType();
 
 		AdminController.promoteStaffToManager(staffId, branchName, managerRole);

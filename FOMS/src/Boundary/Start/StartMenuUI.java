@@ -67,14 +67,17 @@ public class StartMenuUI {
 				System.out.println("Login as employee...");
 				IO.printNewLine(5);
 				EmployeeMainPage.displayEmployeeMainPage();
-			} else if (userChoice == 2) // Call customer "login"
+			} 
+			else if (userChoice == 2) // Call customer "login"
 			{
 				ArrayList branchList = TextDBBranch.readBranch(FileNames.BRANCHREPO, false);
 				new CustomerPage(branchList);
 				System.out.println("Continue as customer...");
 				IO.printNewLine(5);
 				CustomerPage.displayCustomerMainPg();
-			} else if (userChoice == 3) { //Exit and Logout
+			} 
+			else if (userChoice == 3) 
+			{ //Exit and Logout
 				IO.printNewLine(5);
 				LogOutUI.LogOut();
 			} //
