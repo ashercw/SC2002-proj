@@ -8,6 +8,9 @@ public class FoodItem implements IFoodItem{
     ItemType itemType;
     String description;
 
+    public FoodItem()
+    {}
+
     public FoodItem(String _n, double _p, String _bt, ItemType _it)
     {
         this.name = _n;

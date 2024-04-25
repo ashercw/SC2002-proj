@@ -3,6 +3,9 @@ package Boundary.Customer;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import Boundary.MenuDisplay;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,11 @@ public class CustomerOrderUI {
     private Map<Integer, Order> orders;
     private Scanner scanner;
 
+    public String getBranch()
+    {
+        return this.branch;
+    }
+
     public CustomerOrderUI(String branch) 
     {
         this.branch = branch;
@@ -51,11 +59,28 @@ public class CustomerOrderUI {
      */
     public void displayMenu() 
     {
-        System.out.println("Menu for branch: " + branch);
-        /*for (FoodItem item : foodItems) 
+        System.out.println("\t   Welcome to " + getBranch() + "!");
+		IO.displayDivider();
+		System.out.println("\t1) Browse Menu");
+		System.out.println("\t2) Place an Order");
+		System.out.println("\t3) Go Back");
+		IO.displayDivider();
+
+        System.out.print("\n\nWhat would you like to do today? (1-3): ");
+		int userChoice = IO.userInputInt();
+
+        if(userChoice == 1) //Allow user to look at menu only
         {
-            System.out.println(item.getFoodItemName() + " - $" + item.getFoodItemPrice() + " - " + item.getFoodItemDesc());
-        }*/
+            MenuDisplay.menuBrowsing(getBranch());
+        }
+        else if(userChoice == 2) //Allow user to place an order
+        {
+            
+        }
+        else if(userChoice == 3) //Exit
+        {
+            return;
+        }
     }
 
 

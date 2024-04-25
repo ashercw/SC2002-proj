@@ -168,14 +168,17 @@ public class AccountController {
 			else if (loginResult == 0) {
 				System.out.println("Wrong password! Try again.");
 				numTries++;
+				userID = AttributeGetter.getUserID();
+				password = AttributeGetter.getPassword();
 			}
 			// user not found
 			else if (loginResult == -1) {
 				System.out.println("User does not exist! Try again.");
 				numTries++;
+				userID = AttributeGetter.getUserID();
+				password = AttributeGetter.getPassword();
 			}
-			userID = AttributeGetter.getUserID();
-			password = AttributeGetter.getPassword();
+			
 		}
 
 		if (numTries >= 2) {
