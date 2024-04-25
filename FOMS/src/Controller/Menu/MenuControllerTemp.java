@@ -103,7 +103,7 @@ public class MenuControllerTemp {
 	public static void loadMenuItemsFromFood() {
 		try {
 			ArrayList branchList = TextDBBranch.readBranch("BranchRepo.txt", false);
-			ArrayList foodRepoList = TextDBFood.readFoodList("FoodRepo.txt");
+			ArrayList foodRepoList = TextDBFood.readFoodList("FoodItemRepo.txt");
 			for (int i = 0; i < branchList.size(); i++) {
 				List menuList = new ArrayList();
 				String branchName = (String) branchList.get(i);
