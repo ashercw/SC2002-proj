@@ -42,7 +42,7 @@ public class OrderController {
             if (orderID >= 0 && orderID < orderLines.size()) {
                 OrderLine orderLineToBeUpdated = orderLines.get(orderID);
                 orderLineToBeUpdated.setItem(updatedOrderLine.getItem());
-                orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getitemQuanity());
+                orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getItemQuantity());
                 double newTotalPrice = calculateTotalPrice(orderLines);
                 orderUpdate.setTotalPrice(newTotalPrice);
             }else{
@@ -56,7 +56,7 @@ public class OrderController {
     private double calculateTotalPrice(List<OrderLine> orderLines) {
         double total = 0.0;
         for (OrderLine line : orderLines) {
-            total += line.getItem().getFoodItemPrice() * line.getitemQuanity();
+            total += line.getItem().getFoodItemPrice() * line.getItemQuantity();
         }
         return total;
     }
@@ -85,7 +85,7 @@ public class OrderController {
             for (OrderLine line : orderLines) {
                 line.getItem().getName();
                 line.getItem().getFoodItemPrice();
-                line.getitemQuanity();
+                line.getItemQuantity();
             }
         }
         else
