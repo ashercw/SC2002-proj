@@ -10,7 +10,7 @@ import Entity.Order.OrderStatus;
 import Entity.Order.OrderType;
 import Entity.Order.Customisation;
 /***
-    @author Elbert Gunawan
+    @author Elbert Gunawan and Christian Asher Widjaja
 */
 
 public class OrderController {
@@ -33,6 +33,7 @@ public class OrderController {
     }
 
     public void updateOrder(OrderLine updatedOrderLine){
+        //int orderID = myOrder.getOrderID();
         int orderID = updatedOrderLine.getOrderId();
         Order orderUpdate = Orders.get(orderID);
         if(orderUpdate != null){
@@ -69,7 +70,8 @@ public class OrderController {
             return;
         }
     }
-    public void displayOrder(int orderID){
+    public void displayOrder(int orderID)
+    {
         Order displayOrderID = Orders.get(orderID);
         if(displayOrderID != null){
             displayOrderID.getOrderID();
@@ -85,7 +87,9 @@ public class OrderController {
                 line.getItem().getFoodItemPrice();
                 line.getitemQuanity();
             }
-        }else{
+        }
+        else
+        {
             return;
         }
     }
@@ -94,14 +98,20 @@ public class OrderController {
         Order order = Orders.get(orderID);  // Retrieve the order using the order ID
         if (order != null) {
             List<OrderLine> orderLines = order.getOrderLine();
-            if (orderID >= 0 && orderID < orderLines.size()) {
+            if (orderID >= 0 && orderID < orderLines.size()) 
+            {
                 OrderLine orderLine = orderLines.get(orderID);  // Get the specific order line
                 orderLine.setCustomisation(customisation);  // Set the new customization for the order line
-            }else{
+            }
+            else
+            {
                 return;
             }
-        }else{
+        }
+        else
+        {
             return;
         }
     }
 }
+
