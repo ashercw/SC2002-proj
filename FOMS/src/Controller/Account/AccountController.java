@@ -17,10 +17,13 @@ public class AccountController {
 	// CHANGE DEPENDING ON YOUR SYSTEM C:\\Users\\Saffron
 	// Lim\\Downloads\\staff_listCSV.csv
 	private final static String FILEPATH = "FOMS\\src\\Others\\staff_listCSV.csv";
+	private final static String STAFF_REPO_FILEPATH = "EmployeeRepo.txt";
 
 	public AccountController() {
 		// TODO - implement AccountController.AccountController
 	}
+
+	//public static boolean isEmpty
 
 	/**
 	 * Loads employee list from staff list CSV file. Additionally initialises the
@@ -39,7 +42,7 @@ public class AccountController {
 			al.add(createEmployeeObj(str, role));
 
 		}
-		addToEmployeeRepo("EmployeeRepo.txt", al);
+		addToEmployeeRepo(STAFF_REPO_FILEPATH, al);
 		BranchController.createStaffListbyBranch(empList);
 
 	}
@@ -167,5 +170,7 @@ public class AccountController {
 		}
 
 	}
+
+
 
 }
