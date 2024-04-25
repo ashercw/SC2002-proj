@@ -10,7 +10,7 @@ public class OrderLine implements Serializable{
     //private ItemType itemType;
     private int itemQuantity;
     private String custom;
-    private int orderId;
+    private double itemTotal;
 
     private FoodItem item;
 
@@ -19,6 +19,7 @@ public class OrderLine implements Serializable{
         //this.itemType = itemType;
         this.itemQuantity = itemQuantity;
         this.custom = custom;
+        this.itemTotal = itemQuantity * item.getFoodItemPrice();
     }
 
     /*public OrderLine(String _f, int _q, ItemType itemType, String custom) {
@@ -31,6 +32,10 @@ public class OrderLine implements Serializable{
     public FoodItem getItem()
     {
         return this.item;
+    }
+    public double getItemTotPrice()
+    {
+        return this.itemTotal;
     }
 
     /*public String getItem() {
@@ -59,14 +64,6 @@ public class OrderLine implements Serializable{
 
     public void setCustomisation(String custom) {
         this.custom = custom;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 
     public void printOrderLine(OrderLine orderLine)
