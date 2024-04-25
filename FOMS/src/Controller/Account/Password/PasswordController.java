@@ -11,9 +11,6 @@ import Others.TextDBStaff;
 import Entity.User.EmployeeType;
 import Entity.User.User;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
 /**
  * This class manages functions related to passwords and login credentials.
@@ -22,7 +19,7 @@ import java.awt.event.*;
  */
 
 @SuppressWarnings("rawtypes")
-public class PasswordController extends JPanel{
+public class PasswordController{
 
 	/**
 	 * This function checks the login credentials of the user such as whether

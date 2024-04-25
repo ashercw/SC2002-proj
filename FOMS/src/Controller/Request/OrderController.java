@@ -131,8 +131,26 @@ public class OrderController {
 
         // TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
         List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
-        Order obj = (Order) orderObjL.get(0);
-        System.out.println("NEW PRICE " + obj.getTotalPrice());
+        for(int i = 0; i < orderObjL.size(); i++)
+        {
+            Order obj = (Order)orderObjL.get(i);
+            System.out.println("NEW PRICE " + obj.getTotalPrice());
+        }
+        //Order obj = (Order)orderObjL.get(0);
+        
+
+        /*for(int i = 0; i < orderObjL.size(); i++)
+        {
+            System.out.println(orderObjL.get(i).getClass());
+        }
+        List orderObjL2 = (List)orderObjL.get(0);
+        for(int i = 0; i < orderObjL2.size(); i++)
+        {
+            System.out.println(orderObjL2.get(i).getClass());
+            Order obj = (Order) orderObjL2.get(i);
+            System.out.println("NEW PRICE " + obj.getTotalPrice());
+        }*/
+        
 
     }
 
@@ -195,6 +213,8 @@ public class OrderController {
         displayOrder(orderObj);
         return orderObj;
     }
+
+    
 
     public static double calcNewTotal(ArrayList orderLineList) {
         double sum = 0;
@@ -261,10 +281,13 @@ public class OrderController {
 
     public static void printAllOrders() {
         List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
-        System.out.print("NUMBER OF ORDERS: " + fullOrderL.size());
+        
+        //System.out.print("NUMBER OF ORDERS: " + fullOrderL.size());
         for (int i = 0; i < fullOrderL.size(); i++) {
-            Order orderObj = (Order) fullOrderL.get(i);
-            displayOrder(orderObj);
+            //List currOrder = (List)fullOrderL.get(i);
+			Order currOrder2 = (Order)fullOrderL.get(i);
+            //Order orderObj = (Order) fullOrderL.get(i);
+            displayOrder(currOrder2);
         }
     }
 
@@ -313,6 +336,7 @@ public class OrderController {
      * }
      */
     public static void collectOrder() {
+        printAllOrders();
         int orderConfirm = 0;
         System.out.println("Please enter your Order ID: ");
         int userOrderID = IO.userInputInt();
@@ -363,15 +387,18 @@ public class OrderController {
     }
 
     public static Order getOrderById(int orderId) {
-        List<Order> orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
+
+        List orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        
         if (orderId < 1 || orderId > orders.size()) {
             System.out.println("Order does not exist!");
             return null; // Return null if no order matches the given ID
         }
         if (orders != null) {
-            for (Order order : orders) {
-                if (order.getOrderID() == orderId) {
-                    return order;
+            for (int i = 0; i < orders.size(); i++) {
+		        Order currOrder2 = (Order)orders.get(0);
+                if (currOrder2.getOrderID() == orderId) {
+                    return currOrder2;
                 }
             }
         }
