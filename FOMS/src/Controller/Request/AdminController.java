@@ -336,40 +336,31 @@ public class AdminController {
 	 * 
 	 * @param branchName The name of the branch to be opened.
 	 */
-	public static void openBranch(String branchName) {
-		try {
-			List<User> staffList = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
-	
-			// Check if branch already exists
-			for (Branch branch : existingBranches) {
-				if (branch.getBranchName().equals(branchName)) {
-					System.out.println("Branch '" + branchName + "' already exists.");
-					return;
-				}
-			}
-	
-			Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
-	
-			// Assign only unassigned staff to the new branch
-			ArrayList<Staff> branchStaffList = new ArrayList<>();
-			for (User user : staffList) {
-				if (user instanceof Staff && ((Staff) user).getBranch().equals("Unassigned")) {
-					branchStaffList.add((Staff) user);
-					((Staff) user).setBranch(branchName);  // Update staff's branch assignment
-				}
-			}
-			newBranch.setStaffList(branchStaffList);
-	
-			existingBranches.add(newBranch);
-			TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
-			TextDBStaff.saveEmployee("EmployeeRepo.txt", staffList);  // Save changes to staff list
-	
-			System.out.println("Branch '" + branchName + "' has been opened.");
-		} catch (IOException e) {
-			System.out.println("Error opening branch: " + e.getMessage());
+	public static void openBranch(String branchName, String location, int quota) throws IOException {
+		@SuppressWarnings("unchecked")
+		List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
+	   
+		// Check if the branch already exists
+		for (Branch user : existingBranches) {
+		 if (user instanceof Branch) {
+		  Branch existingBranch = (Branch) user;
+		  if (existingBranch.getBranchName().equalsIgnoreCase(branchName)) {
+		   System.out.println("Branch '" + branchName + "' already exists.");
+		   return;
+		  }
+		 }
 		}
-	}
+	   
+		Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
+		newBranch.setLocation(location);
+		newBranch.setQuota(quota);
+	   
+		existingBranches.add(newBranch);
+	   
+		TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
+		System.out.println("Branch '" + branchName + "' has been opened.");
+	  
+	  }
 	
 
 	/**

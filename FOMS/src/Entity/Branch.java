@@ -47,6 +47,14 @@ public class Branch {
         return this.location;
     }
 
+    public void setLocation(String _loc){
+        this.location = _loc;
+    }
+    
+    public void setQuota(int _sq){
+            this.staffQuota = _sq;
+    }
+
     public void setStaffList(ArrayList<Staff> _sl) {
         this.staffList = _sl != null ? _sl : new ArrayList<>(); // Ensure staff list is not null
         this.staffNum = this.staffList.size();
