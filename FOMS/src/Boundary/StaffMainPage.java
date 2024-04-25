@@ -5,6 +5,7 @@ import Entity.Order.OrderStatus;
 import Entity.User.Staff;
 import Entity.User.User;
 import Others.IO;
+import Others.TextDBOrder;
 import Others.TextDBStaff;
 
 import java.io.IOException;
@@ -131,13 +132,32 @@ public StaffMainPage(String staffID) {
         if(orderId <= 0){
             throw new UnsupportedOperationException("OrderID is not given.");
         }
-        for (Order order : orders) {
+
+        List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        Order currOrder2;
+        //System.out.print("NUMBER OF ORDERS: " + fullOrderL.size());
+        for (int i = 0; i < fullOrderL.size(); i++) {
+            //List currOrder = (List)fullOrderL.get(i);
+			
+            currOrder2 = (Order)fullOrderL.get(i);
+            //Order orderObj = (Order) fullOrderL.get(i);
+            if (currOrder2.getOrderID() == orderId && (currOrder2.getOrderStatus() == OrderStatus.ORDERPLACED || currOrder2.getOrderStatus() == OrderStatus.PROCESSING)) {
+                currOrder2.setOrderStatus(OrderStatus.READY);
+                OrderController.displayOrder(currOrder2);
+                System.out.println("Order ID " + orderId + " is now ready to pick up.");
+                TextDBOrder.writeSerializedObject("OrderRepo.txt", currOrder2);
+                return;
+            }
+            
+        }
+
+        /*for (Order order : orders) {
             if (order.getOrderID() == orderId && (order.getOrderStatus() == OrderStatus.ORDERPLACED || order.getOrderStatus() == OrderStatus.PROCESSING)) {
                 order.setOrderStatus(OrderStatus.READY);
                 System.out.println("Order ID " + orderId + " is now ready to pick up.");
                 return;
             }
-        }
+        }*/
         System.out.println("Order with ID " + orderId + " not found or not in a 'new' status.");
     }
 

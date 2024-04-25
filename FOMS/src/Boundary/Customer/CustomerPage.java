@@ -2,6 +2,7 @@ package Boundary.Customer;
 
 import java.util.List;
 
+import Controller.Menu.MenuControllerTemp;
 import Controller.Request.OrderController;
 import Others.IO;
 
@@ -56,6 +57,7 @@ public class CustomerPage {
         IO.printNewLine(1);
 
         while (true) {
+            MenuControllerTemp.loadMenuItemsFromFood();
             System.out.println("\t    WELCOME CUSTOMER");
             IO.displayDivider();
             System.out.println("\t1) Select branch");
