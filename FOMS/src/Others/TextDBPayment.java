@@ -19,17 +19,22 @@ public class TextDBPayment extends TextDB {
      * @throws IOException If an error occurs during file reading.
      */
     public static List<String[]> readPaymentMethods(String filename, boolean createMap) throws IOException {
-        List<String> stringArray = read(filename);
-        List<String[]> alr = new ArrayList<>();
-
-        for (String line : stringArray) {
-            StringTokenizer star = new StringTokenizer(line, SEPARATOR);
-            String name = star.nextToken().trim();  // first token
-            String className = star.nextToken().trim();  // second token
-            alr.add(new String[]{name, className});
+        List<String> lines = read(filename);
+        List<String[]> paymentMethods = new ArrayList<>();
+    
+        for (String line : lines) {
+            String[] tokens = line.split(SEPARATOR, -1);  // Split with -1 limit to include trailing empty strings
+            if (tokens.length < 2) {
+                System.out.println("Skipping malformed line: " + line);
+                continue;  // Skip this line as it doesn't contain enough data
+            }
+            String name = tokens[0].trim();
+            String className = tokens[1].trim();
+            paymentMethods.add(new String[]{name, className});
         }
-        return alr;
+        return paymentMethods;
     }
+    
 
     /**
      * Saves the data of payment method mappings to a text file.
@@ -48,4 +53,3 @@ public class TextDBPayment extends TextDB {
         write(FILENAME, alw);
     }
 }
-
