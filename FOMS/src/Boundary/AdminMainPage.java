@@ -1,11 +1,22 @@
 package Boundary;
 
-import Controller.Request.AdminController;
 import Entity.Order.Payment;
 import Entity.User.EmployeeType;
+
+import java.io.IOException;
 import java.util.*;
 
+import Boundary.Account.AttributeGetter;
+import Controller.Request.AdminController;
+
 /**
+ * The AdminMainPage provides an interface for Admins to allow them do
+ * administration tasks, such asa dding and removing staff, editing staff
+ * details, assigning manager to branch, transfering staff, adding payment
+ * method, opening and closing branch, displaying staff list with filter and
+ * sort. It interacts with AdminController class to be able to do all this tasks
+ * and AttributeGetter to get user input.
+ * 
  * @author Reuben Farrel
  */
 
@@ -14,16 +25,31 @@ public class AdminMainPage {
 	private static AdminController adminController;
 	private String userID;
 
+	/**
+	 * Constructs an AdminMainPage object with the specified AdminController.
+	 * 
+	 * @param adminController The AdminController to handle administrative requests.
+	 */
 	// Constructor
 	public AdminMainPage(AdminController adminController) {
 		AdminMainPage.adminController = adminController;
 	}
 
+	/**
+	 * Constructs an AdminMainPage object with the specified user ID.
+	 * 
+	 * @param userID The user ID of the administrator.
+	 */
 	public AdminMainPage(String userID) {
 		this.userID = userID;
 	}
 
-	public void displayAdminMainPage() {
+	/**
+	 * Displays the main menu for the admin user interface and handles user input.
+	 * 
+	 * @throws IOException If an I/O error occurs.
+	 */
+	public void displayAdminMainPage() throws IOException {
 		int choice;
 		do {
 			System.out.println("Welcome, Admin " + userID);
@@ -41,6 +67,7 @@ public class AdminMainPage {
 			System.out.println("0. Exit.");
 			System.out.print("Please enter your choice (from 0 to 10): ");
 			choice = scanner.nextInt();
+			scanner.nextLine();
 
 			switch (choice) {
 				case 1:
@@ -82,24 +109,29 @@ public class AdminMainPage {
 		} while (choice != 0);
 	}
 
+	/**
+	 * Adds a new staff member based on Admin's input.
+	 */
 	private static void addStaff() {
-		System.out.print("Enter username: ");
-		String username = scanner.nextLine();
-		System.out.print("Enter password: ");
-		String password = scanner.nextLine();
-		System.out.print("Enter name: ");
-		String name = scanner.nextLine();
-		System.out.print("Enter age: ");
-		String age = scanner.nextLine();
-		System.out.print("Enter gender: ");
-		String gender = scanner.nextLine();
-		System.out.print("Enter branch: ");
-		String branch = scanner.nextLine();
-		System.out.print("Enter role: ");
+		EmployeeType role;
+		System.out.print("Enter role (S for Staff, M for Manager, A for Admin): ");
 		String roleStr = scanner.nextLine();
-		EmployeeType role = EmployeeType.valueOf(roleStr.toUpperCase());
+		role = EmployeeType.valueOf(roleStr.toUpperCase());
 
-		boolean added = adminController.addStaff(username, password, name, age, gender, branch, role);
+		String name = AttributeGetter.getName();
+		String loginID = AttributeGetter.getUserID();
+		String gender = AttributeGetter.getGender();
+		String age = AttributeGetter.getAge();
+		String branch = "";
+		try {
+			branch = AttributeGetter.getBranch();
+		} catch (IOException e) {
+			System.out.println("Error getting branch: " + e.getMessage());
+			return;
+		}
+		String password = AttributeGetter.getPassword();
+
+		boolean added = adminController.addStaff(name, loginID, role, gender, age, branch, password);
 		if (added) {
 			System.out.println("Staff added successfully.");
 		} else {
@@ -107,68 +139,101 @@ public class AdminMainPage {
 		}
 	}
 
+	/**
+	 * Edits the information of an existing staff member.
+	 */
 	private static void editStaff() {
-		System.out.print("Enter user ID: ");
-		String userId = scanner.nextLine();
-		System.out.print("Enter new name: ");
-		String newName = scanner.nextLine();
-		System.out.print("Enter new age: ");
-		String newAge = scanner.nextLine();
-		System.out.print("Enter new gender: ");
-		String newGender = scanner.nextLine();
-		System.out.print("Enter new role: ");
-		String newRoleStr = scanner.nextLine();
-		EmployeeType newRole = EmployeeType.valueOf(newRoleStr.toUpperCase());
-		System.out.print("Enter new branch: ");
-		String newBranch = scanner.nextLine();
+		scanner.nextLine();
+		System.out.print("Enter staff login ID: ");
+		String loginID = scanner.nextLine();
 
-		adminController.editStaff(userId, newName, newAge, newGender, newRole, newBranch);
+		String newName = AttributeGetter.getName();
+		String newAge = AttributeGetter.getAge();
+		String newGender = AttributeGetter.getGender();
+		EmployeeType newRole = AttributeGetter.getEmpType();
+		String newBranch = "";
+		try {
+			newBranch = AttributeGetter.getBranch();
+		} catch (IOException e) {
+			System.out.println("Error getting branch: " + e.getMessage());
+			return;
+		}
+
+		adminController.editStaff(loginID, newName, newAge, newGender, newRole, newBranch);
 	}
 
+	/**
+	 * Removes a staff member based on Admin's input.
+	 */
 	private static void removeStaff() {
-		System.out.print("Enter user ID: ");
-		String userId = scanner.nextLine();
+		scanner.nextLine();
+
+		System.out.println("Enter user ID:");
+		String userId = AttributeGetter.getUserID();
 
 		adminController.removeStaff(userId);
 	}
 
-	private void assignManagerToBranch() {
+	/**
+	 * Assigns a manager to a branch based on Admin's input.
+	 * 
+	 * @throws IOException If an I/O error occurs.
+	 */
+	private void assignManagerToBranch() throws IOException {
+		scanner.nextLine();
+
 		System.out.println("Enter the ID of the manager:");
-		String managerId = scanner.next();
+		String managerId = AttributeGetter.getUserID();
 		System.out.println("Enter the name of the branch:");
-		String branchName = scanner.next();
+		String branchName = AttributeGetter.getBranch();
 		System.out.println("Enter the type of the branch:");
 		String branchType = scanner.next();
 
 		adminController.assignManagerToBranch(managerId, branchName, branchType);
 	}
 
-	private void promoteToBranchManager() {
+	/**
+	 * Promotes a staff member to a branch manager based on Admin's input.
+	 * 
+	 * @throws IOException If an I/O error occurs.
+	 */
+	private void promoteToBranchManager() throws IOException {
+		scanner.nextLine();
+
 		System.out.println("Enter the ID of the staff member to promote:");
-		String staffId = scanner.next();
+		String staffId = AttributeGetter.getUserID();
 		System.out.println("Enter the name of the branch:");
-		String branchName = scanner.next();
+		String branchName = AttributeGetter.getBranch();
 		System.out.println("Enter the role of the promoted manager (STAFF/MANAGER/ADMIN):");
-		String managerRoleStr = scanner.next();
-		EmployeeType managerRole = EmployeeType.valueOf(managerRoleStr.toUpperCase());
+		EmployeeType managerRole = AttributeGetter.getEmpType();
 
 		adminController.promoteStaffToManager(staffId, branchName, managerRole);
 	}
 
-	private void transferUserToBranch() {
+	/**
+	 * Transfers a user to a different branch based on Admin's input.
+	 * 
+	 * @throws IOException If an I/O error occurs.
+	 */
+	private void transferUserToBranch() throws IOException {
 		System.out.println("Enter the ID of the user to transfer:");
-		String userId = scanner.next();
+		String userId = AttributeGetter.getUserID();
 
 		System.out.println("Enter the name of the new branch:");
-		String newBranchName = scanner.next();
+		String newBranchName = AttributeGetter.getBranch();
 
 		System.out.println("Enter the name of the current branch:");
-		String currentBranchName = scanner.next();
+		String currentBranchName = AttributeGetter.getBranch();
 
 		adminController.transferUserToBranch(userId, newBranchName, currentBranchName);
 	}
 
+	/**
+	 * Adds a new payment method based on Admin's input.
+	 */
 	private static void addPaymentMethod() {
+		scanner.nextLine();
+
 		System.out.print("Enter the payment method name: ");
 		String paymentMethod = scanner.nextLine();
 
@@ -185,19 +250,39 @@ public class AdminMainPage {
 		}
 	}
 
-	private void openBranch() {
+	/**
+	 * Opens a new branch based on Admin's input.
+	 * 
+	 * @throws IOException If an I/O error occurs.
+	 */
+	private void openBranch() throws IOException {
+		scanner.nextLine(); // Clear the newline character from the buffer
+
 		System.out.println("Enter the name of the branch to open:");
-		String branchName = scanner.next();
+		String branchName = AttributeGetter.getBranch();
+
 		adminController.openBranch(branchName);
 	}
 
-	private void closeBranch() {
+	/**
+	 * Closes an existing branch based on Admin's input.
+	 * 
+	 * @throws IOException If an I/O error occurs.
+	 */
+	private void closeBranch() throws IOException {
+		scanner.nextLine();
+
 		System.out.println("Enter the name of the branch to close:");
-		String branchName = scanner.next();
+		String branchName = AttributeGetter.getBranch();
 		adminController.closeBranch(branchName);
 	}
 
+	/**
+	 * Displays the list of staff members based on Admin-defined criteria.
+	 */
 	private void displayStaffList() {
+		scanner.nextLine();
+
 		System.out.println("===== Display Staff List =====");
 		System.out.println("Choose filter criterion:");
 		System.out.println("1. Gender");

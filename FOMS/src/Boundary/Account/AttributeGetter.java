@@ -84,23 +84,51 @@ public class AttributeGetter {
 	 * @throws IOException
 	 * 
 	 */
-	public static String getBranch() throws IOException 
-	{
+	public static String getBranch() throws IOException {
 		@SuppressWarnings("unchecked")
-		//get full string of lists
+		// get full string of lists
 		ArrayList<String> branchL = TextDBBranch.readBranch("BranchRepo.txt", false);
-		while (true) 
-		{
+		while (true) {
 			System.out.print("Please enter your branch (");
-			for (String i : branchL) { //print existing branch codes
+			for (String i : branchL) { // print existing branch codes
 				System.out.print(i + ", ");
 			}
-			System.out.println("NA): "); //for admin
+			System.out.println("NA): "); // for admin
 			String branch = IO.userInpuString();
-			//check if branch exists
+			// check if branch exists
 			if (branchL.contains(branch) || branch.equals("NA"))
 				return branch;
-			else System.out.println("Branch does not exist. Please try again");
+			else
+				System.out.println("Branch does not exist. Please try again");
+		}
+	}
+
+	public static String getGender() {
+		System.out.println("Please enter gender:");
+		String gender = IO.userInpuString();
+		return gender;
+	}
+
+	public static String getAge() {
+		System.out.println("Please enter age:");
+		String age = IO.userInpuString();
+		return age;
+	}
+
+	public static String getName() {
+		System.out.println("Please enter name:");
+		String name = IO.userInpuString();
+		return name;
+	}
+
+	public static EmployeeType getEmpType() {
+		System.out.println(
+				"Please enter role (S for Staff, M for Manager, A for Admin) (or press Enter to keep the current role): ");
+		String roleStr = IO.userInpuString();
+		if (roleStr.isEmpty()) {
+			return null;
+		} else {
+			return EmployeeType.valueOf(roleStr.toUpperCase());
 		}
 	}
 

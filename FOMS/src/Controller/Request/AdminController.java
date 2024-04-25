@@ -14,26 +14,44 @@ import Others.TextDBBranch;
 import Others.TextDBStaff;
 
 /**
+ * The AdminController class gives the power for Admin to do administrative
+ * jobs, such as adding and removing staff, editing staff information, assigning
+ * managers to branches, promoting staff to managers, transferring staff to
+ * other branches, adding payment methods, opening and closing branches, and
+ * displaying staff lists with filter and sort. It interacts with the data
+ * repository, Staff class and User class.
+ * 
  * @author Reuben Farrel
  */
 
 public class AdminController {
+	/**
+	 * Adds a new staff member to the system.
+	 * 
+	 * @param password The login password of the staff member.
+	 * @param name     The name of the staff member.
+	 * @param loginID  The login ID of the staff member.
+	 * @param age      The age of the staff member.
+	 * @param gender   The gender of the staff member.
+	 * @param branch   The branch to which the staff member belongs.
+	 * @param role     The role of the staff member.
+	 * @return true if the staff member is successfully added, false otherwise.
+	 */
 
-	public boolean addStaff(String username, String password, String name, String age, String gender, String branch,
-			EmployeeType role) {
+	public boolean addStaff(String name, String loginID, EmployeeType role, String gender, String age, String branch,
+			String password) {
 		boolean added = false;
 		try {
 			@SuppressWarnings("unchecked")
-			List<User> employees = TextDBStaff.readEmployee("TextDBStaff.txt"); // Read existing staff data
+			List<User> employees = TextDBStaff.readEmployee("TextDBStaff.txt");
 			for (User user : employees) {
-				if (user.getLoginID().equals(username)) {
-					return false; // Staff already exists
+				if (user.getLoginID().equals(loginID)) {
+					return false;
 				}
 			}
-
-			Staff newStaff = new Staff(name, username, role, gender, age, branch, password);
-			employees.add(newStaff); // Adding staff to the list
-			TextDBStaff.saveEmployee("TextDBStaff.txt", employees); // Save updated staff data to the file
+			Staff newStaff = new Staff(name, loginID, role, gender, age, branch, password);
+			employees.add(newStaff);
+			TextDBStaff.saveEmployee("TextDBStaff.txt", employees);
 			added = true;
 		} catch (IOException e) {
 			System.out.println("Error adding staff: " + e.getMessage());
@@ -42,7 +60,17 @@ public class AdminController {
 		return added;
 	}
 
-	public void editStaff(String userId, String newName, String newAge, String newGender, EmployeeType newRole,
+	/**
+	 * Edits the details of an existing staff member.
+	 *
+	 * @param loginID   The login ID of the staff member to be edited.
+	 * @param newName   The new name to assign to the staff member.
+	 * @param newAge    The new age to assign to the staff member.
+	 * @param newGender The new gender to assign to the staff member.
+	 * @param newRole   The new role to assign to the staff member.
+	 * @param newBranch The new branch to assign to the staff member.
+	 */
+	public void editStaff(String loginID, String newName, String newAge, String newGender, EmployeeType newRole,
 			String newBranch) {
 		try {
 			@SuppressWarnings("unchecked")
@@ -50,13 +78,23 @@ public class AdminController {
 			boolean found = false;
 			for (int i = 0; i < employees.size(); i++) {
 				User user = employees.get(i);
-				if (user.getLoginID().equals(userId) && user instanceof Staff) {
+				if (user.getLoginID().equals(loginID) && user instanceof Staff) {
 					Staff staff = (Staff) user;
-					staff.setEmployeeName(newName);
-					staff.setAge(newAge);
-					staff.setGender(newGender);
-					staff.setEmpType(newRole);
-					staff.setBranch(newBranch);
+					if (!newName.isEmpty()) {
+						staff.setEmployeeName(newName);
+					}
+					if (!newAge.isEmpty()) {
+						staff.setAge(newAge);
+					}
+					if (!newGender.isEmpty()) {
+						staff.setGender(newGender);
+					}
+					if (newRole != null) {
+						staff.setEmpType(newRole);
+					}
+					if (!newBranch.isEmpty()) {
+						staff.setBranch(newBranch);
+					}
 					employees.set(i, staff);
 					TextDBStaff.saveEmployee("TextDBStaff.txt", employees);
 					System.out.println("Staff details updated successfully.");
@@ -72,6 +110,11 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Removes a staff member from the system.
+	 * 
+	 * @param userId The ID of the staff member to be removed.
+	 */
 	public void removeStaff(String userId) {
 		try {
 			@SuppressWarnings("unchecked")
@@ -80,8 +123,8 @@ public class AdminController {
 			for (int i = 0; i < employees.size(); i++) {
 				User user = employees.get(i);
 				if (user.getLoginID().equals(userId) && user instanceof Staff) {
-					employees.remove(i); // Remove staff from the list
-					TextDBStaff.saveEmployee("TextDBStaff.txt", employees); // Save updated staff data to the file
+					employees.remove(i);
+					TextDBStaff.saveEmployee("TextDBStaff.txt", employees);
 					System.out.println("Staff member with ID '" + userId + "' has been removed.");
 					found = true;
 					break;
@@ -95,6 +138,14 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Assigns a manager to a branch.
+	 * 
+	 * @param managerId  The ID of the manager to be assigned.
+	 * @param branchName The name of the branch to which the manager will be
+	 *                   assigned.
+	 * @param branchType The type of the branch.
+	 */
 	public void assignManagerToBranch(String managerId, String branchName, String branchType) {
 		try {
 			@SuppressWarnings("unchecked")
@@ -143,6 +194,15 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Promotes a staff member to a branch manager.
+	 * 
+	 * @param staffId     The ID of the staff member to be promoted.
+	 * @param branchName  The name of the branch to which the promoted manager will
+	 *                    belong.
+	 * @param managerRole The role of the promoted manager.
+	 * @return true if the staff member is successfully promoted, false otherwise.
+	 */
 	public boolean promoteStaffToManager(String staffId, String branchName, EmployeeType managerRole) {
 		boolean promoted = false;
 		try {
@@ -180,7 +240,6 @@ public class AdminController {
 				}
 			}
 			TextDBStaff.saveEmployee("TextDBStaff.txt", employees);
-
 			TextDBBranch.saveBranch("TextDBBranch.txt", branches);
 
 			System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
@@ -192,6 +251,15 @@ public class AdminController {
 		return promoted;
 	}
 
+	/**
+	 * Transfers a user (staff member) to a different branch.
+	 * 
+	 * @param userId            The ID of the user (staff member) to be transferred.
+	 * @param newBranchName     The name of the new branch to which the user will be
+	 *                          transferred.
+	 * @param currentBranchName The name of the current branch from which the user
+	 *                          will be transferred.
+	 */
 	public void transferUserToBranch(String userId, String newBranchName, String currentBranchName) {
 		try {
 			@SuppressWarnings("unchecked")
@@ -253,15 +321,26 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Adds a new payment method to the system.
+	 * 
+	 * @param paymentMethod The name of the payment method to be added.
+	 * @param paymentClass  The class representing the payment method
+	 *                      implementation.
+	 */
 	public void addPaymentMethod(String paymentMethod, Class<? extends Payment> paymentClass) {
 		PaymentController.registerPaymentMethod(paymentMethod, paymentClass);
 	}
 
+	/**
+	 * Opens a new branch.
+	 * 
+	 * @param branchName The name of the branch to be opened.
+	 */
 	public void openBranch(String branchName) {
 		try {
 			@SuppressWarnings("unchecked")
 			List<User> staffList = TextDBStaff.readEmployee("TextDBStaff.txt");
-
 			@SuppressWarnings("unchecked")
 			List<Branch> existingBranches = TextDBBranch.readBranch("TextDBBranch.txt", true);
 
@@ -285,6 +364,11 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Closes an existing branch.
+	 * 
+	 * @param branchName The name of the branch to be closed.
+	 */
 	public void closeBranch(String branchName) {
 		try {
 			@SuppressWarnings("unchecked")
@@ -313,6 +397,15 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Displays a list of staff members based on specified filtering criteria.
+	 * 
+	 * @param filterCriterion The criterion for filtering (1 for gender, 2 for
+	 *                        branch, 3 for role).
+	 * @param filterValue     The value to filter by.
+	 * @param sortByAge       true if the list should be sorted by age, false
+	 *                        otherwise.
+	 */
 	public void displayStaffList(int filterCriterion, String filterValue, boolean sortByAge) {
 		System.out.println("===== Displaying Staff List =====");
 		System.out.println("Filter Criterion: " + filterCriterion);
@@ -375,6 +468,13 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Retrieves a branch by its name from a list of branches.
+	 * 
+	 * @param branches   The list of branches.
+	 * @param branchName The name of the branch to retrieve.
+	 * @return The branch object if found, null otherwise.
+	 */
 	private Branch getBranchByName(List<Branch> branches, String branchName) {
 		for (Branch branch : branches) {
 			if (branch.getBranchName().equals(branchName)) {
