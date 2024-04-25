@@ -269,7 +269,7 @@ public class OrderController {
         }
     }
 
-    public static void collectOrder()
+    /*public static void collectOrder()
     {
         //List of Order objects
         List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
@@ -303,17 +303,74 @@ public class OrderController {
                 else if(collectOrder == 1)
                 {
                     custOrder.setOrderStatus(OrderStatus.COLLECTED);
+                    
                 }
             }
         }
         
+    }*/
+    public static void collectOrder()
+    {
+        int orderConfirm = 0;
+        System.out.println("Please enter your Order ID: ");
+        int userOrderID = IO.userInputInt();
+        
+        Order custOrder = getOrderById(userOrderID);
+        if(custOrder == null) return; //search failed
+
+        displayOrder(custOrder);
+
+        //user confirmation
+        System.out.println("Is this your order? (1) Yes (2) No");
+        orderConfirm = IO.userInputInt();
+        if(orderConfirm == 2) return; //not the correct order
+
+        if(custOrder.getOrderStatus() == OrderStatus.READY)
+        {
+            System.out.println("Your order is ready for collection! Collect order? (1) Yes (2) No");
+            int collectOrder = IO.userInputInt();
+            if(collectOrder != 1 || collectOrder != 2) System.out.println("Wrong input!");
+            else if(collectOrder == 1)
+            {
+                updateOrderStatus(userOrderID, OrderStatus.COLLECTED);
+                return;
+            }
+        }
+        else
+        {
+            System.out.println("Enter -1 to go back: ");
+            if(IO.userInputInt() == -1) return;
+        }
     }
+
+    public static void updateOrderStatus(int orderId, OrderStatus newStatus) {
+        // Get the order by its ID
+        Order order = getOrderById(orderId);
+
+        if (order != null) {
+            // Update the order status
+            order.setOrderStatus(newStatus);
+
+            // Save the updated order to the database
+            TextDBOrder.writeSerializedObject("OrderRepo.txt", order);
+
+            System.out.println("Order status updated successfully.");
+        } else {
+            System.out.println("Order not found with ID: " + orderId);
+        }
+    }
+
 
     public static Order getOrderById(int orderId) {
         List<Order> orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        if(orderId <1 || orderId > orders.size())
+        {
+            System.out.println("Order does not exist!");
+            return null; // Return null if no order matches the given ID
+        }
         if (orders != null) {
             for (Order order : orders) {
-                if (order.getOrderID() == orderId-1) {
+                if (order.getOrderID() == orderId) {
                     return order;
                 }
             }

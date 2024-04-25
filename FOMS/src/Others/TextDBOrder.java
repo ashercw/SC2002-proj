@@ -66,6 +66,7 @@ public class TextDBOrder extends TextDB {
 
             if (file.length() != 0) {
                 orderList = readSerializedObject(filename);
+                orderList = checkDuplicates(orderList, order);
             }
         }
         orderList.add(order);
@@ -81,5 +82,19 @@ public class TextDBOrder extends TextDB {
 			ex.printStackTrace();
 		}
 	}
+
+    public static List checkDuplicates(List orderList, Order order)
+    {
+        for(int i = 0; i < orderList.size(); i++)
+        {
+            Order currOrder = (Order)orderList.get(i);
+            if(currOrder.getOrderID() == order.getOrderID())
+            {
+                orderList.remove(i);
+            }
+
+        }
+        return orderList;
+    }
 
 }

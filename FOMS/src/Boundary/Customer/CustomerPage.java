@@ -77,7 +77,13 @@ public class CustomerPage {
             } else if (userChoice == 2) // allow customer to track order
             {
                 IO.printNewLine(5);
-                OrderController.printAllOrders();
+                IO.displayDivider();
+                System.out.println("\t\tTRACK ORDER");
+                IO.displayDivider();
+                IO.printNewLine(2);
+                
+                //OrderController.printAllOrders();
+                OrderController.collectOrder();
             } else if (userChoice == 3) { // Exit page
                 System.out.println("Exiting page...");
                 return;
