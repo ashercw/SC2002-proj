@@ -46,9 +46,16 @@ public class FoodItem implements IFoodItem, Serializable{
         return this.branch;
     }
 
+    public void setFoodItemBranch(String _bt){
+        this.branch = _bt;
+    }
     public ItemType getFoodItemType()
     {
         return this.itemType;
+    }
+
+    public void setFoodItemType(ItemType _it){
+        this.itemType = _it;
     }
 
     public String getFoodItemDesc()
@@ -66,7 +73,9 @@ public class FoodItem implements IFoodItem, Serializable{
         return this.price;
     }
 
-
+    public void setFoodItemName(String _n){
+        this.name = _n;
+    }
 
     public String getName() {
         return name;

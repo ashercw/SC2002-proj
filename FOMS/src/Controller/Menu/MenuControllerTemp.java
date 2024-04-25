@@ -3,12 +3,19 @@ package Controller.Menu;
 import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
 import Entity.Food.Menu;
+import Entity.User.Admin;
+import Entity.User.EmployeeType;
+import Entity.User.Manager;
+import Entity.User.Staff;
+import Entity.User.User;
+
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
 import Others.TextDBBranch;
 import Others.TextDBFood;
+import Others.TextDBStaff;
 
 /**
  * Temporary because idt i can run the current menucontroller coz of code issues
@@ -75,8 +82,6 @@ public class MenuControllerTemp {
 
         }
         // add to repo
-        addToFoodRepo("FoodItemRepo.txt", al);
-        loadMenuItems(al);
 
     }
 
@@ -108,79 +113,74 @@ public class MenuControllerTemp {
     }
     
 
-    public static void addToFoodRepo(String FILEPATH, List al) throws IOException{
+    public static void addToFoodRepo(String name, double price, String branch,ItemType itemType, String desc) throws IOException{
 		try {
-			TextDBFood.saveFood(FILEPATH, al);
+			List<FoodItem> foodItems = TextDBFood.readFoodList("FoodItemRepo.txt");
+			FoodItem newFoodItem = new FoodItem(name, price, branch, itemType, desc);
+				foodItems.add(newFoodItem);
+            TextDBFood.saveFood("FoodItemRepo.txt", foodItems);
 		}catch (IOException e) {
 			System.out.println("IOException > " + e.getMessage());
 		}
 	}
 
-    // for use by manager
-    public boolean addMenuItem(String name, double price, String branch, ItemType category) {
-        boolean added = false;
-        // Check if item already exists
-        for (FoodItem item : menu.getMenuList()) {
-            if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch)) {
-                return false; // Item already exists
-            }
-        }
-        FoodItem newItem = new FoodItem(name, price, branch, category);
-        //not sure why desription doesn't work
-        menu.getMenuList().add(newItem); // Adding to the menu list
-        added = true;
-        // Save to repository
+    public static void updateMenuItem(String oldName, String newName, double newPrice, String newDescription, String newBranch, ItemType newItemType) {
+        try{
+            List<FoodItem> foodItems = TextDBFood.readFoodList("FoodItemRepo.txt");
+            boolean updated = false;
+            for (int i = 0; i < foodItems.size(); i++) {
+				FoodItem foodItem = foodItems.get(i);
+				if (foodItem.getFoodItemName().equals(oldName) && foodItem instanceof FoodItem) {
+					if (!newName.isEmpty()) {
+						foodItem.setFoodItemName(newName);
+					}
+					if (newPrice != 0.0) {
+						foodItem.setPrice(newPrice);
+					}
+					if (!newBranch.isEmpty()) {
+						foodItem.setFoodItemBranch(newBranch);
+					}
+					if (!newDescription.isEmpty()) {
+						foodItem.setDescription(newDescription);
+					}
+                    if(newItemType!=null){
+                        foodItem.setFoodItemType(newItemType);
+                    }
+					foodItems.set(i, foodItem);
+					TextDBFood.saveFood("FoodItemRepo.txt", foodItems);
+					System.out.println("Food item details updated successfully.");
+					updated = true;
+					break;
+				}
+			}
+			if (!updated) {
+				System.out.println("Food Item not found.");
+			}
+		} catch (Exception e) {
+			System.out.println("Error editing food: " + e.getMessage());
+		}
+    }
+
+    public static void removeMenuItem(String name) {
         try {
-            addToFoodRepo("FoodItemRepo.txt", menu.getMenuList());
-        } catch (IOException e) {
-            System.out.println("IOException > " + e.getMessage());
-            added = false;
-        }
-        return added;
-    }
-
-    public boolean updateMenuItem(String name, double newPrice, String newDescription, String branch) {
-        boolean updated = false;
-        for (FoodItem item : menu.getMenuList()) {
-            if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch))
-             { //no clue why branch isnt valid FIX: need to access branch variable somehow 
-                item.setPrice(newPrice);
-                item.setDescription(newDescription);
-                updated = true;
-                break;
-            }
-        }
-        if (updated) {
-            try {
-                addToFoodRepo("FoodItemRepo.txt", menu.getMenuList());
-            } catch (IOException e) {
-                System.out.println("IOException > " + e.getMessage());
-                updated = false;
-            }
-        }
-        return updated;
-    }
-
-    public boolean removeMenuItem(String name, String branch) {
-        boolean removed = false;
-        FoodItem toRemove = null;
-        for (FoodItem item : menu.getMenuList()) {
-            if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch)) {
-                toRemove = item;
-                break;
-            }
-        }
-        if (toRemove != null) {
-            menu.getMenuList().remove(toRemove);
-            removed = true;
-            try {
-                addToFoodRepo("FoodItemRepo.txt", menu.getMenuList());
-            } catch (IOException e) {
-                System.out.println("IOException > " + e.getMessage());
-                removed = false;
-            }
-        }
-        return removed;
+            List<FoodItem> foodItems = TextDBFood.readFoodList("FoodItemRepo.txt");
+			boolean found = false;
+			for (int i = 0; i < foodItems.size(); i++) {
+				FoodItem foodItem = foodItems.get(i);
+				if (foodItem.getFoodItemName().equals(name) && foodItem instanceof FoodItem){
+					foodItems.remove(i);
+					TextDBFood.saveFood("FoodItemRepo.txt", foodItems);
+					System.out.println("Food item with name '" + name + "' has been removed.");
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				System.out.println("Food item with name '" + name + "' not found.");
+			}
+		} catch (IOException e) {
+			System.out.println("Error removing food: " + e.getMessage());
+		}
     }
 
 

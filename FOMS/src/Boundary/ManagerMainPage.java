@@ -1,13 +1,21 @@
 package Boundary;
 
+import java.util.List;
 import java.util.Scanner;
+
+import Boundary.Account.AttributeGetter;
+import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
+import Entity.User.EmployeeType;
+import Entity.User.User;
+import Others.TextDBFood;
+import Others.TextDBStaff;
 import Controller.Request.AdminController;
 import Controller.Menu.MenuControllerTemp;
 
 public class ManagerMainPage {
-	private Scanner scanner = new Scanner(System.in);
-	private MenuControllerTemp menuController;
+	private static Scanner scanner = new Scanner(System.in);
+	private static MenuControllerTemp menuController;
 	private String userID;
 
 	public ManagerMainPage(String userID) {
@@ -55,9 +63,6 @@ public class ManagerMainPage {
 
 	private void displayStaffList() {
 		System.out.println("===== Display Staff List =====");
-		System.out.print("Enter the name of the manager: ");
-		@SuppressWarnings("unused")
-		String managerName = scanner.nextLine();
 		System.out.print("Enter the name of the branch: ");
 		String branchName = scanner.nextLine();
 		if (branchName == null) {
@@ -67,7 +72,7 @@ public class ManagerMainPage {
 		AdminController.displayStaffList(2, branchName, false);
 	}
 
-	private void AddMenuItems() {
+	public static void AddMenuItems() {
 		try {
 			// Input the details of the new menu item
 			System.out.print("Enter the name of the new menu item: ");
@@ -82,15 +87,14 @@ public class ManagerMainPage {
 			String branch = scanner.nextLine();
 
 			System.out.print("Enter the category of the new menu item (BURGER/SIDE/SETMEAL/DRINK): ");
-			String categoryStr = scanner.nextLine().toUpperCase();
-			ItemType category = ItemType.valueOf(categoryStr);
+			ItemType itemType;
+			String itemTypeStr = scanner.nextLine().toUpperCase();
+			itemType = ItemType.valueOf(itemTypeStr.toUpperCase());
 
-			boolean added = menuController.addMenuItem(name, price, branch, category);
-			if (added) {
-				System.out.println("New menu item added successfully.");
-			} else {
-				System.out.println("Failed to add the new menu item. It may already exist.");
-			}
+			System.out.print("Enter the description of the new menu item: ");
+			String desc = scanner.nextLine();
+
+			MenuControllerTemp.addToFoodRepo(name, price, branch, itemType, desc);
 		} catch (Exception e) {
 			System.out.println("Error occurred while adding the menu item: " + e.getMessage());
 		}
@@ -100,7 +104,10 @@ public class ManagerMainPage {
 		try {
 			// Input the details of the menu item to be edited
 			System.out.print("Enter the name of the menu item to edit: ");
-			String name = scanner.nextLine();
+			String oldName = scanner.nextLine();
+			
+			System.out.print("Enter the new name of the menu item to edit: ");
+			String newName = scanner.nextLine();
 
 			System.out.print("Enter the new price of the menu item: ");
 			double newPrice = scanner.nextDouble();
@@ -110,14 +117,14 @@ public class ManagerMainPage {
 			String newDescription = scanner.nextLine();
 
 			System.out.print("Enter the branch of the menu item: ");
-			String branch = scanner.nextLine();
+			String newBranch = scanner.nextLine();
 
-			boolean updated = menuController.updateMenuItem(name, newPrice, newDescription, branch);
-			if (updated) {
-				System.out.println("Menu item updated successfully.");
-			} else {
-				System.out.println("Failed to update the menu item. It may not exist or the branch is invalid.");
-			}
+			System.out.print("Enter the new category of the menu item (BURGER/SIDE/SETMEAL/DRINK): ");
+			ItemType newItemType;
+			String itemTypeStr = scanner.nextLine().toUpperCase();
+			newItemType = ItemType.valueOf(itemTypeStr.toUpperCase());
+
+			MenuControllerTemp.updateMenuItem(oldName, newName, newPrice, newDescription, newBranch, newItemType);
 		} catch (Exception e) {
 			System.out.println("Error occurred while updating the menu item: " + e.getMessage());
 		}
@@ -125,19 +132,10 @@ public class ManagerMainPage {
 
 	public void RemoveMenuitems() {
 		try {
-			// Input the details of the menu item to be removed
-			System.out.print("Enter the name of the menu item to remove: ");
+			System.out.print("Enter the name of the menu item to edit: ");
 			String name = scanner.nextLine();
 
-			System.out.print("Enter the branch of the menu item: ");
-			String branch = scanner.nextLine();
-
-			boolean removed = menuController.removeMenuItem(name, branch);
-			if (removed) {
-				System.out.println("Menu item removed successfully.");
-			} else {
-				System.out.println("Failed to remove the menu item. It may not exist or the branch is invalid.");
-			}
+			MenuControllerTemp.removeMenuItem(name);
 		} catch (Exception e) {
 			System.out.println("Error occurred while removing the menu item: " + e.getMessage());
 		}
