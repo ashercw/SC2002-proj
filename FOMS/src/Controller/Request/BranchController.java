@@ -1,8 +1,6 @@
 package Controller.Request;
 
 import Entity.Branch;
-import Entity.User.Staff;
-import Entity.User.Manager;
 import java.util.List;
 
 import Controller.Account.AccountController;
@@ -10,12 +8,11 @@ import Controller.Account.AccountController;
 import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO; // Assume IO operations for reading/writing data
-import Others.TextDB;
 import Others.TextDBBranch;
 import Others.TextDBStaff;
 
 
-
+@SuppressWarnings({"rawtypes", "unchecked", "unused"})
 public class BranchController {
 
     private List<Branch> branches = new ArrayList<>();
@@ -40,6 +37,8 @@ public class BranchController {
      * respective Branch entity objects.
      */
 
+    
+    
     public static void loadBranches() {
         List al = new ArrayList();
 
