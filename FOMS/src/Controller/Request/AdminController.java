@@ -189,21 +189,30 @@ public class AdminController {
 					break;
 				}
 			}
-			if (branch == null) {
-				branch = new Branch(branchName, null, new ArrayList<Manager>(), null);
-				branches.add(branch);
-			}
-			if (!(branch.getManagerList().isEmpty())) {
+			@SuppressWarnings("unchecked")
+		List<User> branchEmployees = TextDBStaff.readEmployee(branchStr.concat("StaffListRepo.txt"));
+		boolean hasManager = false;
+		for (User employee : branchEmployees) 
+		{
+			if (employee instanceof Manager) 
+			{
 				System.out.println("The branch already has a manager assigned.");
-				return;
+				hasManager = true;
+				break;
 			}
+		}
+		if (!hasManager) 
+		{
+			branchEmployees.add(manager);
 
-			branch.getManagerList().add(manager);
-			System.out.println(
-					"Manager " + manager.getEmployeeName() + " has been assigned to branch " + branchName + ".");
-			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-		} catch (IOException e) {
+			TextDBStaff.saveEmployee(branchStr.concat("StaffListRepo.txt"), branchEmployees);
+			System.out.println("Manager with ID " + managerId + " has been assigned to branch " + branchName + ".");
+		}
+		TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+		TextDBBranch.saveBranch("BranchRepo.txt", branches);
+
+		} catch (IOException e) 
+		{
 			System.out.println("Error assigning manager to branch: " + e.getMessage());
 		}
 	}
@@ -220,47 +229,36 @@ public class AdminController {
 	public static boolean promoteStaffToManager(String staffId, String branchName, EmployeeType managerRole) {
 		boolean promoted = false;
 		try {
-			@SuppressWarnings("unchecked")
 			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			User staffToPromote = null;
-			for (User user : employees) {
+			int staffIndex = -1;
+			for (int i = 0; i < employees.size(); i++) {
+				User user = employees.get(i);
 				if (user.getLoginID().equals(staffId) && user instanceof Staff) {
-					staffToPromote = user;
+					staffIndex = i;
 					break;
 				}
 			}
-			if (staffToPromote == null) {
+			if (staffIndex == -1) {
 				System.out.println("Staff member with ID " + staffId + " not found.");
 				return false;
 			}
-			employees.remove(staffToPromote);
-
+			Staff staffToPromote = (Staff) employees.get(staffIndex);
 			Manager promotedManager = new Manager(
-					staffToPromote.getEmployeeName(),
-					staffToPromote.getLoginID(),
-					managerRole,
-					staffToPromote.getGender(),
-					staffToPromote.getAge(),
-					branchName,
-					staffToPromote.getPassword());
-
-			@SuppressWarnings("unchecked")
-			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-
-			for (Branch branch : branches) {
-				if (branch.getBranchName().equals(branchName)) {
-					branch.getManagerList().add(promotedManager);
-					break;
-				}
-			}
+				staffToPromote.getEmployeeName(),
+				staffToPromote.getLoginID(),
+				managerRole, // This should be EmployeeType.M for Manager
+				staffToPromote.getGender(),
+				staffToPromote.getAge(),
+				staffToPromote.getBranch(),
+				staffToPromote.getPassword());
+	
+			employees.set(staffIndex, promotedManager); // Replace the Staff object with a new Manager object
+	
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-
 			System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
 			promoted = true;
 		} catch (IOException e) {
 			System.out.println("Error promoting staff: " + e.getMessage());
-			promoted = false;
 		}
 		return promoted;
 	}
