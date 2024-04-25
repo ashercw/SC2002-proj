@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Others.IO;
 import Others.TextDBStaff;
 import Boundary.AdminMainPage;
+import Boundary.ManagerMainPage;
 import Boundary.StaffMainPage;
 import Boundary.Account.AttributeGetter;
 import Boundary.Account.LogOutUI;
