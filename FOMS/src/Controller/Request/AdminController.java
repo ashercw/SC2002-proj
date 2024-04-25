@@ -457,7 +457,7 @@ public class AdminController {
 			} else {
 				System.out.println("===== Staff List =====");
 				for (User user : filteredList) {
-					System.out.println(user);
+					System.out.println(user.getEmployeeName());
 				}
 			}
 		} catch (IOException e) {
