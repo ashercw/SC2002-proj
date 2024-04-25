@@ -1,18 +1,18 @@
 package Entity.User;
-public class User implements EmployeeUser{
+
+public class User implements EmployeeUser {
 
     private String empName;
     private String loginID;
-    private EmployeeType empType;
-    private String gender;
-    private String age;
+    protected EmployeeType empType;
+    protected String gender;
+    protected String age;
     private String password;
 
-    public User()
-    {}
+    public User() {
+    }
 
-    public User(String _en, String _lID, EmployeeType _et, String _g, String _a, String _p)
-    {
+    public User(String _en, String _lID, EmployeeType _et, String _g, String _a, String _p) {
         this.empName = _en;
         this.loginID = _lID;
         this.empType = _et;
@@ -21,40 +21,36 @@ public class User implements EmployeeUser{
         this.password = _p;
     }
 
-    public String getEmployeeName()
-    {
+    public String getEmployeeName() {
         return this.empName;
     }
+
     public void setEmployeeName(String name) {
-       this.empName = name;
+        this.empName = name;
     }
-    public String getLoginID()
-    {
+
+    public String getLoginID() {
         return this.loginID;
     }
-    public EmployeeType getEmployeeType()
-    {
+
+    public EmployeeType getEmployeeType() {
         return this.empType;
     }
-    public String getGender()
-    {
+
+    public String getGender() {
         return this.gender;
     }
-    public String getAge()
-    {
+
+    public String getAge() {
         return this.age;
     }
 
-    public void setPassword(String _p)
-    {
+    public void setPassword(String _p) {
         this.password = _p;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return this.password;
     }
-
-    
 
 }
