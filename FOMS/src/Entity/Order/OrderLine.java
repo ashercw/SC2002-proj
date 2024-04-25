@@ -5,13 +5,13 @@ import Entity.Food.FoodItem;
 public class OrderLine {
     private FoodItem item;
     private int itemQuantity;
-    private Customisation custom;
+    private String custom;
     private int orderId;
 
-    public OrderLine(FoodItem _f, int _q, Customisation _c) {
+    public OrderLine(FoodItem _f, int _q, String custom) {
         this.item = _f;
         this.itemQuantity = _q;
-        this.custom = _c;
+        this.custom = custom;
     }
 
     public FoodItem getItem() {
@@ -30,11 +30,11 @@ public class OrderLine {
         this.itemQuantity = itemQuantity;
     }
 
-    public Customisation getCustomisation() {
+    public String getCustomisation() {
         return this.custom;
     }
 
-    public void setCustomisation(Customisation custom) {
+    public void setCustomisation(String custom) {
         this.custom = custom;
     }
 

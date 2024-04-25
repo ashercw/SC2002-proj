@@ -113,10 +113,11 @@ public class AccountController {
 	 * 
 	 * @param employeeType EmployeeType of the user trying to login (STAFF, ADMIN,
 	 *                     MANAGER).
+	 * @throws IOException
 	 * 
 	 */
 
-	public static void login(EmployeeType employeeType) {
+	public static void login(EmployeeType employeeType) throws IOException {
 		// TODO - CHANGE PASSWORD OPTION
 
 		int loginResult = -100;
