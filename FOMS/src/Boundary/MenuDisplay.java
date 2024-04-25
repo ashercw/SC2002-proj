@@ -13,27 +13,29 @@ public class MenuDisplay {
 	 * Allows user to look at the branch menu.
 	 */
 	public static void menuBrowsing(String branch) {
-
+		IO.printNewLine(5);
 		IO.displayDivider();
-		System.out.println("\t" + branch + " MENU");
+		System.out.println("\t\t" + branch + " MENU");
 		IO.displayDivider();
-		System.out.print("No.");
-		System.out.format("%-8", "Item");
-		System.out.format("%-15", "Price");
+		System.out.format("%-8s", "No.");
+		System.out.format("%-15s", "Item");
+		System.out.println("Price");
+		//System.out.format("", "Price\n");
 
-		String filePath = branch + "MenuListRepo";
+		String filePath = branch + "MenuListRepo.txt";
 		try {
 			ArrayList menuList = TextDBFood.readFoodList(filePath);
 			FoodItem food = new FoodItem();
 			for (int i = 0; i < menuList.size(); i++)
 			{
 				food = (FoodItem) menuList.get(i);
-				System.out.print("\t" + (i+1) + ".");
-				System.out.format("%-8", food.getFoodItemName());
-				System.out.format("%-8", food.getFoodItemPrice());
-				System.out.format("\n%-8", food.getFoodItemType());
-				System.out.print("   " + food.getFoodItemDesc());
-				System.out.println();
+				System.out.format("%-8s", (i+1));
+				System.out.format("%-15s", food.getFoodItemName());
+				System.out.println("$"+ food.getFoodItemPrice());
+				System.out.format("%-8s", "");
+				System.out.format("%-15s", food.getFoodItemType());
+				System.out.println( food.getFoodItemDesc());
+				System.out.print("\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -42,9 +44,5 @@ public class MenuDisplay {
 
 	}
 
-	public static void printTable(FoodItem food)
-	{
-		
-	}
 
 }

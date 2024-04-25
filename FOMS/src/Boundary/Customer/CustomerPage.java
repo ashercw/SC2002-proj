@@ -59,7 +59,7 @@ public class CustomerPage {
             IO.displayDivider();
             System.out.println("\t1) Select branch");
             System.out.println("\t2) Track order");
-            System.out.println("\t3. Go back");
+            System.out.println("\t3) Go back");
             System.out.print("\n\nYour choice (1-3): ");
             int userChoice = IO.userInputInt();
 

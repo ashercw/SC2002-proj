@@ -42,11 +42,13 @@ public class CustomerOrderUI {
     public CustomerOrderUI(String branch) 
     {
         this.branch = branch;
-        this.repoFileName = branch + "MenuListRepo";
+        this.repoFileName = branch + "MenuListRepo.txt";
         try
-        {this.foodItems = TextDBFood.readFoodList(this.repoFileName);}
+        {
+            this.foodItems = TextDBFood.readFoodList(this.repoFileName);}
         catch(IOException e)
         {
+            e.printStackTrace();
             System.out.println("Branch Menu is out of order. Please try again later!");
         }
 
