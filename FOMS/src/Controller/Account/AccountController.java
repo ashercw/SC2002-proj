@@ -20,10 +20,17 @@ public class AccountController {
 	private final static String FILEPATH = "FOMS\\src\\Others\\staff_listCSV.csv";
 	private final static String STAFF_REPO_FILEPATH = "EmployeeRepo.txt";
 
+
+	
 	public AccountController() {
 		// TODO - implement AccountController.AccountController
 	}
 
+	/**
+     * This function checks whether the "EmployeeRepo.txt" file is empty or does not exist by calling 
+	 * TextDBStaff.isEmptyFile().
+     * @return boolean, true if file is not empty, false if file is empty or does not exist.
+     */
 	public static boolean isEmpty()
 	{
 		return TextDBStaff.isEmptyFile(STAFF_REPO_FILEPATH);

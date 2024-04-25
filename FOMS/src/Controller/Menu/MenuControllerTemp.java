@@ -19,6 +19,7 @@ import Others.TextDBFood;
 public class MenuControllerTemp {
 
     public static String FILEPATH = "FOMS\\src\\Others\\menu_listCSV.csv";
+    public static String FOOD_REPO_FILEPATH = "FoodItemRepo.txt";
 
     private Menu menu; // Assuming 'Menu' handles the collection of menu items.
     //private MenuRepository menuRepository; // For persistence. NOT BEING USED
@@ -27,6 +28,17 @@ public class MenuControllerTemp {
         this.menu = menu;
         this.menuRepository = menuRepository;
     }*/ //idk
+
+
+    /**
+     * This function checks whether the "FoodItemRepo.txt" file is empty or does not exist by calling 
+	 * TextDBFood.isEmptyFile().
+     * @return boolean, true if file is not empty, false if file is empty or does not exist.
+     */
+    public static boolean isEmpty()
+	{
+		return TextDBFood.isEmptyFile(FOOD_REPO_FILEPATH);
+	}
 
 
     /**

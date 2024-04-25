@@ -5,14 +5,19 @@ import Controller.Account.AccountController;
 import Controller.Menu.MenuControllerTemp;
 import Controller.Request.BranchController;
 
+/*
+ * This class instantiates the repos if needed and calls the startMenuUI 
+ * function to display the welcome menu.
+ */
 public class UIEntry {
 
 	public static void UIstart() throws IOException {
 
-		boolean isFirstStart = true; //placeholder
-		//TODO - write functions to check if the various repositories are empty.
+		// checks whether repo text files (database) have been instantiated.
+		boolean isFirstStart = AccountController.isEmpty() && AccountController.isEmpty() && BranchController.isEmpty();
+		
 
-		if(isFirstStart)
+		if(isFirstStart == false)
 		{
 			// initialise repositories
 			AccountController.loadEmployees();
@@ -20,6 +25,8 @@ public class UIEntry {
 			MenuControllerTemp.loadFoodItems();
 		}
 
+
+		// display user menu
 		StartMenuUI.startMenuUI();
 	}
 

@@ -111,6 +111,12 @@ public class TextDB {
         }
     }
 
+    /**
+     * This function checks whether a file is empty or does not exist.
+     * @param filePath String path of file to check.
+     * @return boolean, true if file is not empty, false if file is empty or does not exist.
+     * 
+     */
     public static boolean isEmptyFile(String filePath) {
 
         File file = new File(filePath);
@@ -118,13 +124,13 @@ public class TextDB {
 
             if (file.length() == 0) {
                 // File empty
-                System.out.println("File is empty");
+                //System.out.println("File is empty");
                 return false;
             }
-            System.out.println("File not is empty");
+            //System.out.println("File not is empty");
             return true;
         }
-        else System.out.println("File DNE");
+        //else System.out.println("File DNE");
         return false;
         
     }

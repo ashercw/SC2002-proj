@@ -19,7 +19,18 @@ import Others.TextDBStaff;
 public class BranchController {
 
     private List<Branch> branches = new ArrayList<>();
-    public static String FILEPATH = "FOMS\\src\\Others\\branch_listCSV.csv";
+    private static String FILEPATH = "FOMS\\src\\Others\\branch_listCSV.csv";
+    private static String BRANCH_REPO_FILEPATH = "BranchRepo.txt";
+
+    /**
+     * This function checks whether the "FoodItemRepo.txt" file is empty or does not exist by calling 
+	 * TextDBFood.isEmptyFile().
+     * @return boolean, true if file is not empty, false if file is empty or does not exist.
+     */
+    public static boolean isEmpty()
+	{
+		return TextDBBranch.isEmptyFile(BRANCH_REPO_FILEPATH);
+	}
 
 
     /**
@@ -27,7 +38,6 @@ public class BranchController {
      * respective Branch entity objects.
      * Loads branch list from branch list CSV file. Additionally initialises the
      * respective Branch entity objects.
-     * INCOMPLETE
      */
 
     public static void loadBranches() {
