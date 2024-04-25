@@ -94,7 +94,7 @@ public class OrderController {
         }
     }
 
-    public void customizeOrder(int orderID, Customisation customisation) {
+    public void customizeOrder(int orderID, String customisation) {
         Order order = Orders.get(orderID);  // Retrieve the order using the order ID
         if (order != null) {
             List<OrderLine> orderLines = order.getOrderLine();
