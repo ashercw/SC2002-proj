@@ -87,16 +87,18 @@ public class AttributeGetter {
 	public static String getBranch() throws IOException 
 	{
 		@SuppressWarnings("unchecked")
+		//get full string of lists
 		ArrayList<String> branchL = TextDBBranch.readBranch("BranchRepo.txt", false);
 		while (true) 
 		{
 			System.out.print("Please enter your branch (");
-			for (String i : branchL) {
+			for (String i : branchL) { //print existing branch codes
 				System.out.print(i + ", ");
 			}
-			System.out.println("NA): ");
+			System.out.println("NA): "); //for admin
 			String branch = IO.userInpuString();
-			if (branchL.contains(branch))
+			//check if branch exists
+			if (branchL.contains(branch) || branch.equals("NA"))
 				return branch;
 			else System.out.println("Branch does not exist. Please try again");
 		}

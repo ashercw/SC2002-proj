@@ -1,12 +1,12 @@
 package Boundary.Account;
 /**
+ * This class prints out the menu for changing the password.
  * @author Saffron Lim
  */
 public class ChangePassword {
 
 	/**
-	 * 
-	 * @param UserType
+	 * This function prints out the menu for changing the password.
 	 */
 	public static void dispChangePassword() {
 		System.out.println("\n\n");
@@ -18,11 +18,17 @@ public class ChangePassword {
 
 	}
 
+	/**
+	 * Prints error message.
+	 */
 	public static void dispDefaultPasswordErr()
 	{
 		System.out.println("New password cannot be default password!");
 	}
 
+	/**
+	 * Prints success message.
+	 */
 	public static void dispSuccess()
 	{
 		System.out.println("Password has been successfully changed. Please login again!");
