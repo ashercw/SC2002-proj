@@ -11,11 +11,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The StaffMainPage class provides an interface for staff members to interact with orders.
+ * This class handles operations like displaying new orders, processing orders, and tracking order status.
+ */
+
 public class StaffMainPage {
 
  private Staff staff;
  private List<Order> orders; 
 
+ /**
+ * Constructs a StaffMainPage object for a given staff member identified by staffID.
+ * It initializes the list of orders and loads staff details from the "EmployeeRepo.txt" file.
+ *
+ * @param staffID the unique identifier of the staff member.
+ */
  public StaffMainPage(String staffID) {
         this.orders = new ArrayList<Order>(); 
         try {
@@ -33,6 +44,11 @@ public class StaffMainPage {
 			System.out.println("IOException > " + e.getMessage());
 		}
     }
+
+/**
+     * Displays the main page interface for the staff, allowing them to choose between
+     * displaying new orders, processing orders, or exiting the interface.
+     */
 
  public void displayStaffMainPage() {
     while (true) {
@@ -75,7 +91,10 @@ public class StaffMainPage {
     }
  }
 
-    // Display orders that are new
+/**
+     * Displays a list of new orders, including details such as order ID, status, items, and total price.
+     */
+
     public void displayNewOrders() {
         // TODO: switch to OrderByBranchRepo
         System.out.println("New Orders:");
@@ -88,8 +107,13 @@ public class StaffMainPage {
         }
     }
 
+/**
+     * Processes an order by updating its status to "Ready to Pickup" based on the given order ID.
+     *
+     * @param orderId the ID of the order to be processed.
+     * @throws UnsupportedOperationException if the order ID is not valid.
+     */
 
-    // Process an order by ID, updating its status to Ready to Pickup
     public void processOrder(int orderId) {
         if(orderId <= 0){
             throw new UnsupportedOperationException("OrderID is not given.");
@@ -103,6 +127,12 @@ public class StaffMainPage {
         }
         System.out.println("Order with ID " + orderId + " not found or not in a 'new' status.");
     }
+
+/**
+     * Tracks and prints the status of an order based on the given order ID.
+     *
+     * @param orderID the ID of the order to be tracked.
+     */
 
     public void trackOrderStatus(int orderID){
         for (Order order : orders) {
@@ -129,7 +159,12 @@ public class StaffMainPage {
         }
     }
 
-    // Getters and Setters
+/**
+     * Returns the login ID of the staff member.
+     *
+     * @return the login ID of the staff.
+     */
+    
     public String getStaffID() {
         return staff.getLoginID();
     }
