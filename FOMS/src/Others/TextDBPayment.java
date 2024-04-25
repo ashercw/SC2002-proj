@@ -1,89 +1,51 @@
 package Others;
 
-import java.util.StringTokenizer;
-import java.io.*;
-import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import Entity.Branch;
-import Entity.Order.Payment;
-
-@SuppressWarnings({ "rawtypes", "unchecked" })
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class TextDBPayment extends TextDB {
 
+    private static final String SEPARATOR = ",";
+
     /**
-     * This function is meant to create various Branch objects or a list of branch
-     * names from a txt file.
-     * It first reads String from a given text file by calling the read() function.
-     * If createObj = true, it then creates the objects based on the read data and
-     * returns a list of the
-     * different objects.
-     * If createObj = false, it returns an ArrayList of branch names in String.
+     * Reads payment methods from a text file and optionally creates a mapping of payment method names
+     * to their corresponding class names.
      * 
-     * @param filename  is the path of the txt file to read from.
-     * @param createObj is a boolean variable that determines the operation of the
-     *                  function.
-     * @return an ArrayList of Branch objects or an ArrayList of Strings (branch
-     *         names).
-     * @throws IOException
-     * 
+     * @param filename The path of the text file to read from.
+     * @param createMap Determines whether to return a list of names or a map of names to class names.
+     * @return Either a List of strings (payment method names) or a Map of names to class names.
+     * @throws IOException If an error occurs during file reading.
      */
-    public static ArrayList readPayment(String filename, Boolean createObj) throws IOException {
-        // read String from text file
-        ArrayList stringArray = (ArrayList) read(filename);
-        ArrayList alr = new ArrayList();// to store Professors data
+    public static List<String[]> readPaymentMethods(String filename, boolean createMap) throws IOException {
+        List<String> stringArray = read(filename);
+        List<String[]> alr = new ArrayList<>();
 
-        for (int i = 0; i < stringArray.size(); i++) {
-            String st = (String) stringArray.get(i);
-            // get individual 'fields' of the string separated by SEPARATOR
-            StringTokenizer star = new StringTokenizer(st, SEPARATOR); // pass in the string to the string tokenizer
-                                                                       // using delimiter ","
-
-            String name = star.nextToken().trim(); // first token
-            if (createObj == false) // only get the branch names
-            {
-                alr.add(name);
-            } else {
-                String location = star.nextToken().trim(); // second token
-                int quota = Integer.parseInt(star.nextToken().trim()); // third token
-                // create Branch object from file data
-                Payment paymentObj = new Payment(name, location, quota);
-
-                // add to Branch list
-                alr.add(paymentObj);
-            }
-
+        for (String line : stringArray) {
+            StringTokenizer star = new StringTokenizer(line, SEPARATOR);
+            String name = star.nextToken().trim();  // first token
+            String className = star.nextToken().trim();  // second token
+            alr.add(new String[]{name, className});
         }
         return alr;
     }
 
     /**
-     * This function saves the data of Branch objects in a given txt file.
+     * Saves the data of payment method mappings to a text file.
      * 
-     * @param FILENAME is the String directory of the file to write to.
-     * @param al       is a List of Branch objects whose content will be saved in
-     *                 the txt file.
-     * @throws IOException
-     * 
+     * @param FILENAME The path of the file to write to.
+     * @param al A List of string arrays, each containing a payment method name and class name.
+     * @throws IOException If an error occurs during file writing.
      */
-    public static void savePayment(String FILENAME, List al) throws IOException {
-        List alw = new ArrayList();// to store Professors data
+    public static void savePaymentMethods(String FILENAME, List<String[]> al) throws IOException {
+        List<String> alw = new ArrayList<>();  // to store payment method data as strings
 
-        for (int i = 0; i < al.size(); i++) {
-            // get object
-            Payment paymentObj = (Payment) al.get(i);
-            StringBuilder st = new StringBuilder();
-            // get attributes
-            st.append(paymentObj.getBranchName().trim());
-            st.append(SEPARATOR);
-            st.append(paymentObj.getLocation().trim());
-            st.append(SEPARATOR);
-            st.append(paymentObj.getQuota());
-
-            alw.add(st.toString());
-
+        for (String[] data : al) {
+            String st = data[0].trim() + SEPARATOR + data[1].trim();
+            alw.add(st);
         }
         write(FILENAME, alw);
     }
 }
+
