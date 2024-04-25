@@ -128,7 +128,7 @@ public class MenuControllerTemp {
         return added;
     }
 
-    public boolean updateMenuItem(String name, double newPrice, String newDescription) {
+    public boolean updateMenuItem(String name, double newPrice, String newDescription, String branch) {
         boolean updated = false;
         for (FoodItem item : menu.getMenuList()) {
             if (item.getFoodItemName().equals(name) && item.getFoodItemBranch().equals(branch))

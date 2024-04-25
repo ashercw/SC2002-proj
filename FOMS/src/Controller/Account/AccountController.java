@@ -5,6 +5,7 @@ import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
+import Others.TextDB;
 import Others.TextDBStaff;
 import Boundary.StaffMainPage;
 import Boundary.Account.AttributeGetter;
@@ -23,7 +24,10 @@ public class AccountController {
 		// TODO - implement AccountController.AccountController
 	}
 
-	//public static boolean isEmpty
+	public static boolean isEmpty()
+	{
+		return TextDBStaff.isEmptyFile(STAFF_REPO_FILEPATH);
+	}
 
 	/**
 	 * Loads employee list from staff list CSV file. Additionally initialises the

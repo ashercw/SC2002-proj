@@ -67,7 +67,7 @@ public class TextDB {
      * @param newString String to replace oldString with.
      * 
      */
-    static void modifyFile(String filePath, String oldString, String newString)
+    public static void modifyFile(String filePath, String oldString, String newString)
     {
         File fileToBeModified = new File(filePath);
         String oldContent = "";
@@ -109,6 +109,24 @@ public class TextDB {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static boolean isEmptyFile(String filePath) {
+
+        File file = new File(filePath);
+        if (file.exists()) {
+
+            if (file.length() == 0) {
+                // File empty
+                System.out.println("File is empty");
+                return false;
+            }
+            System.out.println("File not is empty");
+            return true;
+        }
+        else System.out.println("File DNE");
+        return false;
+        
     }
 
 }
