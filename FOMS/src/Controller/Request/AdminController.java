@@ -315,9 +315,16 @@ public class AdminController {
 	 * @param paymentClass  The class representing the payment method
 	 *                      implementation.
 	 */
-	public static void addPaymentMethod(String paymentMethod, Class<? extends Payment> paymentClass) {
-		PaymentController.registerPaymentMethod(paymentMethod, paymentClass);
-	}
+	public static void addPaymentMethod(String paymentMethodName, String paymentClass) throws IOException {
+        List<String[]> existingPayments = TextDBPayment.readPaymentMethods("PaymentRepo.txt", true);
+        
+        // Check if the payment method already exists
+        for (String[] payment : existingPayments) {
+            if (payment[0].equalsIgnoreCase(paymentMethodName)) {
+                System.out.println("Payment method '" + paymentMethodName + "' already exists.");
+                return;
+            }
+        }
 
 	/**
 	 * Opens a new branch.

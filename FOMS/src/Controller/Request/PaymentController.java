@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Reuben Farrel, Christian
+ * @author Reuben Farrel, Christian Asher Widjaja
  */
 
 public class PaymentController {
@@ -38,6 +38,9 @@ public class PaymentController {
     }
 
     public static void registerPaymentMethod(String paymentMethod, Class<? extends Payment> paymentClass) {
+        if (paymentMethod == null || paymentClass == null) {
+            throw new IllegalArgumentException("Payment method and class must not be null.");
+        }
         paymentMethodMap.put(paymentMethod.toLowerCase(), paymentClass);
     }
 }
