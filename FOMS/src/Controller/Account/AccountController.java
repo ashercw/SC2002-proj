@@ -119,9 +119,17 @@ public class AccountController {
 
 		int loginResult = -100;
 		int numTries = 0;
+		String branch = "";
 		String userID = AttributeGetter.getUserID();
 		String password = AttributeGetter.getPassword();
-
+		try 
+		{
+			branch = AttributeGetter.getBranch();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		while (loginResult != 1 && numTries < 2) {
 			//check existence of user, and if password and userID can be found in EmployeeRepo
 			loginResult = PasswordController.checkCredentials(employeeType, password, userID);
@@ -131,11 +139,11 @@ public class AccountController {
 				if(CredentialsValidator.isDefaultPassW(password))
 				{
 					//call change password
-					PasswordController.changePassword(employeeType, userID);
+					PasswordController.changePassword(employeeType, userID, branch);
 					//once successful, return back to main page.
 					return;
 				}
-				System.out.println("Success! Welcome " + userID + "!");
+				System.out.println("\n\n\n\n\nSuccess! Welcome " + userID + "!");
 				//GO TO STAFF MAIN PAGE
 				if (employeeType == EmployeeType.S) { 
 					new StaffMainPage(userID).displayStaffMainPage();

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Boundary.Account.AttributeGetter;
 import Boundary.Account.ChangePassword;
 import Others.IO;
+import Others.TextDB;
 import Others.TextDBStaff;
 import Entity.User.EmployeeType;
 import Entity.User.User;
@@ -59,7 +60,7 @@ public class PasswordController {
 	 * @param User
 	 * @param String
 	 */
-	public static void changePassword(EmployeeType employeeType, String userID) {
+	public static void changePassword(EmployeeType employeeType, String userID, String branch) {
 		boolean isValid = false;
 		IO.printNewLine(5);
 
@@ -80,7 +81,9 @@ public class PasswordController {
 				{
 					ChangePassword.dispSuccess();
 					//write to Staff List repos
-					
+					TextDB.modifyFile("EmployeeRepo.txt", "password", newPassword, userID);
+					String file = branch + "StaffListRepo.txt";
+					TextDB.modifyFile(file, "password", newPassword, userID);
 					return;
 				}
 				

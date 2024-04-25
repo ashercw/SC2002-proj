@@ -68,7 +68,7 @@ public class TextDB {
      * @param newString String to replace oldString with.
      * 
      */
-    static void modifyFile(String filePath, String oldString, String newString, String userID) {
+    public static void modifyFile(String filePath, String oldString, String newString, String userID) {
         File fileToBeModified = new File(filePath);
         String oldContent = "";
         String newLine = "";
@@ -80,19 +80,20 @@ public class TextDB {
             // Reading all the lines of input text file into oldContent
             String line = reader.readLine();
             while (line != null) {
-                //check if string was amended
-                if(newLine != "") oldContent = oldContent + newLine + System.lineSeparator();
-                else oldContent = oldContent + line + System.lineSeparator();
-                line = reader.readLine();
-
-                if(line == null) break;
-
-                System.out.println(oldContent);
-
                 if(line.indexOf(userID)!=-1) {
                     //string found
                     newLine = line.replaceAll(oldString, newString);
                 }
+                //check if string was amended
+                if(newLine != "") 
+                {
+                    oldContent = oldContent + newLine + System.lineSeparator();
+                    newLine = "";
+                }
+                else oldContent = oldContent + line + System.lineSeparator();
+                line = reader.readLine();
+
+                if(line == null) break;
             }
             // Rewriting the input text file with newContent
             writer = new FileWriter(fileToBeModified);
@@ -136,5 +137,8 @@ public class TextDB {
         return false;
         
     }
+
+    
+
 
 }

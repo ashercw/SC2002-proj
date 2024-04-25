@@ -1,6 +1,11 @@
 package Boundary.Account;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 import Entity.User.EmployeeType;
 import Others.IO;
+import Others.TextDBBranch;
 
 /**
  * Accepts user input to retrieve respective attributes.
@@ -12,37 +17,27 @@ public class AttributeGetter {
 	 * 1: Staff (S)
 	 * 2: Admin (A)
 	 * 3: Manager (M)
+	 * 
 	 * @return EmployeeType (S, A, M)
 	 * 
 	 */
-	public static EmployeeType getEmployeeType()
-	{
-		while(true)
-		{
-		System.out.println("\nPlease select your domain (1-3)");
+	public static EmployeeType getEmployeeType() {
+		while (true) {
+			System.out.println("\nPlease select your domain (1-3)");
 			int userInput = IO.userInputInt();
-			if(userInput == 1)
-			{
+			if (userInput == 1) {
 				System.out.println("Logging in as Staff:");
 				return EmployeeType.S;
-			}
-			else if(userInput == 2)
-			{
+			} else if (userInput == 2) {
 				System.out.println("Logging in as Manager:");
 				return EmployeeType.M;
-			}
-			else if(userInput == 3)
-			{
+			} else if (userInput == 3) {
 				System.out.println("Logging in as Admin:");
 				return EmployeeType.A;
-			}
-			else if(userInput == 4)
-			{
+			} else if (userInput == 4) {
 				System.out.println("\nExiting page...\n\n\n");
 				return null;
-			}
-			else
-			{
+			} else {
 				System.out.println("\nPlease enter an integer from 1-4");
 			}
 		}
@@ -50,19 +45,21 @@ public class AttributeGetter {
 
 	/**
 	 * Gets and returns the employee's userID by calling IO.userInpuString();.
+	 * 
 	 * @return String (user's userID)
 	 * 
 	 */
-	public static String getUserID()
-	{
-		//IO.userInpuString();
+	public static String getUserID() {
+		// IO.userInpuString();
 
-		/*Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-		System.out.println("Please enter your userID:");
-	
-		String userName = myObj.nextLine();  // Read user input
-		System.out.println("Username is: " + userName);  // Output user input
-		return userName;*/
+		/*
+		 * Scanner myObj = new Scanner(System.in); // Create a Scanner object
+		 * System.out.println("Please enter your userID:");
+		 * 
+		 * String userName = myObj.nextLine(); // Read user input
+		 * System.out.println("Username is: " + userName); // Output user input
+		 * return userName;
+		 */
 		System.out.println("Please enter your userID:");
 		String userName = IO.userInpuString();
 		return userName;
@@ -70,15 +67,39 @@ public class AttributeGetter {
 
 	/**
 	 * Gets and returns the employee's password by calling IO.userInpuString();.
+	 * 
 	 * @return String (user's password)
 	 * 
 	 */
-	public static String getPassword()
-	{
+	public static String getPassword() {
 		System.out.println("Please enter your password:");
 		String password = IO.userInpuString();
 		return password;
 	}
-	
+
+	/**
+	 * Gets and returns the employee's branch by calling IO.userInpuString();.
+	 * 
+	 * @return String (user's password)
+	 * @throws IOException
+	 * 
+	 */
+	public static String getBranch() throws IOException 
+	{
+		@SuppressWarnings("unchecked")
+		ArrayList<String> branchL = TextDBBranch.readBranch("BranchRepo.txt", false);
+		while (true) 
+		{
+			System.out.print("Please enter your branch (");
+			for (String i : branchL) {
+				System.out.print(i + ", ");
+			}
+			System.out.println("NA): ");
+			String branch = IO.userInpuString();
+			if (branchL.contains(branch))
+				return branch;
+			else System.out.println("Branch does not exist. Please try again");
+		}
+	}
 
 }
