@@ -1,4 +1,3 @@
-3
 package Controller.Request;
 
 import java.util.Scanner;
@@ -108,10 +107,10 @@ public class OrderController {
         int isConfirm = confirmOrder();
         if (isConfirm == 1) {
             // proceed to payment
-            ordersList.add(orderObj);
+            TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
         } else if (isConfirm == 2) {
             // update order
-            ordersList.add(updateOrder(orderObj));
+            TextDBOrder.writeSerializedObject("OrderRepo.txt", updateOrder(orderObj));
 
         } else if (isConfirm == 3) {
             // delete order
@@ -120,10 +119,10 @@ public class OrderController {
         }
         
 
-        TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
-        /*List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        //TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
+        List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
         Order obj = (Order) orderObjL.get(0);
-        System.out.println("NEW PRICE "+ obj.getTotalPrice());*/
+        System.out.println("NEW PRICE "+ obj.getTotalPrice());
 
     }
 
@@ -257,6 +256,17 @@ public class OrderController {
         IO.displayDivider();
         IO.printNewLine(1);
 
+    }
+
+    public static void printAllOrders()
+    {
+        List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        System.out.print("NUMBER OF ORDERS: " + fullOrderL.size());
+        for(int i = 0; i< fullOrderL.size(); i++)
+        {
+            Order orderObj = (Order)fullOrderL.get(i);
+            displayOrder(orderObj);
+        }
     }
 
     /*

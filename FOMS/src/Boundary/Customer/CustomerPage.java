@@ -2,6 +2,7 @@ package Boundary.Customer;
 
 import java.util.List;
 
+import Controller.Request.OrderController;
 import Others.IO;
 
 /**
@@ -76,6 +77,7 @@ public class CustomerPage {
             } else if (userChoice == 2) // allow customer to track order
             {
                 IO.printNewLine(5);
+                OrderController.printAllOrders();
             } else if (userChoice == 3) { // Exit page
                 System.out.println("Exiting page...");
                 return;

@@ -44,6 +44,7 @@ public class TextDBOrder extends TextDB {
 	}
 
 	public static void writeSerializedObject(String filename, List list) {
+        
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
 		try {
@@ -58,12 +59,22 @@ public class TextDBOrder extends TextDB {
 	}
 
     public static void writeSerializedObject(String filename, Order order) {
+        File file = new File(filename);
+        List orderList = new ArrayList<>();
+
+        if(file.exists()) {
+
+            if (file.length() != 0) {
+                orderList = readSerializedObject(filename);
+            }
+        }
+        orderList.add(order);
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
 		try {
 			fos = new FileOutputStream(filename);
 			out = new ObjectOutputStream(fos);
-			out.writeObject(order);
+			out.writeObject(orderList);
 			out.close();
 		//	System.out.println("Object Persisted");
 		} catch (IOException ex) {
