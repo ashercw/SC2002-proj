@@ -4,4 +4,4 @@ Tom Chan|TomC|M|M|56|JP|password
 Alica Ang|AlicaA|M|F|27|JE|password
 Mary lee|MaryL|S|F|44|JE|password
 Justin Loh|JustinL|S|M|49|JP|password
-Boss|boss|A|F|62|password
+Boss|boss|A|F|62|ABCDEf12!

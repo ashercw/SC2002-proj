@@ -12,7 +12,7 @@ public class CredentialsValidator {
     /**
      * System requirements for new password.
      */
-    private static String MIN_LENGTH = "12";
+    private static String MIN_LENGTH = "8";
     private static String MAX_LENGTH = "20";
     private static boolean SPECIAL_CHAR_NEEDED = false;
 
@@ -40,7 +40,7 @@ public class CredentialsValidator {
     {
         boolean isIDCorrect = false;
 		boolean isUserTypeCorrect = false;
-
+        //System.out.println("in credentials validator, " + emp.getLoginID() + emp.getEmployeeType() + inputUserID + empType);
         isIDCorrect = emp.getLoginID().equals(inputUserID);
 		isUserTypeCorrect = emp.getEmployeeType() == empType;
         if(isIDCorrect && isUserTypeCorrect) return true;

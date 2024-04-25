@@ -52,14 +52,6 @@ public class AttributeGetter {
 	public static String getUserID() {
 		// IO.userInpuString();
 
-		/*
-		 * Scanner myObj = new Scanner(System.in); // Create a Scanner object
-		 * System.out.println("Please enter your userID:");
-		 * 
-		 * String userName = myObj.nextLine(); // Read user input
-		 * System.out.println("Username is: " + userName); // Output user input
-		 * return userName;
-		 */
 		System.out.println("Please enter your userID:");
 		String userName = IO.userInpuString();
 		return userName;

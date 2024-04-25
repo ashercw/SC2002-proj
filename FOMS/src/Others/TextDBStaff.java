@@ -56,7 +56,7 @@ public class TextDBStaff extends TextDB {
                 alr.add(userEmp);
             } else if (role.equals("A")) {
                 String password = star.nextToken().trim();
-                Admin userEmp = new Admin(name, userID, EmployeeType.S, gender, age, password);
+                Admin userEmp = new Admin(name, userID, EmployeeType.A, gender, age, password);
                 // add to list
                 alr.add(userEmp);
             }

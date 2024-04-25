@@ -5,6 +5,8 @@ import Entity.Order.Payment;
 import Entity.User.EmployeeType;
 import java.util.*;
 
+import Boundary.Account.AttributeGetter;
+
 /**
  * @author Reuben Farrel
  */
@@ -41,6 +43,7 @@ public class AdminMainPage {
 			System.out.println("0. Exit.");
 			System.out.print("Please enter your choice (from 0 to 10): ");
 			choice = scanner.nextInt();
+			System.out.println("\n");
 
 			switch (choice) {
 				case 1:
@@ -83,10 +86,8 @@ public class AdminMainPage {
 	}
 
 	private static void addStaff() {
-		System.out.print("Enter username: ");
-		String username = scanner.nextLine();
-		System.out.print("Enter password: ");
-		String password = scanner.nextLine();
+		String username = AttributeGetter.getUserID();
+		String password = AttributeGetter.getPassword();
 		System.out.print("Enter name: ");
 		String name = scanner.nextLine();
 		System.out.print("Enter age: ");
