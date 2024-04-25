@@ -269,6 +269,35 @@ public class OrderController {
         }
     }
 
+    public static void collectOrder()
+    {
+        //List of Order objects
+        List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+
+        //search for order
+        System.out.println("Please enter your Order ID: ");
+        int userOrderID = IO.userInputInt();
+        int orderConfirm = 0;
+        if(userOrderID <1 || userOrderID > fullOrderL.size())
+        {
+            System.out.println("Order does not exist!");
+            return;
+        }
+        else
+        {
+            //order found
+            Order custOrder = (Order)fullOrderL.get(userOrderID);
+            //print order
+            displayOrder(custOrder);
+
+            //user confirmation
+            System.out.println("Is this your order? (1) Yes (2) No");
+            orderConfirm = IO.userInputInt();
+            if(orderConfirm == 2) return; //not the correct order
+        }
+        
+    }
+
     /*
      * public void updateOrder(OrderLine updatedOrderLine){
      * //int orderID = myOrder.getOrderID();
