@@ -3,6 +3,7 @@ package Others;
 import java.util.Scanner;
 import java.io.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
 
@@ -67,45 +68,46 @@ public class TextDB {
      * @param newString String to replace oldString with.
      * 
      */
-    public static void modifyFile(String filePath, String oldString, String newString)
-    {
+    static void modifyFile(String filePath, String oldString, String newString, String userID) {
         File fileToBeModified = new File(filePath);
         String oldContent = "";
+        String newLine = "";
         BufferedReader reader = null;
         FileWriter writer = null;
-         
-        try
-        {
+
+        try {
             reader = new BufferedReader(new FileReader(fileToBeModified));
-            //Reading all the lines of input text file into oldContent
+            // Reading all the lines of input text file into oldContent
             String line = reader.readLine();
-            while (line != null) 
-            {
-                oldContent = oldContent + line + System.lineSeparator();
+            while (line != null) {
+                //check if string was amended
+                if(newLine != "") oldContent = oldContent + newLine + System.lineSeparator();
+                else oldContent = oldContent + line + System.lineSeparator();
                 line = reader.readLine();
+
+                if(line == null) break;
+
+                System.out.println(oldContent);
+
+                if(line.indexOf(userID)!=-1) {
+                    //string found
+                    newLine = line.replaceAll(oldString, newString);
+                }
             }
-             
-            //Replacing oldString with newString in the oldContent
-            String newContent = oldContent.replaceAll(oldString, newString);
-            //Rewriting the input text file with newContent
+            // Rewriting the input text file with newContent
             writer = new FileWriter(fileToBeModified);
-            writer.write(newContent);
-        }
-        catch (IOException e)
-        {
+            writer.write(oldContent);
+        } catch (NoSuchElementException e) {
+        } 
+        catch (IOException e) {
 
             e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                //Closing the resources
+        } finally {
+            try {
+                // Closing the resources
                 reader.close();
-                writer.close();
-            } 
-            catch (IOException e) 
-            {
+                if(writer != null) writer.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
