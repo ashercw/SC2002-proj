@@ -70,6 +70,8 @@ public class CustomerPage {
                 else
                 {
                     //proceed to other functionality
+                    CustomerOrderUI custOrderUIObj = new CustomerOrderUI(custBranch);
+                    custOrderUIObj.displayMenu();
                 }
             } else if (userChoice == 2) // allow customer to track order
             {
