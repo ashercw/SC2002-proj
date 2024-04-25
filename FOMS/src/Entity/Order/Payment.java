@@ -1,5 +1,9 @@
 package Entity.Order;
 
-public interface Payment {
+/**
+ * @author Reuben Farrel, Saffron
+ */
 
+public interface Payment {
+    public abstract boolean processPayment(double amount);
 }

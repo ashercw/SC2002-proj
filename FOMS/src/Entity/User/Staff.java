@@ -1,5 +1,8 @@
 package Entity.User;
 
+/**
+ * @author Reuben Farrel, Saffron
+ */
 public class Staff extends User {
     private boolean isPromoted;
     private String branch;

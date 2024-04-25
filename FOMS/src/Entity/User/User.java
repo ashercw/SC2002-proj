@@ -1,5 +1,8 @@
 package Entity.User;
 
+/**
+ * @author Saffron, Reuben Farrel
+ */
 public class User implements EmployeeUser {
 
     private String empName;

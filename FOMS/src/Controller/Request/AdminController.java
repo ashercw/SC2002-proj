@@ -9,25 +9,15 @@ import Entity.User.User;
 import Entity.Branch;
 import Entity.User.Manager;
 import Entity.Order.Payment;
-import Controller.Request.PaymentController;
 import java.util.stream.Collectors;
 import Others.TextDBBranch;
 import Others.TextDBStaff;
-import Entity.Order.CreditandDebit;
-import Entity.Order.Paynow;
 
 /**
  * @author Reuben Farrel
  */
 
 public class AdminController {
-	private List<Payment> paymentMethods;
-
-	public AdminController() {
-		paymentMethods = new ArrayList<>();
-		paymentMethods.add(new CreditandDebit());
-		paymentMethods.add(new Paynow());
-	}
 
 	public boolean addStaff(String username, String password, String name, String age, String gender, String branch,
 			EmployeeType role) {
@@ -239,6 +229,7 @@ public class AdminController {
 				System.out.println("Branch '" + newBranchName + "' not found.");
 				return;
 			}
+			assert currentBranch != null;
 			currentBranch.getStaffList().remove(staffToTransfer);
 			Staff transferredStaff = new Staff(
 					staffToTransfer.getEmployeeName(),
@@ -262,36 +253,8 @@ public class AdminController {
 		}
 	}
 
-	public void addPaymentMethod(String paymentMethodName) {
-		PaymentController paymentController = new PaymentController();
-		double dummyAmount = 0.0; // Dummy amount
-
-		try {
-			boolean paymentMethodSupported = paymentController.processPayment(dummyAmount, paymentMethodName);
-			if (paymentMethodSupported) {
-				Payment paymentMethod = null;
-				switch (paymentMethodName.toLowerCase()) {
-					case "credit/debit":
-						paymentMethod = new CreditandDebit();
-						break;
-					case "paynow":
-						paymentMethod = new Paynow();
-						break;
-					case "newpaymentmethod":
-						// paymentMethod = new NewPaymentImpl(); // Using the new payment method
-						// implementation
-						break;
-					default:
-						throw new IllegalArgumentException("Unsupported payment method: " + paymentMethodName);
-				}
-				paymentMethods.add(paymentMethod);
-				System.out.println("Payment method '" + paymentMethodName + "' added successfully.");
-			} else {
-				System.out.println("Payment method '" + paymentMethodName + "' is not supported.");
-			}
-		} catch (IllegalArgumentException e) {
-			System.out.println("Payment method '" + paymentMethodName + "' is not supported.");
-		}
+	public void addPaymentMethod(String paymentMethod, Class<? extends Payment> paymentClass) {
+		PaymentController.registerPaymentMethod(paymentMethod, paymentClass);
 	}
 
 	public void openBranch(String branchName) {
