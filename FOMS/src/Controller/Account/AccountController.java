@@ -151,7 +151,7 @@ public class AccountController {
 				}
 				// GO TO MANAGER MAIN PAGE
 				else if (employeeType == EmployeeType.M) {
-					// call manager main page
+					new ManagerMainPage(userID).displayManagerMainPage();
 
 					// return to FOMS
 					return;
