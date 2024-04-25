@@ -1,4 +1,5 @@
 package Controller.Request;
+
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
@@ -8,16 +9,17 @@ import Entity.Order.Order;
 import Entity.Order.OrderLine;
 import Entity.Order.OrderStatus;
 import Entity.Order.OrderType;
+
 /***
-    @author Elbert Gunawan and Christian Asher Widjaja
-*/
+ * @author Elbert Gunawan and Christian Asher Widjaja
+ */
 
 public class OrderController {
     Scanner scanner = new Scanner(System.in);
     private Map<Integer, Order> Orders = new HashMap<>();
     String moreItems = "1";
-    
-    public void addOrder(OrderLine orderLine){
+
+    public void addOrder(OrderLine orderLine) {
         OrderStatus orderStatus = OrderStatus.valueOf(scanner.nextLine().toUpperCase());
         OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
         String branchName = scanner.nextLine();
@@ -31,11 +33,11 @@ public class OrderController {
         Orders.put(newOrder.getOrderID(), newOrder);
     }
 
-    public void updateOrder(OrderLine updatedOrderLine){
-        //int orderID = myOrder.getOrderID();
+    public void updateOrder(OrderLine updatedOrderLine) {
+        // int orderID = myOrder.getOrderID();
         int orderID = updatedOrderLine.getOrderId();
         Order orderUpdate = Orders.get(orderID);
-        if(orderUpdate != null){
+        if (orderUpdate != null) {
             // Get the first OrderLine item
             List<OrderLine> orderLines = orderUpdate.getOrderLine();
             if (orderID >= 0 && orderID < orderLines.size()) {
@@ -44,13 +46,13 @@ public class OrderController {
                 orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getItemQuantity());
                 double newTotalPrice = calculateTotalPrice(orderLines);
                 orderUpdate.setTotalPrice(newTotalPrice);
-            }else{
+            } else {
                 return;
             }
-        }else{
+        } else {
             return;
         }
-}
+    }
 
     private double calculateTotalPrice(List<OrderLine> orderLines) {
         double total = 0.0;
@@ -60,19 +62,19 @@ public class OrderController {
         return total;
     }
 
-    public void cancelOrder(OrderLine cancel){
+    public void cancelOrder(OrderLine cancel) {
         int orderID = cancel.getOrderId();
         Order OrderCancel = Orders.get(orderID);
-        if(OrderCancel != null){
+        if (OrderCancel != null) {
             Orders.remove(orderID);
-        }else{
+        } else {
             return;
         }
     }
-    public void displayOrder(int orderID)
-    {
+
+    public void displayOrder(int orderID) {
         Order displayOrderID = Orders.get(orderID);
-        if(displayOrderID != null){
+        if (displayOrderID != null) {
             displayOrderID.getOrderID();
             displayOrderID.getBranchName();
             displayOrderID.getOrderStatus();
@@ -86,31 +88,32 @@ public class OrderController {
                 line.getItem().getFoodItemPrice();
                 line.getItemQuantity();
             }
-        }
-        else
-        {
+        } else {
             return;
         }
     }
 
     public void customizeOrder(int orderID, String customisation) {
-        Order order = Orders.get(orderID);  // Retrieve the order using the order ID
+        Order order = Orders.get(orderID); // Retrieve the order using the order ID
         if (order != null) {
             List<OrderLine> orderLines = order.getOrderLine();
-            if (orderID >= 0 && orderID < orderLines.size()) 
-            {
-                OrderLine orderLine = orderLines.get(orderID);  // Get the specific order line
-                orderLine.setCustomisation(customisation);  // Set the new customization for the order line
-            }
-            else
-            {
+            if (orderID >= 0 && orderID < orderLines.size()) {
+                OrderLine orderLine = orderLines.get(orderID); // Get the specific order line
+                orderLine.setCustomisation(customisation); // Set the new customization for the order line
+            } else {
                 return;
             }
-        }
-        else
-        {
+        } else {
             return;
         }
     }
-}
 
+    public Map<Integer, Order> getOrders() {
+        return this.Orders;
+    }
+
+    public Order getOrder(int orderID) {
+        return Orders.get(orderID);
+    }
+
+}
