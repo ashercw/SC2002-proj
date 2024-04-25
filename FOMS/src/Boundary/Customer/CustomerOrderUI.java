@@ -3,6 +3,9 @@ package Boundary.Customer;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import Boundary.MenuDisplay;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,13 +71,13 @@ public class CustomerOrderUI {
 
         if(userChoice == 1) //Allow user to look at menu only
         {
-            
+            MenuDisplay.menuBrowsing(getBranch());
         }
         else if(userChoice == 2) //Allow user to place an order
         {
-
+            
         }
-        else if(userChoice == 3) //Allow user to place an order
+        else if(userChoice == 3) //Exit
         {
             return;
         }
