@@ -12,16 +12,21 @@ import java.util.*;
 public class AdminMainPage {
 	static Scanner scanner = new Scanner(System.in);
 	private static AdminController adminController;
+	private String userID;
 
 	// Constructor
 	public AdminMainPage(AdminController adminController) {
 		AdminMainPage.adminController = adminController;
 	}
 
+	public AdminMainPage(String userID) {
+		this.userID = userID;
+	}
+
 	public void displayAdminMainPage() {
 		int choice;
 		do {
-			System.out.println("Welcome to Admin Main Page");
+			System.out.println("Welcome, Admin " + userID);
 			System.out.println("Hello, Admin!\n");
 			System.out.println("1. Add Staff.");
 			System.out.println("2. Edit Staff Information.");

@@ -6,32 +6,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Others.IO;
 import Others.TextDBStaff;
+import Boundary.AdminMainPage;
 import Boundary.StaffMainPage;
 import Boundary.Account.AttributeGetter;
 import Boundary.Account.LogOutUI;
 import Controller.Request.BranchController;
 import Controller.Account.Password.*;;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class AccountController {
 	// CHANGE DEPENDING ON YOUR SYSTEM C:\\Users\\Saffron
 	// Lim\\Downloads\\staff_listCSV.csv
 	private final static String FILEPATH = "FOMS\\src\\Others\\staff_listCSV.csv";
 	private final static String STAFF_REPO_FILEPATH = "EmployeeRepo.txt";
 
-
-	
 	public AccountController() {
 		// TODO - implement AccountController.AccountController
 	}
 
 	/**
-     * This function checks whether the "EmployeeRepo.txt" file is empty or does not exist by calling 
+	 * This function checks whether the "EmployeeRepo.txt" file is empty or does not
+	 * exist by calling
 	 * TextDBStaff.isEmptyFile().
-     * @return boolean, true if file is not empty, false if file is empty or does not exist.
-     */
-	public static boolean isEmpty()
-	{
+	 * 
+	 * @return boolean, true if file is not empty, false if file is empty or does
+	 *         not exist.
+	 */
+	public static boolean isEmpty() {
 		return TextDBStaff.isEmptyFile(STAFF_REPO_FILEPATH);
 	}
 
@@ -39,7 +40,6 @@ public class AccountController {
 	 * Loads employee list from staff list CSV file. Additionally initialises the
 	 * respective User entity objects
 	 */
-
 
 	public static void loadEmployees() {
 		List al = new ArrayList();
@@ -107,9 +107,12 @@ public class AccountController {
 	}
 
 	/**
-	 * This function allows the employee user to login by calling other functions. 
-	 * The user has a limit of 3 login attempts, after which the user will be automatically logged out of FOMS. 
-	 * @param employeeType EmployeeType of the user trying to login (STAFF, ADMIN, MANAGER).
+	 * This function allows the employee user to login by calling other functions.
+	 * The user has a limit of 3 login attempts, after which the user will be
+	 * automatically logged out of FOMS.
+	 * 
+	 * @param employeeType EmployeeType of the user trying to login (STAFF, ADMIN,
+	 *                     MANAGER).
 	 * 
 	 */
 
@@ -121,58 +124,52 @@ public class AccountController {
 		String branch = "";
 		String userID = AttributeGetter.getUserID();
 		String password = AttributeGetter.getPassword();
-		try 
-		{
+		try {
 			branch = AttributeGetter.getBranch();
-		}
-		catch(IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		while (loginResult != 1 && numTries < 2) {
-			//check existence of user, and if password and userID can be found in EmployeeRepo
+			// check existence of user, and if password and userID can be found in
+			// EmployeeRepo
 			loginResult = PasswordController.checkCredentials(employeeType, password, userID);
 			// login successful
-			if (loginResult == 1) 
-			{
-				if(CredentialsValidator.isDefaultPassW(password))
-				{
-					//call change password
+			if (loginResult == 1) {
+				if (CredentialsValidator.isDefaultPassW(password)) {
+					// call change password
 					PasswordController.changePassword(employeeType, userID, branch);
-					//once successful, return back to main page.
+					// once successful, return back to main page.
 					return;
 				}
 				System.out.println("\n\n\n\n\nSuccess! Welcome " + userID + "!");
-				//GO TO STAFF MAIN PAGE
-				if (employeeType == EmployeeType.S) { 
+				// GO TO STAFF MAIN PAGE
+				if (employeeType == EmployeeType.S) {
 					new StaffMainPage(userID).displayStaffMainPage();
-					//return to FOMS
+					// return to FOMS
 					return;
 				}
-				//GO TO MANAGER MAIN PAGE
+				// GO TO MANAGER MAIN PAGE
 				else if (employeeType == EmployeeType.M) {
-					//call manager main page
+					// call manager main page
 
-					//return to FOMS
+					// return to FOMS
 					return;
 				}
-				//GO TO ADMIN MAIN PAGE
+				// GO TO ADMIN MAIN PAGE
 				else if (employeeType == EmployeeType.A) {
-					//call admin main page
-					
-					//return to FOMS
+					new AdminMainPage(userID).displayAdminMainPage();
+
+					// return to FOMS
 					return;
 				}
-			} 
+			}
 			// wrong password
-			else if (loginResult == 0) 
-			{
+			else if (loginResult == 0) {
 				System.out.println("Wrong password! Try again.");
 				numTries++;
-			} 
+			}
 			// user not found
-			else if (loginResult == -1) 
-			{
+			else if (loginResult == -1) {
 				System.out.println("User does not exist! Try again.");
 				numTries++;
 			}
@@ -180,15 +177,12 @@ public class AccountController {
 			password = AttributeGetter.getPassword();
 		}
 
-		if(numTries >= 2)
-		{
+		if (numTries >= 2) {
 			System.out.println("\n\n\nYou have exceeded the number of login attempts. Goodbye.\n\n\n");
 			LogOutUI.LogOut();
-			
+
 		}
 
 	}
-
-
 
 }
