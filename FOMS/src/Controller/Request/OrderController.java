@@ -99,21 +99,41 @@ public class OrderController {
 
         Order orderObj = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLinesList, orderQuant, branch);
         displayOrder(orderObj);
-        // TO DO
-        // CONFIRM ORDER: IF YES PROCEED TO PAYMENT
-        // IF NO UPDATE ORDER
-        // CONFIRM AGAIN
         ordersList.add(orderObj);
+        boolean isConfirm = confirmOrder();
+        if(isConfirm) 
+        {
+            //proceed to payment
+        }
+        else
+        {
+            //update order
+
+        }
         TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
         
 
+    }
+
+    public static boolean confirmOrder()
+    {
+        System.out.println("Please confirm the above order: (1) Confirm Order (2) Update Order");
+        int userInput = IO.userInputInt();
+        if(userInput == 1) return true;
+        return false;
+    }
+
+    public static Order updateOrder(Order orderObj)
+    {
+        //update order
     }
 
     public static void displayOrder(Order orderObj)
     {
         IO.printNewLine(2);
         IO.displayDivider();
-        System.out.println("\t\tYOUR ORDER");
+        System.out.format("%15s", "YOUR ORDER");
+        System.out.println("");
         IO.displayDivider();
 
         System.out.format("%-15s", "Order ID:");
@@ -125,7 +145,7 @@ public class OrderController {
         System.out.format("%-15s", "Total Price:");
 		System.out.println("No. of Items:");
 
-        System.out.format("$%-15.2f", orderObj.getTotalPrice());
+        System.out.format("$%-14.2f", orderObj.getTotalPrice());
 		System.out.println(orderObj.getOrderQuantity());
 
         System.out.format("%-15s", "Order Type:");
