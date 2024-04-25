@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controller.Request.OrderController;
+
 /**
  * The StaffMainPage class provides an interface for staff members to interact with orders.
  * This class handles operations like displaying new orders, processing orders, and tracking order status.
@@ -107,14 +109,15 @@ public StaffMainPage(String staffID) {
 
     public void displayNewOrders() {
         // TODO: switch to OrderByBranchRepo
-        System.out.println("New Orders:");
+        /*System.out.println("New Orders:");
         for (Order order : orders) {
             System.out.println("Order ID: " + order.getOrderID());
             System.out.println("Status: " + order.getOrderStatus());
             System.out.println("Items:");
             order.getOrderLine().forEach((item) -> System.out.println(item.getItem().getFoodItemName() + ", Quantity: " + item.getItemQuantity()));
             System.out.println("Total Price: " + order.getTotalPrice());
-        }
+        }*/
+        OrderController.printAllOrders();
     }
 
 /**
