@@ -1,14 +1,16 @@
 package Entity.Order;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import Entity.Food.FoodItem;
 
-public class Order {
+public class Order implements Serializable{
     private OrderStatus orderStatus;
 	private OrderType orderType;
 	private double totalPrice;
-	private List<OrderLine> orderItemsList;
+	private ArrayList orderItemsList;
 	private int orderQuantity;
 	private int orderID;
 	private String branchName;
@@ -16,7 +18,7 @@ public class Order {
 	
 	
 	//constructor
-	public Order(OrderStatus _os, OrderType _ot, double _tp, List<OrderLine> _orderLineList, int _oq, String _bn)
+	public Order(OrderStatus _os, OrderType _ot, double _tp, ArrayList _orderLineList, int _oq, String _bn)
 	{
 		this.orderStatus = _os;
 		this.orderType = _ot;
@@ -48,7 +50,7 @@ public class Order {
 		return this.totalPrice = totalPrice;
 	}
 	
-	public List<OrderLine> getOrderLine()
+	public ArrayList getOrderLine()
 	{
 		return this.orderItemsList;
 	}

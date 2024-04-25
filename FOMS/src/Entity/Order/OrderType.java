@@ -1,6 +1,8 @@
 package Entity.Order;
 
-public enum OrderType {
+import java.io.Serializable;
+
+public enum OrderType implements Serializable{
     TAKEAWAY,
 	DINEIN
 }

@@ -1,13 +1,18 @@
 package Controller.Request;
 import java.util.Scanner;
 import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+
+import Entity.Food.FoodItem;
 import Entity.Order.Order;
 import Entity.Order.OrderLine;
 import Entity.Order.OrderStatus;
 import Entity.Order.OrderType;
+import Others.IO;
+import Others.TextDBOrder;
 /***
     @author Elbert Gunawan and Christian Asher Widjaja
 */
@@ -17,7 +22,7 @@ public class OrderController {
     private Map<Integer, Order> Orders = new HashMap<>();
     String moreItems = "1";
     
-    public void addOrder(OrderLine orderLine){
+    /*public void addOrder(OrderLine orderLine){
         OrderStatus orderStatus = OrderStatus.valueOf(scanner.nextLine().toUpperCase());
         OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
         String branchName = scanner.nextLine();
@@ -29,7 +34,80 @@ public class OrderController {
 
         Order newOrder = new Order(orderStatus, orderType, totalPrice, orderLines, orderLines.size(), branchName);
         Orders.put(newOrder.getOrderID(), newOrder);
+    }*/
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static void createOrder(String branch, ArrayList menuList){
+        int userInputItem = 0;
+        int userInputOrderType = 0;
+        int itemQuant = 0;
+        int orderQuant = 0;
+        int userInputCustom = 0;
+        String customInstruct = "";
+        Double totalPrice = 0.0;
+        OrderType orderType = OrderType.DINEIN; //default
+
+        ArrayList orderLinesList = new ArrayList<>();
+        ArrayList ordersList = new ArrayList<>();
+
+        System.out.print("Choose: (1) Takeaway, (2) Dine In: ");
+        userInputOrderType = IO.userInputInt();
+        if(userInputOrderType == 1) orderType = OrderType.DINEIN;
+        else if(userInputOrderType == 2) orderType = OrderType.TAKEAWAY;
+
+        while(userInputItem != -1)
+        {
+            System.out.print("Enter the item number (-1 to end ordering): ");
+            userInputItem = IO.userInputInt();
+            if(userInputItem == -1 ) break;
+            FoodItem food = new FoodItem();
+            food = (FoodItem) menuList.get(userInputItem-1);
+            
+
+            
+
+            System.out.print("Enter the item quanity: ");
+
+            itemQuant = IO.userInputInt();
+            totalPrice += food.getFoodItemPrice() * itemQuant;
+            orderQuant += itemQuant;
+
+            System.out.print("Enter the item customisation:  (1) Yes (2) No: ");
+            userInputCustom = IO.userInputInt();
+
+            //get custom
+            if(userInputCustom == 1)
+            {
+                System.out.println("Please enter your instructions");
+                customInstruct = IO.userInpuString();
+            }
+            else
+            {
+                customInstruct = "No Customisation.";
+            }
+
+            //OrderLine orderLineObj = new OrderLine(food.getFoodItemName(), itemQuant, food.getFoodItemType(), customInstruct);
+            OrderLine orderLineObj = new OrderLine(food, itemQuant, customInstruct);
+
+            System.out.println("\nItem added to cart!");
+            orderLineObj.printOrderLine(orderLineObj);
+            System.out.println("Number of items in cart: " + orderQuant);
+            System.out.printf("Total price: %.2f", totalPrice);
+            IO.printNewLine(2);
+
+            orderLinesList.add(orderLineObj);
+        }
+
+
+        Order orderObj = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLinesList, orderQuant, branch);
+        ordersList.add(orderObj);
+        TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
+        
+
+        
+        
     }
+
 
     public void updateOrder(OrderLine updatedOrderLine){
         //int orderID = myOrder.getOrderID();

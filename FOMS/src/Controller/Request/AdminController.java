@@ -197,6 +197,10 @@ public class AdminController {
 				System.out.println("The branch already has a manager assigned.");
 				return;
 			}
+			// 1) read from BranchRepo.txt to check quota
+			// 2) read from branchString + StaffListRepo.txt to check how many managers
+			// 3) if quoto is not maxxed out, can add the manager to the branch
+			// 4) write to branchString + StaffListRepo.txt to save the manager inside the file
 
 			branch.getManagerList().add(manager);
 			System.out.println(

@@ -1,26 +1,49 @@
 package Entity.Order;
 
-import Entity.Food.FoodItem;
+import java.io.Serializable;
 
-public class OrderLine {
-    private FoodItem item;
+import Entity.Food.FoodItem;
+import Entity.Food.ItemType;
+
+public class OrderLine implements Serializable{
+    //private String itemName;
+    //private ItemType itemType;
     private int itemQuantity;
     private String custom;
     private int orderId;
 
-    public OrderLine(FoodItem _f, int _q, String custom) {
-        this.item = _f;
-        this.itemQuantity = _q;
+    private FoodItem item;
+
+    public OrderLine(FoodItem item, int itemQuantity, String custom) {
+        this.item = item;
+        //this.itemType = itemType;
+        this.itemQuantity = itemQuantity;
         this.custom = custom;
     }
 
-    public FoodItem getItem() {
+    /*public OrderLine(String _f, int _q, ItemType itemType, String custom) {
+        this.itemName = _f;
+        this.itemType = itemType;
+        this.itemQuantity = _q;
+        this.custom = custom;
+    }*/
+
+    public FoodItem getItem()
+    {
         return this.item;
     }
 
-    public void setItem(FoodItem item) {
-        this.item = item;
-    }
+    /*public String getItem() {
+        return this.itemName;
+    }*/
+
+    /*public ItemType getItemType() {
+        return this.itemType;
+    }*/
+
+    /*public void setItem(String item) {
+        this.itemName = item;
+    }*/
 
     public int getItemQuantity() {
         return this.itemQuantity;
@@ -44,5 +67,11 @@ public class OrderLine {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public void printOrderLine(OrderLine orderLine)
+    {
+        System.out.println("Item: " + orderLine.getItem().getFoodItemName() + " | Quanity: " 
+        + orderLine.getItemQuantity() + " | Customisation: " + orderLine.getCustomisation());
     }
 }

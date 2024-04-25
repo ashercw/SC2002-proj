@@ -1,6 +1,8 @@
 package Entity.Food;
 
-public enum ItemType {
+import java.io.Serializable;
+
+public enum ItemType implements Serializable{
     BURGER,
 	SETMEAL,
 	DRINK,

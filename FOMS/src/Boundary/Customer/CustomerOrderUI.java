@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import Boundary.MenuDisplay;
+import Controller.Request.OrderController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class CustomerOrderUI {
                 MenuDisplay.menuBrowsing(getBranch());
             } else if (userChoice == 2) // Allow user to place an order
             {
-                MenuDisplay.menuBrowsing(getBranch());
+                displayPlaceOrderUI(getBranch());
                 //CALL FUNCTION TO ALLOW CUSTOMER TO PLACE ORDER
 
             } else if (userChoice == 3) // Exit
@@ -80,6 +81,19 @@ public class CustomerOrderUI {
                 return;
             }
         }
+    }
+
+
+    public void displayPlaceOrderUI(String branch)
+    {
+
+        ArrayList menuList = MenuDisplay.printMenu(getBranch());
+        OrderController.createOrder(branch, menuList);
+
+        System.out.println("Order Created!");
+
+
+
     }
 
 }

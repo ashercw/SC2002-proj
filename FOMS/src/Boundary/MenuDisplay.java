@@ -31,7 +31,7 @@ public class MenuDisplay {
 	 * @param branch
 	 * 
 	 */
-	public static void printMenu(String branch)
+	public static ArrayList printMenu(String branch)
 	{
 		IO.printNewLine(5);
 		IO.displayDivider();
@@ -41,10 +41,10 @@ public class MenuDisplay {
 		System.out.format("%-15s", "Item");
 		System.out.println("Price");
 		//System.out.format("", "Price\n");
-
+		ArrayList menuList = new ArrayList<>();
 		String filePath = branch + "MenuListRepo.txt";
 		try {
-			ArrayList menuList = TextDBFood.readFoodList(filePath);
+			menuList = TextDBFood.readFoodList(filePath);
 			FoodItem food = new FoodItem();
 			for (int i = 0; i < menuList.size(); i++)
 			{
@@ -60,6 +60,7 @@ public class MenuDisplay {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return menuList;
 	}
 
 

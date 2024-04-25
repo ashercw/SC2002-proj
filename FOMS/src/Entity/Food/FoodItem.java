@@ -1,6 +1,8 @@
 package Entity.Food;
 
-public class FoodItem implements IFoodItem{
+import java.io.Serializable;
+
+public class FoodItem implements IFoodItem, Serializable{
 
     String name;
     double price;
