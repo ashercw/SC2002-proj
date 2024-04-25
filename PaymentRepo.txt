@@ -3,3 +3,5 @@ CreditAndDebit,Entity.Order.CreditAndDebit
 Paynow,Entity.Order.Paynow
 Cash,Entity.Order.Cash
 Debit,Entity.Order.Debit
+Paylah,Entity.Order.Paylah
+Elbert,Entity.Order.Elbert

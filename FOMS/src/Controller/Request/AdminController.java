@@ -314,12 +314,12 @@ public class AdminController {
 	 */
 	public static void addPaymentMethod(String paymentMethodName, String paymentClass) throws IOException {
 		List<String[]> existingPayments = TextDBPayment.readPaymentMethods("PaymentRepo.txt", true);
-
+		
 		// Check if the payment method already exists
 		for (String[] payment : existingPayments) {
 			if (payment[0].equalsIgnoreCase(paymentMethodName)) {
 				System.out.println("Payment method '" + paymentMethodName + "' already exists.");
-				return;
+				return; // Early return to prevent further processing
 			}
 		}
 		existingPayments.add(new String[] { paymentMethodName, paymentClass });

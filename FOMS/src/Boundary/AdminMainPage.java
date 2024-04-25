@@ -226,7 +226,6 @@ public class AdminMainPage {
 	
 		try {
 			AdminController.addPaymentMethod(paymentMethod, paymentClassName);  // Corrected to pass both parameters as strings
-			System.out.println("Payment method added successfully.");
 		} catch (Exception e) {
 			System.out.println("Error adding payment method: " + e.getMessage());
 		}
