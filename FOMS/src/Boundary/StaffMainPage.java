@@ -15,7 +15,7 @@ import java.util.List;
  * The StaffMainPage class provides an interface for staff members to interact with orders.
  * This class handles operations like displaying new orders, processing orders, and tracking order status.
  */
-
+@SuppressWarnings("rawtypes")
 public class StaffMainPage {
 
  private Staff staff;
@@ -27,7 +27,8 @@ public class StaffMainPage {
  *
  * @param staffID the unique identifier of the staff member.
  */
- public StaffMainPage(String staffID) {
+
+public StaffMainPage(String staffID) {
         this.orders = new ArrayList<Order>(); 
         try {
 			ArrayList employeeList = TextDBStaff.readEmployee("EmployeeRepo.txt");
@@ -102,7 +103,7 @@ public class StaffMainPage {
             System.out.println("Order ID: " + order.getOrderID());
             System.out.println("Status: " + order.getOrderStatus());
             System.out.println("Items:");
-            order.getOrderLine().forEach((item) -> System.out.println(item.getItem().getFoodItemName() + ", Quantity: " + item.getitemQuanity()));
+            order.getOrderLine().forEach((item) -> System.out.println(item.getItem().getFoodItemName() + ", Quantity: " + item.getItemQuantity()));
             System.out.println("Total Price: " + order.getTotalPrice());
         }
     }
