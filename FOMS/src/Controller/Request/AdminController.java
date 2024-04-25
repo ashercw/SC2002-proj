@@ -41,10 +41,11 @@ public class AdminController {
 	 * @return true if the staff member is successfully added, false otherwise.
 	 */
 
-	 public AdminController()
-	 {}
+	public AdminController() {
+	}
 
-	public static boolean addStaff(String name, String loginID, EmployeeType role, String gender, String age, String branch,
+	public static boolean addStaff(String name, String loginID, EmployeeType role, String gender, String age,
+			String branch,
 			String password) {
 		boolean added = false;
 		try {
@@ -55,21 +56,17 @@ public class AdminController {
 					return false;
 				}
 			}
-			if(role == EmployeeType.S){
+			if (role == EmployeeType.S) {
 				Staff newStaff = new Staff(name, loginID, role, gender, age, branch, password);
 				employees.add(newStaff);
-			}
-			else if(role == EmployeeType.M)
-			{
+			} else if (role == EmployeeType.M) {
 				Manager newMan = new Manager(name, loginID, role, gender, age, branch, password);
 				employees.add(newMan);
-			}
-			else if(role == EmployeeType.A)
-			{
+			} else if (role == EmployeeType.A) {
 				Admin newAd = new Admin(name, loginID, role, gender, age, password);
 				employees.add(newAd);
 			}
-			
+
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 			added = true;
 		} catch (IOException e) {
@@ -171,34 +168,34 @@ public class AdminController {
 				System.out.println("Manager with ID " + managerId + " not found.");
 				return;
 			}
-	
+
 			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
 			Branch branch = branches.stream()
-									.filter(b -> b.getBranchName().equals(branchName))
-									.findFirst().orElse(null);
-	
+					.filter(b -> b.getBranchName().equals(branchName))
+					.findFirst().orElse(null);
+
 			if (branch == null) {
 				System.out.println("Branch with name " + branchName + " not found.");
 				return;
 			}
-	
+
 			ArrayList<Manager> managers = branch.getManagerList();
 			if (managers == null) {
 				managers = new ArrayList<>(); // Initialize the list if it is null
 				branch.setManagerList(managers); // Update the branch
 			}
-	
+
 			if (managers.stream().anyMatch(m -> m.getBranch().equals(branchName))) {
 				System.out.println("The branch already has a manager assigned.");
 				return;
 			}
-	
+
 			manager.setBranch(branchName);
 			managers.add(manager);
-	
+
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-	
+
 			System.out.println("Manager with ID " + managerId + " has been assigned to branch " + branchName + ".");
 		} catch (IOException e) {
 			System.out.println("Error assigning manager to branch: " + e.getMessage());
@@ -232,16 +229,16 @@ public class AdminController {
 			}
 			Staff staffToPromote = (Staff) employees.get(staffIndex);
 			Manager promotedManager = new Manager(
-				staffToPromote.getEmployeeName(),
-				staffToPromote.getLoginID(),
-				managerRole, // This should be EmployeeType.M for Manager
-				staffToPromote.getGender(),
-				staffToPromote.getAge(),
-				staffToPromote.getBranch(),
-				staffToPromote.getPassword());
-	
+					staffToPromote.getEmployeeName(),
+					staffToPromote.getLoginID(),
+					managerRole, // This should be EmployeeType.M for Manager
+					staffToPromote.getGender(),
+					staffToPromote.getAge(),
+					staffToPromote.getBranch(),
+					staffToPromote.getPassword());
+
 			employees.set(staffIndex, promotedManager); // Replace the Staff object with a new Manager object
-	
+
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 			System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
 			promoted = true;
@@ -264,7 +261,7 @@ public class AdminController {
 		try {
 			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
 			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-	
+
 			Staff staffToTransfer = null;
 			for (User user : employees) {
 				if (user instanceof Staff && user.getLoginID().equals(userId)) {
@@ -276,7 +273,7 @@ public class AdminController {
 				System.out.println("Staff with ID '" + userId + "' not found.");
 				return;
 			}
-	
+
 			Branch currentBranch = null, newBranch = null;
 			for (Branch branch : branches) {
 				if (branch.getBranchName().equals(currentBranchName)) {
@@ -294,20 +291,19 @@ public class AdminController {
 				System.out.println("Current branch '" + currentBranchName + "' not found.");
 				return;
 			}
-	
+
 			currentBranch.getStaffList().remove(staffToTransfer);
 			newBranch.getStaffList().add(staffToTransfer);
 			staffToTransfer.setBranch(newBranchName);
-	
+
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-	
+
 			System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
 		} catch (IOException e) {
 			System.out.println("Error transferring staff: " + e.getMessage());
 		}
 	}
-	
 
 	/**
 	 * Adds a new payment method to the system.
@@ -317,15 +313,21 @@ public class AdminController {
 	 *                      implementation.
 	 */
 	public static void addPaymentMethod(String paymentMethodName, String paymentClass) throws IOException {
-        List<String[]> existingPayments = TextDBPayment.readPaymentMethods("PaymentRepo.txt", true);
-        
-        // Check if the payment method already exists
-        for (String[] payment : existingPayments) {
-            if (payment[0].equalsIgnoreCase(paymentMethodName)) {
-                System.out.println("Payment method '" + paymentMethodName + "' already exists.");
-                return;
-            }
-        }
+		List<String[]> existingPayments = TextDBPayment.readPaymentMethods("PaymentRepo.txt", true);
+
+		// Check if the payment method already exists
+		for (String[] payment : existingPayments) {
+			if (payment[0].equalsIgnoreCase(paymentMethodName)) {
+				System.out.println("Payment method '" + paymentMethodName + "' already exists.");
+				return;
+			}
+		}
+		existingPayments.add(new String[] { paymentMethodName, paymentClass });
+
+		// Save the updated list of payment methods back to the text file
+		TextDBPayment.savePaymentMethods("PaymentRepo.txt", existingPayments);
+
+		System.out.println("New payment method '" + paymentMethodName + "' added successfully.");
 	}
 
 	/**
@@ -336,29 +338,28 @@ public class AdminController {
 	public static void openBranch(String branchName, String location, int quota) throws IOException {
 		@SuppressWarnings("unchecked")
 		List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
-	   
+
 		// Check if the branch already exists
 		for (Branch user : existingBranches) {
-		 if (user instanceof Branch) {
-		  Branch existingBranch = (Branch) user;
-		  if (existingBranch.getBranchName().equalsIgnoreCase(branchName)) {
-		   System.out.println("Branch '" + branchName + "' already exists.");
-		   return;
-		  }
-		 }
+			if (user instanceof Branch) {
+				Branch existingBranch = (Branch) user;
+				if (existingBranch.getBranchName().equalsIgnoreCase(branchName)) {
+					System.out.println("Branch '" + branchName + "' already exists.");
+					return;
+				}
+			}
 		}
-	   
+
 		Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
 		newBranch.setLocation(location);
 		newBranch.setQuota(quota);
-	   
+
 		existingBranches.add(newBranch);
-	   
+
 		TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
 		System.out.println("Branch '" + branchName + "' has been opened.");
-	  
-	  }
-	
+
+	}
 
 	/**
 	 * Closes an existing branch.
