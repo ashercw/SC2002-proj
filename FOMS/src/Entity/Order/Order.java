@@ -42,6 +42,11 @@ public class Order {
 	{
 		return this.totalPrice;
 	}
+
+	public double setTotalPrice(double totalPrice)
+	{
+		return this.totalPrice = totalPrice;
+	}
 	
 	public List<OrderLine> getOrderLine()
 	{
