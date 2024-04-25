@@ -14,6 +14,7 @@ import Entity.Order.OrderStatus;
 import Entity.Order.OrderType;
 import Others.IO;
 import Others.TextDBOrder;
+import Others.TextDBPayment;
 
 /***
  * @author Elbert Gunawan, Saffron Lim and Christian Asher Widjaja
@@ -103,26 +104,35 @@ public class OrderController {
 
         Order orderObj = new Order(OrderStatus.ORDERPLACED, orderType, totalPrice, orderLinesList, orderQuant, branch);
         displayOrder(orderObj);
-        
+
         int isConfirm = confirmOrder();
         if (isConfirm == 1) {
             // proceed to payment
-            TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
+            if (processPayment()) {
+                TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
+            }
+            else
+            {
+                return;
+            }
         } else if (isConfirm == 2) {
             // update order
             TextDBOrder.writeSerializedObject("OrderRepo.txt", updateOrder(orderObj));
+            if (processPayment()) {
+                TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
+            }
+            else return;
 
         } else if (isConfirm == 3) {
             // delete order
             System.out.println("Deleting order... proceeding back to customer page");
             return;
         }
-        
 
-        //TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
+        // TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
         List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
         Order obj = (Order) orderObjL.get(0);
-        System.out.println("NEW PRICE "+ obj.getTotalPrice());
+        System.out.println("NEW PRICE " + obj.getTotalPrice());
 
     }
 
@@ -144,43 +154,37 @@ public class OrderController {
         int userInput = 0;
         int updateInput = 1;
         displayOrderLineList(orderLineList);
-        while (userInput != -1) 
-        {
-            //choose item to update 
+        while (userInput != -1) {
+            // choose item to update
             System.out.println("Which item would you like to update? Quit: (-1)");
             userInput = IO.userInputInt();
-            if(userInput == -1) break;
+            if (userInput == -1)
+                break;
             updateInput = 1;
-            if (userInput > orderLineList.size() || userInput < 1) //check if item exists 
+            if (userInput > orderLineList.size() || userInput < 1) // check if item exists
                 System.out.println("Item does not exist! Please try again.");
 
-            else //carry on
+            else // carry on
             {
                 OrderLine orderL = (OrderLine) orderLineList.get(userInput - 1);
-                while (updateInput >= 1 && updateInput <= 3) 
-                {
-                    //update menu
+                while (updateInput >= 1 && updateInput <= 3) {
+                    // update menu
                     System.out.println("Update " + orderL.getItem().getFoodItemName());
                     System.out.println("1) Delete item");
                     System.out.println("2) Update Quantity");
                     System.out.println("3) Update Customisation");
                     System.out.println("[-1] Quit");
                     updateInput = IO.userInputInt();
-                    if(updateInput == 1)
-                    {
-                        orderLineList.remove(userInput-1);
-                    }
-                    else if(updateInput == 2)
-                    {
-                        //update quantity
+                    if (updateInput == 1) {
+                        orderLineList.remove(userInput - 1);
+                    } else if (updateInput == 2) {
+                        // update quantity
                         System.out.println("Enter new quantity: ");
                         int newQuant = IO.userInputInt();
                         orderL.setItemQuantity(newQuant);
                         orderObj.setTotalPrice(calcNewTotal(orderLineList));
-                    }
-                    else if(updateInput == 3)
-                    {
-                        //update customisation
+                    } else if (updateInput == 3) {
+                        // update customisation
                         System.out.println("Enter new customisation: ");
                         String newCust = IO.userInpuString();
                         orderL.setCustomisation(newCust);
@@ -192,17 +196,14 @@ public class OrderController {
         return orderObj;
     }
 
-    public static double calcNewTotal(ArrayList orderLineList)
-    {
+    public static double calcNewTotal(ArrayList orderLineList) {
         double sum = 0;
-        for(int i = 0; i < orderLineList.size(); i++)
-        {
+        for (int i = 0; i < orderLineList.size(); i++) {
             OrderLine orderL = (OrderLine) orderLineList.get(i);
             sum += orderL.getItemTotPrice();
         }
         return sum;
     }
-
 
     public static void displayOrderLineList(ArrayList orderLineList) {
         for (int i = 0; i < orderLineList.size(); i++) {
@@ -258,88 +259,89 @@ public class OrderController {
 
     }
 
-    public static void printAllOrders()
-    {
+    public static void printAllOrders() {
         List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
         System.out.print("NUMBER OF ORDERS: " + fullOrderL.size());
-        for(int i = 0; i< fullOrderL.size(); i++)
-        {
-            Order orderObj = (Order)fullOrderL.get(i);
+        for (int i = 0; i < fullOrderL.size(); i++) {
+            Order orderObj = (Order) fullOrderL.get(i);
             displayOrder(orderObj);
         }
     }
 
-    /*public static void collectOrder()
-    {
-        //List of Order objects
-        List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
-
-        //search for order
+    /*
+     * public static void collectOrder()
+     * {
+     * //List of Order objects
+     * List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+     * 
+     * //search for order
+     * System.out.println("Please enter your Order ID: ");
+     * int userOrderID = IO.userInputInt();
+     * int orderConfirm = 0;
+     * if(userOrderID <1 || userOrderID > fullOrderL.size())
+     * {
+     * System.out.println("Order does not exist!");
+     * return;
+     * }
+     * else
+     * {
+     * //order found
+     * Order custOrder = (Order)fullOrderL.get(userOrderID-1);
+     * //print order
+     * displayOrder(custOrder);
+     * 
+     * //user confirmation
+     * System.out.println("Is this your order? (1) Yes (2) No");
+     * orderConfirm = IO.userInputInt();
+     * if(orderConfirm == 2) return; //not the correct order
+     * 
+     * if(custOrder.getOrderStatus() == OrderStatus.READY)
+     * {
+     * System.out.
+     * println("Your order is ready for collection! Collect order? (1) Yes (2) No");
+     * int collectOrder = IO.userInputInt();
+     * if(collectOrder != 1 || collectOrder != 2)
+     * System.out.println("Wrong input!");
+     * else if(collectOrder == 1)
+     * {
+     * custOrder.setOrderStatus(OrderStatus.COLLECTED);
+     * 
+     * }
+     * }
+     * }
+     * 
+     * }
+     */
+    public static void collectOrder() {
+        int orderConfirm = 0;
         System.out.println("Please enter your Order ID: ");
         int userOrderID = IO.userInputInt();
-        int orderConfirm = 0;
-        if(userOrderID <1 || userOrderID > fullOrderL.size())
-        {
-            System.out.println("Order does not exist!");
-            return;
-        }
-        else
-        {
-            //order found
-            Order custOrder = (Order)fullOrderL.get(userOrderID-1);
-            //print order
-            displayOrder(custOrder);
 
-            //user confirmation
-            System.out.println("Is this your order? (1) Yes (2) No");
-            orderConfirm = IO.userInputInt();
-            if(orderConfirm == 2) return; //not the correct order
-
-            if(custOrder.getOrderStatus() == OrderStatus.READY)
-            {
-                System.out.println("Your order is ready for collection! Collect order? (1) Yes (2) No");
-                int collectOrder = IO.userInputInt();
-                if(collectOrder != 1 || collectOrder != 2) System.out.println("Wrong input!");
-                else if(collectOrder == 1)
-                {
-                    custOrder.setOrderStatus(OrderStatus.COLLECTED);
-                    
-                }
-            }
-        }
-        
-    }*/
-    public static void collectOrder()
-    {
-        int orderConfirm = 0;
-        System.out.println("Please enter your Order ID: ");
-        int userOrderID = IO.userInputInt();
-        
         Order custOrder = getOrderById(userOrderID);
-        if(custOrder == null) return; //search failed
+        if (custOrder == null)
+            return; // search failed
 
         displayOrder(custOrder);
 
-        //user confirmation
+        // user confirmation
         System.out.println("Is this your order? (1) Yes (2) No");
         orderConfirm = IO.userInputInt();
-        if(orderConfirm == 2) return; //not the correct order
+        if (orderConfirm == 2)
+            return; // not the correct order
 
-        if(custOrder.getOrderStatus() == OrderStatus.READY)
-        {
+        if (custOrder.getOrderStatus() == OrderStatus.READY) {
             System.out.println("Your order is ready for collection! Collect order? (1) Yes (2) No");
             int collectOrder = IO.userInputInt();
-            if(collectOrder != 1 || collectOrder != 2) System.out.println("Wrong input!");
-            else if(collectOrder == 1)
-            {
+            if (collectOrder != 1 || collectOrder != 2)
+                System.out.println("Wrong input!");
+            else if (collectOrder == 1) {
                 updateOrderStatus(userOrderID, OrderStatus.COLLECTED);
                 return;
             }
-        }
-        else
-        {
+        } else {
             System.out.println("Enter -1 to go back: ");
-            if(IO.userInputInt() == -1) return;
+            if (IO.userInputInt() == -1)
+                return;
         }
     }
 
@@ -360,11 +362,9 @@ public class OrderController {
         }
     }
 
-
     public static Order getOrderById(int orderId) {
         List<Order> orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
-        if(orderId <1 || orderId > orders.size())
-        {
+        if (orderId < 1 || orderId > orders.size()) {
             System.out.println("Order does not exist!");
             return null; // Return null if no order matches the given ID
         }
@@ -378,6 +378,41 @@ public class OrderController {
         return null; // Return null if no order matches the given ID
     }
 
+    public static boolean processPayment() {
+        int userChoice = 0;
+        IO.printNewLine(5);
+        IO.displayDivider();
+        System.out.println("\t\tPROCESS PAYMENT");
+        IO.displayDivider();
+        IO.printNewLine(1);
+        try {
+            List<String> payMethodL = TextDBPayment.readPaymentMethods("PaymentRepo.txt");
+            while (userChoice != -1) {
+                System.out.println("Payment Methods:");
+                for (int i = 0; i < payMethodL.size(); i++) {
+                    System.out.println((i + 1) + ". " + payMethodL.get(i));
+                }
+                System.out.println("Please choose a payment method: ");
+                userChoice = IO.userInputInt();
+                if (userChoice < 1 || userChoice > payMethodL.size()) {
+                    System.out.println("Payment method does not exist!");
+                } else {
+                    System.out.println("Please enter payment details for " + payMethodL.get(userChoice - 1) + ":");
+                    String userString = IO.userInpuString();
+                    if (userString != null) {
+                        System.out.println("Payment success!");
+                        return true;
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println("Payment failed!");
+        return false;
+    }
 
     /*
      * public void updateOrder(OrderLine updatedOrderLine){

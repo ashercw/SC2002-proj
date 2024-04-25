@@ -20,7 +20,7 @@ public class TextDBPayment extends TextDB {
      *         class names.
      * @throws IOException If an error occurs during file reading.
      */
-    public static List<String[]> readPaymentMethods(String filename, boolean createMap) throws IOException {
+    public static List<String[]> readPaymentMethods(String filename, boolean nameL) throws IOException {
         @SuppressWarnings("unchecked")
         List<String> lines = read(filename);
         List<String[]> paymentMethods = new ArrayList<>();
@@ -34,6 +34,24 @@ public class TextDBPayment extends TextDB {
             String name = tokens[0].trim();
             String className = tokens[1].trim();
             paymentMethods.add(new String[] { name, className });
+        }
+        return paymentMethods;
+    }
+
+    public static List<String> readPaymentMethods(String filename) throws IOException {
+        @SuppressWarnings("unchecked")
+        List<String> lines = read(filename);
+        List<String> paymentMethods = new ArrayList<>();
+
+        for (String line : lines) {
+            String[] tokens = line.split(SEPARATOR, -1); // Split with -1 limit to include trailing empty strings
+            if (tokens.length < 2) {
+                System.out.println("Skipping malformed line: " + line);
+                continue; // Skip this line as it doesn't contain enough data
+            }
+            String name = tokens[0].trim();
+            paymentMethods.add(name);
+            
         }
         return paymentMethods;
     }

@@ -83,7 +83,7 @@ public class TextDBOrder extends TextDB {
  * @exception IOException If an I/O error occurs during writing to the file.
  */
     public static void writeSerializedObject(String filename, Order order) {
-        File file = new File(filename);
+        /*File file = new File(filename);
         List orderList = new ArrayList<>();
 
         if(file.exists()) {
@@ -102,6 +102,16 @@ public class TextDBOrder extends TextDB {
 			out.writeObject(order);
 			out.close();
 		//	System.out.println("Object Persisted");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}*/
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try {
+			fos = new FileOutputStream(filename);
+			out = new ObjectOutputStream(fos);
+			out.writeObject(order);
+			out.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
