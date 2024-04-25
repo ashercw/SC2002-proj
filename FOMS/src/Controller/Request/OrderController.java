@@ -8,7 +8,6 @@ import Entity.Order.Order;
 import Entity.Order.OrderLine;
 import Entity.Order.OrderStatus;
 import Entity.Order.OrderType;
-import Entity.Order.Customisation;
 /***
     @author Elbert Gunawan and Christian Asher Widjaja
 */

@@ -10,9 +10,29 @@ import Others.TextDBFood;
 public class MenuDisplay {
 
 	/**
-	 * Allows user to look at the branch menu.
+	 * Allows user to look at the branch menu. Calls printMenu()
+	 * @param branch String variable that contains the branch. 
 	 */
 	public static void menuBrowsing(String branch) {
+		int userinput = 1;
+		printMenu(branch);
+
+		while(userinput != 0)
+		{
+			System.out.println("Enter 0 to go back: ");
+			userinput = IO.userInputInt();
+		}
+		IO.printNewLine(5);
+
+	}
+
+	/**
+	 * Allows user to look at the branch menu. 
+	 * @param branch
+	 * 
+	 */
+	public static void printMenu(String branch)
+	{
 		IO.printNewLine(5);
 		IO.displayDivider();
 		System.out.println("\t\t" + branch + " MENU");
@@ -40,8 +60,6 @@ public class MenuDisplay {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
 
