@@ -261,23 +261,13 @@ public class AdminController {
 	 */
 	public static void transferUserToBranch(String userId, String newBranchName, String currentBranchName) {
 		try {
-			@SuppressWarnings("unchecked")
 			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-
-			@SuppressWarnings("unchecked")
 			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-
+	
 			Staff staffToTransfer = null;
-			Branch currentBranch = null;
 			for (User user : employees) {
 				if (user instanceof Staff && user.getLoginID().equals(userId)) {
 					staffToTransfer = (Staff) user;
-					for (Branch branch : branches) {
-						if (branch.getBranchName().equals(staffToTransfer.getBranch())) {
-							currentBranch = branch;
-							break;
-						}
-					}
 					break;
 				}
 			}
@@ -285,40 +275,38 @@ public class AdminController {
 				System.out.println("Staff with ID '" + userId + "' not found.");
 				return;
 			}
-			Branch newBranch = null;
+	
+			Branch currentBranch = null, newBranch = null;
 			for (Branch branch : branches) {
+				if (branch.getBranchName().equals(currentBranchName)) {
+					currentBranch = branch;
+				}
 				if (branch.getBranchName().equals(newBranchName)) {
 					newBranch = branch;
-					break;
 				}
 			}
 			if (newBranch == null) {
-				System.out.println("Branch '" + newBranchName + "' not found.");
+				System.out.println("New branch '" + newBranchName + "' not found.");
 				return;
 			}
-			assert currentBranch != null;
+			if (currentBranch == null) {
+				System.out.println("Current branch '" + currentBranchName + "' not found.");
+				return;
+			}
+	
 			currentBranch.getStaffList().remove(staffToTransfer);
-			Staff transferredStaff = new Staff(
-					staffToTransfer.getEmployeeName(),
-					staffToTransfer.getLoginID(),
-					staffToTransfer.getEmployeeType(),
-					staffToTransfer.getGender(),
-					staffToTransfer.getAge(),
-					newBranchName,
-					staffToTransfer.getPassword());
-
-			newBranch.getStaffList().add(transferredStaff);
-
-			employees.remove(staffToTransfer);
-			employees.add(transferredStaff);
+			newBranch.getStaffList().add(staffToTransfer);
+			staffToTransfer.setBranch(newBranchName);
+	
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-
+	
 			System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
 		} catch (IOException e) {
 			System.out.println("Error transferring staff: " + e.getMessage());
 		}
 	}
+	
 
 	/**
 	 * Adds a new payment method to the system.
