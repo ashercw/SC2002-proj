@@ -261,23 +261,13 @@ public class AdminController {
 	 */
 	public static void transferUserToBranch(String userId, String newBranchName, String currentBranchName) {
 		try {
-			@SuppressWarnings("unchecked")
 			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-
-			@SuppressWarnings("unchecked")
 			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-
+	
 			Staff staffToTransfer = null;
-			Branch currentBranch = null;
 			for (User user : employees) {
 				if (user instanceof Staff && user.getLoginID().equals(userId)) {
 					staffToTransfer = (Staff) user;
-					for (Branch branch : branches) {
-						if (branch.getBranchName().equals(staffToTransfer.getBranch())) {
-							currentBranch = branch;
-							break;
-						}
-					}
 					break;
 				}
 			}
@@ -285,40 +275,38 @@ public class AdminController {
 				System.out.println("Staff with ID '" + userId + "' not found.");
 				return;
 			}
-			Branch newBranch = null;
+	
+			Branch currentBranch = null, newBranch = null;
 			for (Branch branch : branches) {
+				if (branch.getBranchName().equals(currentBranchName)) {
+					currentBranch = branch;
+				}
 				if (branch.getBranchName().equals(newBranchName)) {
 					newBranch = branch;
-					break;
 				}
 			}
 			if (newBranch == null) {
-				System.out.println("Branch '" + newBranchName + "' not found.");
+				System.out.println("New branch '" + newBranchName + "' not found.");
 				return;
 			}
-			assert currentBranch != null;
+			if (currentBranch == null) {
+				System.out.println("Current branch '" + currentBranchName + "' not found.");
+				return;
+			}
+	
 			currentBranch.getStaffList().remove(staffToTransfer);
-			Staff transferredStaff = new Staff(
-					staffToTransfer.getEmployeeName(),
-					staffToTransfer.getLoginID(),
-					staffToTransfer.getEmployeeType(),
-					staffToTransfer.getGender(),
-					staffToTransfer.getAge(),
-					newBranchName,
-					staffToTransfer.getPassword());
-
-			newBranch.getStaffList().add(transferredStaff);
-
-			employees.remove(staffToTransfer);
-			employees.add(transferredStaff);
+			newBranch.getStaffList().add(staffToTransfer);
+			staffToTransfer.setBranch(newBranchName);
+	
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-
+	
 			System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
 		} catch (IOException e) {
 			System.out.println("Error transferring staff: " + e.getMessage());
 		}
 	}
+	
 
 	/**
 	 * Adds a new payment method to the system.
@@ -336,40 +324,31 @@ public class AdminController {
 	 * 
 	 * @param branchName The name of the branch to be opened.
 	 */
-	public static void openBranch(String branchName) {
-		try {
-			List<User> staffList = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
-	
-			// Check if branch already exists
-			for (Branch branch : existingBranches) {
-				if (branch.getBranchName().equals(branchName)) {
-					System.out.println("Branch '" + branchName + "' already exists.");
-					return;
-				}
-			}
-	
-			Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
-	
-			// Assign only unassigned staff to the new branch
-			ArrayList<Staff> branchStaffList = new ArrayList<>();
-			for (User user : staffList) {
-				if (user instanceof Staff && ((Staff) user).getBranch().equals("Unassigned")) {
-					branchStaffList.add((Staff) user);
-					((Staff) user).setBranch(branchName);  // Update staff's branch assignment
-				}
-			}
-			newBranch.setStaffList(branchStaffList);
-	
-			existingBranches.add(newBranch);
-			TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
-			TextDBStaff.saveEmployee("EmployeeRepo.txt", staffList);  // Save changes to staff list
-	
-			System.out.println("Branch '" + branchName + "' has been opened.");
-		} catch (IOException e) {
-			System.out.println("Error opening branch: " + e.getMessage());
+	public static void openBranch(String branchName, String location, int quota) throws IOException {
+		@SuppressWarnings("unchecked")
+		List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
+	   
+		// Check if the branch already exists
+		for (Branch user : existingBranches) {
+		 if (user instanceof Branch) {
+		  Branch existingBranch = (Branch) user;
+		  if (existingBranch.getBranchName().equalsIgnoreCase(branchName)) {
+		   System.out.println("Branch '" + branchName + "' already exists.");
+		   return;
+		  }
+		 }
 		}
-	}
+	   
+		Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
+		newBranch.setLocation(location);
+		newBranch.setQuota(quota);
+	   
+		existingBranches.add(newBranch);
+	   
+		TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
+		System.out.println("Branch '" + branchName + "' has been opened.");
+	  
+	  }
 	
 
 	/**

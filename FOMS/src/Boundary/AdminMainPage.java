@@ -239,14 +239,20 @@ public class AdminMainPage {
 	 * 
 	 * @throws IOException If an I/O error occurs.
 	 */
-	private void openBranch() throws IOException {
-		scanner.nextLine(); // Clear the newline character from the buffer
-
-		System.out.println("Enter the name of the branch to open:");
-		String branchName = AttributeGetter.getBranch();
-
-		AdminController.openBranch(branchName);
-	}
+	
+private void openBranch() throws IOException {
+	System.out.print("Enter branch name: ");
+	String branchName = scanner.nextLine();
+  
+	System.out.print("Enter branch location: ");
+	String location = scanner.nextLine();
+  
+	System.out.print("Enter branch quota: ");
+	int quota = scanner.nextInt();
+	scanner.nextLine(); // Clear the newline character from the buffer
+  
+	AdminController.openBranch(branchName, location, quota);
+   }
 
 	/**
 	 * Closes an existing branch based on Admin's input.

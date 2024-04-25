@@ -57,8 +57,9 @@ public StaffMainPage(String staffID) {
         System.out.println("What would you like to do today?");
         System.out.println("\t1. Display new order");
         System.out.println("\t2. Process new order");
-        System.out.println("\t3. Go back");
-        System.out.print("\n\nYour choice (1-3): ");
+        System.out.println("\t3. Track order status");
+        System.out.println("\t4. Go back");
+        System.out.print("\n\nYour choice (1-4): ");
         int userChoice = IO.userInputInt();
 
         if (userChoice == 1) 
@@ -84,11 +85,19 @@ public StaffMainPage(String staffID) {
         } 
         else if (userChoice == 3) 
         {
+            System.out.println("Please enter the OrderID to process.");
+            int orderID = IO.userInputInt();
+            System.out.println("Track order status...");
+            System.out.println("\n\n\n\n\n");
+            trackOrderStatus(orderID);
+        }
+        else if (userChoice == 4) 
+        {
             return;
         }
         else
-            System.out.println("Invalid response. Please enter 1-3!");
-            System.out.print("Your choice (1-3): ");
+            System.out.println("Invalid response. Please enter 1-4!");
+            System.out.print("Your choice (1-4): ");
     }
  }
 
@@ -158,6 +167,7 @@ public StaffMainPage(String staffID) {
                 return;
             }
         }
+        System.out.println("Order with ID " + orderID + " not found.");
     }
 
 /**
