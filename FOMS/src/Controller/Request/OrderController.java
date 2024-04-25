@@ -286,7 +286,7 @@ public class OrderController {
         else
         {
             //order found
-            Order custOrder = (Order)fullOrderL.get(userOrderID);
+            Order custOrder = (Order)fullOrderL.get(userOrderID-1);
             //print order
             displayOrder(custOrder);
 
@@ -294,9 +294,33 @@ public class OrderController {
             System.out.println("Is this your order? (1) Yes (2) No");
             orderConfirm = IO.userInputInt();
             if(orderConfirm == 2) return; //not the correct order
+
+            if(custOrder.getOrderStatus() == OrderStatus.READY)
+            {
+                System.out.println("Your order is ready for collection! Collect order? (1) Yes (2) No");
+                int collectOrder = IO.userInputInt();
+                if(collectOrder != 1 || collectOrder != 2) System.out.println("Wrong input!");
+                else if(collectOrder == 1)
+                {
+                    custOrder.setOrderStatus(OrderStatus.COLLECTED);
+                }
+            }
         }
         
     }
+
+    public static Order getOrderById(int orderId) {
+        List<Order> orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        if (orders != null) {
+            for (Order order : orders) {
+                if (order.getOrderID() == orderId-1) {
+                    return order;
+                }
+            }
+        }
+        return null; // Return null if no order matches the given ID
+    }
+
 
     /*
      * public void updateOrder(OrderLine updatedOrderLine){
