@@ -217,22 +217,21 @@ public class AdminMainPage {
 	 */
 	private static void addPaymentMethod() {
 		scanner.nextLine();
-
+	
 		System.out.print("Enter the payment method name: ");
 		String paymentMethod = scanner.nextLine();
-
+	
 		System.out.print("Enter the fully qualified class name of the Payment implementation: ");
 		String paymentClassName = scanner.nextLine();
-
+	
 		try {
-			@SuppressWarnings("unchecked")
-			Class<? extends Payment> paymentClass = (Class<? extends Payment>) Class.forName(paymentClassName);
-			AdminController.addPaymentMethod(paymentMethod, paymentClass);
+			AdminController.addPaymentMethod(paymentMethod, paymentClassName);  // Corrected to pass both parameters as strings
 			System.out.println("Payment method added successfully.");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Invalid class name. Payment method not added.");
+		} catch (Exception e) {
+			System.out.println("Error adding payment method: " + e.getMessage());
 		}
 	}
+	
 
 	/**
 	 * Opens a new branch based on Admin's input.

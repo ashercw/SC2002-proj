@@ -14,6 +14,7 @@ import Entity.Order.Payment;
 import java.util.stream.Collectors;
 import Others.TextDBBranch;
 import Others.TextDBStaff;
+import Others.TextDBPayment;
 
 /**
  * The AdminController class gives the power for Admin to do administrative
@@ -325,6 +326,7 @@ public class AdminController {
                 return;
             }
         }
+	}
 
 	/**
 	 * Opens a new branch.
