@@ -17,7 +17,7 @@ import Entity.Order.OrderLine;
  * This page allows customer to see the branch menu, place an order, customise
  * order, make payment etc
  * 
- * @author Saffron
+ * @author Saffron, Christian
  */
 public class CustomerOrderUI {
 
