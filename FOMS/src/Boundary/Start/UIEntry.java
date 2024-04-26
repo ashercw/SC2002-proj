@@ -11,6 +11,10 @@ import Controller.Request.BranchController;
  */
 public class UIEntry {
 
+	
+	/** 
+	 * @throws IOException
+	 */
 	public static void UIstart() throws IOException {
 
 		// checks whether repo text files (database) have been instantiated.

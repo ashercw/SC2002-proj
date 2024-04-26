@@ -24,6 +24,10 @@ public class User implements EmployeeUser {
         this.password = _p;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getEmployeeName() {
         return this.empName;
     }

@@ -34,6 +34,10 @@ public class OrderLine implements Serializable{
         this.itemTotal = itemQuantity * item.getFoodItemPrice();
     }
 
+    
+    /** 
+     * @return FoodItem
+     */
     /*public OrderLine(String _f, int _q, ItemType itemType, String custom) {
         this.itemName = _f;
         this.itemType = itemType;

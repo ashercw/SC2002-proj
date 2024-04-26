@@ -14,6 +14,10 @@ public class Staff extends User {
         this.branch = _bt;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     // Accessors and mutators
     public boolean getPromotion() {
         return this.isPromoted;

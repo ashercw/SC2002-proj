@@ -44,6 +44,18 @@ public class AdminController {
 	public AdminController() {
 	}
 
+	
+	/** 
+	 * This function adds a staff to a specific branch.
+	 * @param name
+	 * @param loginID
+	 * @param role
+	 * @param gender
+	 * @param age
+	 * @param branch
+	 * @param password
+	 * @return boolean
+	 */
 	public static boolean addStaff(String name, String loginID, EmployeeType role, String gender, String age, String branch, String password) {
 		boolean added = false;
 		try {
@@ -180,6 +192,11 @@ public class AdminController {
 		}
 	}
 
+	
+	/** 
+	 * @param managerId
+	 * @param branchName
+	 */
 	@SuppressWarnings("unchecked")
 	public static void assignManagerToBranch(String managerId, String branchName) {
 		try {

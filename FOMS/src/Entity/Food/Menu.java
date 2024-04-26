@@ -16,6 +16,10 @@ public class Menu {
 		this.menuList = _menuList;
 	}
 	
+	
+	/** 
+	 * @return String
+	 */
 	//Accessors and mutators
 	public String getLocation() 
 	{
