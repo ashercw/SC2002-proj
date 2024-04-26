@@ -60,8 +60,14 @@ public class EmployeeOrderUI {
     private void processOrder() {
         System.out.print("Enter order ID: ");
         try {
-            int orderID = scanner.nextInt();
-            Order order = OrderController.getOrderById(orderID);
+            String orderID = scanner.nextLine();
+            if(orderID.isEmpty() || orderID.isBlank())
+            {
+                System.out.println("Please select an item! Do not enter an empty input!");
+                return;
+            }
+            int orderIDint = Integer.parseInt(orderID);
+            Order order = OrderController.getOrderById(orderIDint);
             if (order != null && order.getOrderStatus() == OrderStatus.ORDERPLACED) {
                 order.setOrderStatus(OrderStatus.READY); // Update the order status
                 OrderController.updateOrder(order); 

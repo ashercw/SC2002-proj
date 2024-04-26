@@ -61,7 +61,7 @@ public class StaffMainPage {
 
     public static void displayStaffMainPage() {
         while (true) {
-            System.out.println("Welcome to the staff page!\n");
+            System.out.println("Welcome to the order processing page, Staff/Manager!\n");
             System.out.println("What would you like to do today?");
             System.out.println("\t1. Display new order");
             System.out.println("\t2. Process new order");
@@ -80,8 +80,14 @@ public class StaffMainPage {
                 while (true) {
                     try {
                         System.out.println("Please enter the OrderID to process.");
-                        int OrderID = IO.userInputInt();
-                        processOrder(OrderID);
+                        String orderID = IO.userInpuString();
+                        if(orderID.isEmpty() || orderID.isBlank())
+                        {
+                            System.out.println("Please select an item! Do not enter an empty input!");
+                            return;
+                        }
+                        int orderIDint = Integer.parseInt(orderID);
+                        processOrder(orderIDint);
                         break;
                     } catch (UnsupportedOperationException error) {
                         System.out.println(error.getMessage());

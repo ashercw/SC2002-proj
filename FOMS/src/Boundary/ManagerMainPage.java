@@ -16,6 +16,7 @@ import Controller.Menu.MenuControllerTemp;
 public class ManagerMainPage {
 	private static Scanner scanner = new Scanner(System.in);
 	private static MenuControllerTemp menuController;
+	private StaffMainPage staffMain;
 	private String userID;
 	private StaffMainPage staffMain;
 
@@ -33,7 +34,7 @@ public class ManagerMainPage {
 			System.out.println("2. Add Menu Items.");
 			System.out.println("3. Edit Menu Items");
 			System.out.println("4. Remove Menu Items");
-			System.out.println("5. Display Orders.");
+			System.out.println("5. Display/Process Orders.");
 			System.out.print("Please enter your choice (0 to exit): ");
 			choice = scanner.nextInt();
 			scanner.nextLine(); // Consume newline character after nextInt()
