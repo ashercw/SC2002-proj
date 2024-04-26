@@ -1,3 +1,9 @@
+/**
+ * The ManagerMainPage class represents the main page interface for managers in the system.
+ * It allows managers to perform various tasks such as displaying staff lists, adding, editing, and removing menu items.
+ * This class interacts with other controllers and entities to perform these operations.
+ */
+
 package Boundary;
 
 import java.util.List;
@@ -14,17 +20,34 @@ import Others.TextDBStaff;
 import Controller.Request.AdminController;
 import Controller.Menu.MenuControllerTemp;
 
+/**
+ * The ManagerMainPage class provides functionality for managers to interact with the system.
+ * It allows managers to perform tasks such as displaying staff lists, adding, editing, and removing menu items.
+ */
+
 public class ManagerMainPage {
 	private static Scanner scanner = new Scanner(System.in);
 	private static MenuControllerTemp menuController;
 	private StaffMainPage staffMain;
 	private String userID;
 
+	/**
+     * Constructs a ManagerMainPage object with the specified userID.
+     * Initializes the MenuControllerTemp and StaffMainPage objects.
+     * 
+     * @param userID The ID of the manager.
+     */
+
 	public ManagerMainPage(String userID) {
 		this.userID = userID;
 		this.menuController = new MenuControllerTemp();
 		this.staffMain = new StaffMainPage(userID);
 	}
+
+	/**
+     * Displays the main page interface for managers.
+     * Allows managers to perform various tasks such as displaying staff lists, adding, editing, and removing menu items.
+     */
 
 	public void displayManagerMainPage() {
 		int choice;
@@ -63,6 +86,10 @@ public class ManagerMainPage {
 			}
 		} while (choice != 0);
 	}
+
+	/**
+     * Displays the list of staff members based on the branch entered by the manager.
+     */
 
 	private void displayStaffList() {
 		System.out.println("===== Display Staff List =====");
@@ -104,6 +131,9 @@ public class ManagerMainPage {
 		}
 	}
 
+/**
+     * Allows the manager to add a new menu item to the system.
+     */
 	public void EditMenuItems() {
 		try {
 			// Input the details of the menu item to be edited
@@ -133,7 +163,10 @@ public class ManagerMainPage {
 			System.out.println("Error occurred while updating the menu item: " + e.getMessage());
 		}
 	}
-
+	
+/**
+     * Allows the manager to edit an existing menu item in the system.
+     */
 	public void RemoveMenuitems() {
 		try {
 			System.out.print("Enter the name of the menu item to edit: ");
