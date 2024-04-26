@@ -114,7 +114,7 @@ public class OrderController {
             if (processPayment()) {
                 //orderObj.setplaceOrderTime();
                 TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
-                
+                System.out.println("Order Created!");
             }
             else
             {
@@ -126,6 +126,7 @@ public class OrderController {
             if (processPayment()) {
                 //orderObj.setplaceOrderTime();
                 TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
+                System.out.println("Order Created!");
             }
             else return;
 

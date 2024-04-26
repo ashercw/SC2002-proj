@@ -90,7 +90,7 @@ public class CustomerOrderUI {
         ArrayList menuList = MenuDisplay.printMenu(getBranch());
         OrderController.createOrder(branch, menuList);
 
-        System.out.println("Order Created!");
+        
 
 
 
