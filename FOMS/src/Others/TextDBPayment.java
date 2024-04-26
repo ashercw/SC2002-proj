@@ -38,6 +38,13 @@ public class TextDBPayment extends TextDB {
         return paymentMethods;
     }
 
+    /**
+     * 
+     * @param filename
+     * @return
+     * @throws IOException
+     * 
+     */
     public static List<String> readPaymentMethods(String filename) throws IOException {
         @SuppressWarnings("unchecked")
         List<String> lines = read(filename);

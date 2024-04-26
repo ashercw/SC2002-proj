@@ -103,7 +103,7 @@ public class StaffMainPage {
 
     /**
      * Displays a list of new orders, including details such as order ID, status,
-     * items, and total price.
+     * items, and total price. Calls OrderController.printAllOrders().
      */
 
     public static void displayNewOrders() {
