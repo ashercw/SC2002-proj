@@ -21,15 +21,7 @@ public class MenuControllerTemp {
 	public static String FILEPATH = "FOMS\\src\\Others\\menu_listCSV.csv";
 	public static String FOOD_REPO_FILEPATH = "FoodItemRepo.txt";
 
-	
 
-	/*
-	 * public MenuControllerTemp(Menu menu, MenuRepository menuRepository) {
-	 * this.menu = menu;
-	 * this.menuRepository = menuRepository;
-	 * }
-	 */
-	// idk
 
 	/**
 	 * This function checks whether the "FoodItemRepo.txt" file is empty or does not

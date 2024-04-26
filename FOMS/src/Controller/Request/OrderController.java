@@ -1,14 +1,10 @@
 package Controller.Request;
 
-import java.util.Scanner;
-
 import Controller.Account.Password.PasswordMasker;
 import java.lang.Math;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
 import Entity.Food.FoodItem;
 import Entity.Order.Order;
@@ -22,31 +18,15 @@ import Others.TextDBPayment;
 /***
  * @author Elbert Gunawan, Saffron Lim and Christian Asher Widjaja
  */
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class OrderController {
-    Scanner scanner = new Scanner(System.in);
-    private Map<Integer, Order> Orders = new HashMap<>();
-    String moreItems = "1";
 
-    /*
-     * public void addOrder(OrderLine orderLine){
-     * OrderStatus orderStatus =
-     * OrderStatus.valueOf(scanner.nextLine().toUpperCase());
-     * OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
-     * String branchName = scanner.nextLine();
+    /**
+     * Allows the customer to place an order, which is then saved into OrderRepo.txt.
+     * @param branch String representing the customer's branch
+     * @param menuList ArrayList of FoodItems
      * 
-     * List<OrderLine> orderLines = new ArrayList<>();
-     * orderLines.add(orderLine);
-     * 
-     * double totalPrice = calculateTotalPrice(orderLines);
-     * 
-     * Order newOrder = new Order(orderStatus, orderType, totalPrice, orderLines,
-     * orderLines.size(), branchName);
-     * Orders.put(newOrder.getOrderID(), newOrder);
-     * }
      */
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void createOrder(String branch, ArrayList menuList) {
         int userInputItem = 0;
         int userInputOrderType = 0;
@@ -58,7 +38,6 @@ public class OrderController {
         OrderType orderType = OrderType.DINEIN; // default
 
         ArrayList orderLinesList = new ArrayList<>();
-        ArrayList ordersList = new ArrayList<>();
 
         System.out.print("Choose: (1) Takeaway, (2) Dine In: ");
         userInputOrderType = IO.userInputInt();
@@ -92,8 +71,6 @@ public class OrderController {
                 customInstruct = "No Customisation.";
             }
 
-            // OrderLine orderLineObj = new OrderLine(food.getFoodItemName(), itemQuant,
-            // food.getFoodItemType(), customInstruct);
             OrderLine orderLineObj = new OrderLine(food, itemQuant, customInstruct);
 
             System.out.println("\nItem added to cart!");
@@ -112,7 +89,7 @@ public class OrderController {
         if (isConfirm == 1) {
             // proceed to payment
             if (processPayment()) {
-                // orderObj.setplaceOrderTime();
+
                 TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
                 System.out.println("Order Created!");
             } else {
@@ -122,7 +99,7 @@ public class OrderController {
             // update order
             TextDBOrder.writeSerializedObject("OrderRepo.txt", updateOrder(orderObj));
             if (processPayment()) {
-                // orderObj.setplaceOrderTime();
+
                 TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
                 System.out.println("Order Created!");
             } else
@@ -134,33 +111,13 @@ public class OrderController {
             return;
         }
 
-        // TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
-        /*
-         * List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
-         * for(int i = 0; i < orderObjL.size(); i++)
-         * {
-         * Order obj = (Order)orderObjL.get(i);
-         * System.out.println("NEW PRICE " + obj.getTotalPrice());
-         * }
-         */
-        // Order obj = (Order)orderObjL.get(0);
-
-        /*
-         * for(int i = 0; i < orderObjL.size(); i++)
-         * {
-         * System.out.println(orderObjL.get(i).getClass());
-         * }
-         * List orderObjL2 = (List)orderObjL.get(0);
-         * for(int i = 0; i < orderObjL2.size(); i++)
-         * {
-         * System.out.println(orderObjL2.get(i).getClass());
-         * Order obj = (Order) orderObjL2.get(i);
-         * System.out.println("NEW PRICE " + obj.getTotalPrice());
-         * }
-         */
-
     }
 
+    /**
+     * Allows the customer to choose the next option: (1) Confirm Order (2) Update Order (3) Delete Order
+     * @return an integer value of the customer's response.
+     * 
+     */
     public static int confirmOrder() {
         int userInput = 1;
         while (userInput >= 1 && userInput <= 3) {
@@ -173,6 +130,12 @@ public class OrderController {
         return userInput;
     }
 
+    /**
+     * Update an order's quantity, customisation instructions, or delete the order
+     * @param orderObj the order to be modified
+     * @return an Order object
+     * 
+     */
     public static Order updateOrder(Order orderObj) {
         // update order
         ArrayList orderLineList = orderObj.getOrderLine();
@@ -224,6 +187,11 @@ public class OrderController {
         return orderObj;
     }
 
+    /**
+     * Calculates the total price of an order
+     * @param orderLineList ArrayList of orderLineList
+     * @return double representing the total price of an order
+     */
     public static double calcNewTotal(ArrayList orderLineList) {
         double sum = 0;
         for (int i = 0; i < orderLineList.size(); i++) {
@@ -233,6 +201,11 @@ public class OrderController {
         return sum;
     }
 
+    /**
+     * Displays an ArrayList of orderLine objects
+     * @param orderLineList ArrayList of orderLine objects
+     * 
+     */
     public static void displayOrderLineList(ArrayList orderLineList) {
         for (int i = 0; i < orderLineList.size(); i++) {
             OrderLine orderL = (OrderLine) orderLineList.get(i);
@@ -243,6 +216,11 @@ public class OrderController {
         }
     }
 
+    /**
+     * Displays a specific order.
+     * @param orderObj the order to be displayed.
+     * 
+     */
     public static void displayOrder(Order orderObj) {
         IO.printNewLine(2);
         IO.displayDivider();
@@ -287,6 +265,9 @@ public class OrderController {
 
     }
 
+    /**
+     * Prints all the orders in the OrderRepo.txt file
+     */
     public static void printAllOrders() {
         List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
 
@@ -298,51 +279,10 @@ public class OrderController {
         }
     }
 
-    /*
-     * public static void collectOrder()
-     * {
-     * //List of Order objects
-     * List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
-     * 
-     * //search for order
-     * System.out.println("Please enter your Order ID: ");
-     * int userOrderID = IO.userInputInt();
-     * int orderConfirm = 0;
-     * if(userOrderID <1 || userOrderID > fullOrderL.size())
-     * {
-     * System.out.println("Order does not exist!");
-     * return;
-     * }
-     * else
-     * {
-     * //order found
-     * Order custOrder = (Order)fullOrderL.get(userOrderID-1);
-     * //print order
-     * displayOrder(custOrder);
-     * 
-     * //user confirmation
-     * System.out.println("Is this your order? (1) Yes (2) No");
-     * orderConfirm = IO.userInputInt();
-     * if(orderConfirm == 2) return; //not the correct order
-     * 
-     * if(custOrder.getOrderStatus() == OrderStatus.READY)
-     * {
-     * System.out.
-     * println("Your order is ready for collection! Collect order? (1) Yes (2) No");
-     * int collectOrder = IO.userInputInt();
-     * if(collectOrder != 1 || collectOrder != 2)
-     * System.out.println("Wrong input!");
-     * else if(collectOrder == 1)
-     * {
-     * custOrder.setOrderStatus(OrderStatus.COLLECTED);
-     * 
-     * }
-     * }
-     * }
-     * 
-     * }
+    /**
+     * Check if an order has been discarded.
+     * @param obj the order that is being checked.
      */
-
     public static void checkifDiscarded(Order obj) {
         boolean isExpired = obj.hasExpired();
         if (isExpired) {
@@ -350,6 +290,9 @@ public class OrderController {
         }
     }
 
+    /**
+     * Allows the customer to collect their order.
+     */
     public static void collectOrder() {
         printAllOrders();
         int orderConfirm = 0;
@@ -384,7 +327,6 @@ public class OrderController {
             if (collectOrder < 1 && collectOrder > 2)
                 System.out.println("Wrong input!");
 
-
             else if (collectOrder == 1) {
                 for (int i = 0; i < orders.size(); i++) {
                     custOrder = (Order) orders.get(i);
@@ -397,10 +339,9 @@ public class OrderController {
                     }
                 }
                 System.out.println("Order cannot be collected as it does not exist!");
-                
 
                 // updateOrderStatus(userOrderID, OrderStatus.COLLECTED);
-                
+
             }
         } else if (custOrder.getOrderStatus() == OrderStatus.DISCARDED) {
             System.out.println(
@@ -413,6 +354,12 @@ public class OrderController {
         }
     }
 
+    /**
+     * Update the status of an order.
+     * @param orderId the orderId of the order to be updated. 
+     * @param newStatus the new order status of the order.
+     * 
+     */
     public static void updateOrderStatus(int orderId, OrderStatus newStatus) {
         // Get the order by its ID
         Order order = getOrderById(orderId);
@@ -430,6 +377,12 @@ public class OrderController {
         }
     }
 
+    /**
+     * Find an order in the OrderRepo according to its orderID.
+     * @param orderId the orderId of the order to be found.
+     * @return an Order object.
+     * 
+     */
     public static Order getOrderById(int orderId) {
 
         List orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
@@ -449,6 +402,12 @@ public class OrderController {
         return null; // Return null if no order matches the given ID
     }
 
+    /**
+     * Allows the customer to make payment. Uses PasswordMasker.hideString() to hide the
+     * payment details.
+     * @return boolean, true if payment is successful and false otherwise.
+     * 
+     */
     public static boolean processPayment() {
         int userChoice = 0;
         IO.printNewLine(5);
@@ -479,97 +438,12 @@ public class OrderController {
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println("Payment failed!");
         return false;
     }
 
-    /*
-     * public void updateOrder(OrderLine updatedOrderLine){
-     * //int orderID = myOrder.getOrderID();
-     * int orderID = updatedOrderLine.getOrderId();
-     * Order orderUpdate = Orders.get(orderID);
-     * if (orderUpdate != null) {
-     * // Get the first OrderLine item
-     * List<OrderLine> orderLines = orderUpdate.getOrderLine();
-     * if (orderID >= 0 && orderID < orderLines.size()) {
-     * OrderLine orderLineToBeUpdated = orderLines.get(orderID);
-     * orderLineToBeUpdated.setItem(updatedOrderLine.getItem());
-     * orderLineToBeUpdated.setItemQuantity(updatedOrderLine.getItemQuantity());
-     * double newTotalPrice = calculateTotalPrice(orderLines);
-     * orderUpdate.setTotalPrice(newTotalPrice);
-     * } else {
-     * return;
-     * }
-     * } else {
-     * return;
-     * }
-     * }
-     * 
-     * private double calculateTotalPrice(List<OrderLine> orderLines) {
-     * double total = 0.0;
-     * for (OrderLine line : orderLines) {
-     * total += line.getItem().getFoodItemPrice() * line.getItemQuantity();
-     * }
-     * return total;
-     * }
-     * 
-     * public void cancelOrder(OrderLine cancel) {
-     * int orderID = cancel.getOrderId();
-     * Order OrderCancel = Orders.get(orderID);
-     * if (OrderCancel != null) {
-     * Orders.remove(orderID);
-     * } else {
-     * return;
-     * }
-     * }
-     * 
-     * public void displayOrder(int orderID) {
-     * Order displayOrderID = Orders.get(orderID);
-     * if (displayOrderID != null) {
-     * displayOrderID.getOrderID();
-     * displayOrderID.getBranchName();
-     * displayOrderID.getOrderStatus();
-     * displayOrderID.getOrderType();
-     * displayOrderID.getTotalPrice();
-     * displayOrderID.getOrderQuantity();
-     * 
-     * List<OrderLine> orderLines = displayOrderID.getOrderLine();
-     * for (OrderLine line : orderLines) {
-     * line.getItem().getName();
-     * line.getItem().getFoodItemPrice();
-     * line.getItemQuantity();
-     * }
-     * } else {
-     * return;
-     * }
-     * }
-     * 
-     * public void customizeOrder(int orderID, String customisation) {
-     * Order order = Orders.get(orderID); // Retrieve the order using the order ID
-     * if (order != null) {
-     * List<OrderLine> orderLines = order.getOrderLine();
-     * if (orderID >= 0 && orderID < orderLines.size()) {
-     * OrderLine orderLine = orderLines.get(orderID); // Get the specific order line
-     * orderLine.setCustomisation(customisation); // Set the new customization for
-     * the order line
-     * } else {
-     * return;
-     * }
-     * } else {
-     * return;
-     * }
-     * }
-     * 
-     * public Map<Integer, Order> getOrders() {
-     * return this.Orders;
-     * }
-     * 
-     * public Order getOrder(int orderID) {
-     * return Orders.get(orderID);
-     * }
-     */
+    
 
 }

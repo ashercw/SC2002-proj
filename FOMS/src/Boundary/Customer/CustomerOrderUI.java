@@ -1,14 +1,11 @@
 package Boundary.Customer;
 
-import java.util.Map;
-import java.util.Scanner;
 
 import Boundary.MenuDisplay;
 import Controller.Request.OrderController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import Entity.Order.Order;
 import Others.IO;
 import Others.TextDBFood;
 
@@ -24,6 +21,7 @@ public class CustomerOrderUI {
     private String branch;
     private String repoFileName;
 
+    @SuppressWarnings("unused")
     private ArrayList foodItems;
     //private Map<Integer, Order> orders;
 
