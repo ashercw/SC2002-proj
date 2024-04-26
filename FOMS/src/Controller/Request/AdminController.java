@@ -181,6 +181,7 @@ public class AdminController {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void assignManagerToBranch(String managerId, String branchName) {
 		try {
 			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
@@ -200,19 +201,7 @@ public class AdminController {
 				return;
 			}
 	
-			if (branchName.equals(oldBranchName)) {
-				System.out.println("Manager is already assigned to this branch.");
-				return;
-			}
-	
-			List<User> newBranchStaff = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
-			if (newBranchStaff.stream().anyMatch(m -> m instanceof Manager)) {
-				System.out.println("The branch already has a manager assigned.");
-				return;
-			}
-	
 			// Fetch branch information to check the quota
-			@SuppressWarnings("unchecked")
 			Optional <Branch> branchOptional = TextDBBranch.readBranch("BranchRepo.txt", true).stream()
 			.filter(b -> ((Branch) b).getBranchName().equals(branchName))
 			.findFirst();
@@ -223,10 +212,9 @@ public class AdminController {
 				System.out.println("Branch with name " + branchName + " not found.");
 				return;
 			}
-	
-			int quota = branch.getQuota();
 			int managerNum = 0;
 			int staffNum = 0;
+			@SuppressWarnings("rawtypes")
 			List newBranchStaffLIST = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
 			//count manager
 			for(int i = 0;  i< newBranchStaffLIST.size(); i++)
@@ -241,25 +229,17 @@ public class AdminController {
 					staffNum ++;
 				}
 
-			}
-			System.out.println("IN ADMIN CONTROLLER: staff num " + staffNum + " manager num " + managerNum + " in branch " + branchName);
-			
-			if(staffNum < 5 && managerNum > 1)
-			{
-				System.out.println("Cannot assign manager to branch " + branchName + " as the quota is already reached.");
+			}			
+			if (managerNum >= 2 && staffNum < 5) {
+				System.out.println("Cannot assign manager to branch " + branchName + " as the manager quota for less than 5 staff is already reached.");
+				return;
+			} else if (managerNum >= 3 && staffNum < 9) {
+				System.out.println("Cannot assign manager to branch " + branchName + " as the manager quota for less than 9 staff is already reached.");
+				return;
+			} else if (managerNum >= 4 && staffNum < 15) {
+				System.out.println("Cannot assign manager to branch " + branchName + " as the manager quota for less than 15 staff is already reached.");
 				return;
 			}
-			else if(staffNum < 9 && managerNum > 2)
-			{
-				System.out.println("Cannot assign manager to branch " + branchName + " as the quota is already reached.");
-				return;
-			}
-			else if(staffNum < 15 && managerNum > 3)
-			{
-				System.out.println("Cannot assign manager to branch " + branchName + " as the quota is already reached.");
-				return;
-			}
-
 			/*long currentManagerCount = newBranchStaff.stream().filter(m -> m instanceof Manager).count();
 			if (currentManagerCount >= quota) {
 				System.out.println("Cannot assign manager to branch " + branchName + " as the quota (" + quota + ") is already reached.");
@@ -272,8 +252,8 @@ public class AdminController {
 				TextDBStaff.saveEmployee(oldBranchName + "StaffListRepo.txt", oldBranchStaff);
 			}
 	
-			newBranchStaff.add(manager);
-			TextDBStaff.saveEmployee(branchName + "StaffListRepo.txt", newBranchStaff);
+			newBranchStaffLIST.add(manager);
+			TextDBStaff.saveEmployee(branchName + "StaffListRepo.txt", newBranchStaffLIST);
 			manager.setBranch(branchName);
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
 	
@@ -296,48 +276,65 @@ public class AdminController {
 	public static boolean promoteStaffToManager(String staffId, String branchName, EmployeeType managerRole) {
 		boolean promoted = false;
 		try {
-		 @SuppressWarnings("unchecked")
-		 List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-		 int staffIndex = -1;
-		 for (int i = 0; i < employees.size(); i++) {
-		  User user = employees.get(i);
-		  if (user.getLoginID().equals(staffId) && user instanceof Staff) {
-		   staffIndex = i;
-		   break;
-		  }
-		 }
-		 if (staffIndex == -1) {
-		  System.out.println("Staff member with ID " + staffId + " not found.");
-		  return false;
-		 }
-	   
-		 Staff staffToPromote = (Staff) employees.get(staffIndex);
-		 Manager promotedManager = new Manager(
-		   staffToPromote.getEmployeeName(),
-		   staffToPromote.getLoginID(),
-		   managerRole,
-		   staffToPromote.getGender(),
-		   staffToPromote.getAge(),
-		   staffToPromote.getBranch(),
-		   staffToPromote.getPassword());
-	   
-		 employees.set(staffIndex, promotedManager);
-	   
-		 TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-	   
-		 @SuppressWarnings("unchecked")
-		 List<User> branchStaff = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
-		 branchStaff.removeIf(user -> user.getLoginID().equals(staffId));
-		 branchStaff.add(promotedManager);
-		 TextDBStaff.saveEmployee(branchName + "StaffListRepo.txt", branchStaff);
-	   
-		 System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
-		 promoted = true;
+			@SuppressWarnings("unchecked")
+			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+			int staffIndex = -1;
+			for (int i = 0; i < employees.size(); i++) {
+				User user = employees.get(i);
+				if (user.getLoginID().equals(staffId) && user instanceof Staff) {
+					staffIndex = i;
+					break;
+				}
+			}
+			if (staffIndex == -1) {
+				System.out.println("Staff member with ID " + staffId + " not found.");
+				return false;
+			}
+	
+			@SuppressWarnings("unchecked")
+			List<User> branchStaff = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
+	
+			// Count existing managers in the branch
+			long currentManagerCount = branchStaff.stream().filter(u -> u instanceof Manager).count();
+			int staffNum = branchStaff.size();
+			
+			// Quota limits: defining maximum managers based on the staff count
+			if (currentManagerCount >= 2 && staffNum < 5) {
+				System.out.println("Cannot promote to manager as the manager quota for less than 5 staff is already reached.");
+				return false;
+			} else if (currentManagerCount >= 3 && staffNum < 9) {
+				System.out.println("Cannot promote to manager as the manager quota for less than 9 staff is already reached.");
+				return false;
+			} else if (currentManagerCount >= 4 && staffNum < 15) {
+				System.out.println("Cannot promote to manager as the manager quota for less than 15 staff is already reached.");
+				return false;
+			}
+	
+			Staff staffToPromote = (Staff) employees.get(staffIndex);
+			Manager promotedManager = new Manager(
+				staffToPromote.getEmployeeName(),
+				staffToPromote.getLoginID(),
+				managerRole,
+				staffToPromote.getGender(),
+				staffToPromote.getAge(),
+				staffToPromote.getBranch(),
+				staffToPromote.getPassword());
+	
+			employees.set(staffIndex, promotedManager);
+			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+	
+			branchStaff.removeIf(user -> user.getLoginID().equals(staffId));
+			branchStaff.add(promotedManager);
+			TextDBStaff.saveEmployee(branchName + "StaffListRepo.txt", branchStaff);
+	
+			System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
+			promoted = true;
 		} catch (IOException e) {
-		 System.out.println("Error promoting staff: " + e.getMessage());
+			System.out.println("Error promoting staff: " + e.getMessage());
 		}
 		return promoted;
 	}
+	
 
 	/**
 	 * Transfers a user (staff member) to a different branch.
@@ -365,6 +362,24 @@ public class AdminController {
 		  System.out.println("Staff with ID '" + userId + "' not found.");
 		  return;
 		 }
+		 @SuppressWarnings("unchecked")
+			List<User> branchStaff = TextDBStaff.readEmployee(currentBranchName + "StaffListRepo.txt");
+	
+			// Count existing managers in the branch
+			long currentManagerCount = branchStaff.stream().filter(u -> u instanceof Manager).count();
+			int staffNum = branchStaff.size();
+			
+			// Quota limits: defining maximum managers based on the staff count
+			if (currentManagerCount >= 2 && staffNum < 5) {
+				System.out.println("Cannot promote to manager as the manager quota for less than 5 staff is already reached.");
+				return;
+			} else if (currentManagerCount >= 3 && staffNum < 9) {
+				System.out.println("Cannot promote to manager as the manager quota for less than 9 staff is already reached.");
+				return;
+			} else if (currentManagerCount >= 4 && staffNum < 15) {
+				System.out.println("Cannot promote to manager as the manager quota for less than 15 staff is already reached.");
+				return;
+			}
 	   
 		 Branch currentBranch = null, newBranch = null;
 		 for (Branch branch : branches) {

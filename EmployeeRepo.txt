@@ -1,9 +1,12 @@
 kumar Blackmore|kumarB|S|M|32|NTU|KumarBlackM123!
-Alexei|Alexei|M|M|25|NTU|password
-Alica Ang|AlicaA|M|F|27|JE|password
-Mary lee|MaryL|S|F|44|JE|password
+Alexei|Alexei|M|M|25|JP|password
+Tom Chan|TomC|M|M|56|JP|password
+Alica Ang|AlicaA|M|F|27|JP|password
+Mary lee|MaryL|M|F|44|JP|password
 Justin Loh|JustinL|S|M|49|JP|password
-Boss|boss|A|F|62|BossBoss1234!
-TomC|tomC|M|M|56|JP|TomChalemet123!
-Chris|ChrisK|S|M|21|JE|password
-Ria|RiaDN|S|F|21|JE|password
+Boss|boss|A|F|62|ABCDEfg12345!
+bii|bi|S|M|33|JP|password
+bang|ba|S|M|22|JP|password
+mac|mac|S|M|55|JP|password
+uwu|uwu|S|F|38|JP|password
+4GAGA|ga|M|M|33|JE|password
