@@ -1,1 +1,8 @@
 kumar Blackmore|kumarB|S|M|32|NTU|Qwert12345678!
+Alica Ang|AlicaA|M|F|27|JE|password
+bii|bi|S|M|33|JP|password
+mac|mac|S|M|55|JP|password
+uwu|uwu|S|F|38|JP|password
+Alexei|Alexei|M|M|25|NTU|password
+bang|ba|S|M|22|JP|password
+Mary lee|MaryL|M|F|44|JE|password
