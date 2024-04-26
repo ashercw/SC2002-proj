@@ -109,7 +109,9 @@ public class OrderController {
         if (isConfirm == 1) {
             // proceed to payment
             if (processPayment()) {
+                //orderObj.setplaceOrderTime();
                 TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
+                
             }
             else
             {
@@ -119,6 +121,7 @@ public class OrderController {
             // update order
             TextDBOrder.writeSerializedObject("OrderRepo.txt", updateOrder(orderObj));
             if (processPayment()) {
+                //orderObj.setplaceOrderTime();
                 TextDBOrder.writeSerializedObject("OrderRepo.txt", orderObj);
             }
             else return;
@@ -282,7 +285,7 @@ public class OrderController {
     public static void printAllOrders() {
         List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
         
-        //System.out.print("NUMBER OF ORDERS: " + fullOrderL.size());
+        
         for (int i = 0; i < fullOrderL.size(); i++) {
             //List currOrder = (List)fullOrderL.get(i);
 			Order currOrder2 = (Order)fullOrderL.get(i);
@@ -335,6 +338,16 @@ public class OrderController {
      * 
      * }
      */
+
+    public static void checkifDiscarded(Order obj)
+    {
+       boolean isExpired = obj.hasExpired();
+       if(isExpired)
+       {
+            TextDBOrder.writeSerializedObject("OrderRepo.txt",obj);
+       }
+    }
+
     public static void collectOrder() {
         printAllOrders();
         int orderConfirm = 0;
@@ -363,7 +376,13 @@ public class OrderController {
                 System.out.println("Thank you for collecting your order! Enjoy your meal!");
                 return;
             }
-        } else {
+        } 
+        else if(custOrder.getOrderStatus() == OrderStatus.DISCARDED)
+        {
+           System.out.println("Apologies. You have exceeded the waiting time for collection.\nYour order has been discarded. Please come again soon!");
+           return;
+        }
+        else {
             System.out.println("Enter -1 to go back: ");
             if (IO.userInputInt() == -1)
                 return;

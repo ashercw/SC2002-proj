@@ -2,6 +2,7 @@ package Entity.Order;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class Order implements Serializable{
 	private String branchName;
 	private static int totalOrder = 0;
 	private LocalTime placeOrderTime;
+	private LocalTime expiry;
+	private static final int DISCARDTIME = 1;
 	
 	
 	//constructor
@@ -32,6 +35,23 @@ public class Order implements Serializable{
 	}
 	
 	//Accessors and mutators
+
+	public void setplaceOrderTime()
+	{
+		this.placeOrderTime = LocalTime.now();
+		this.expiry = placeOrderTime.plus(DISCARDTIME, ChronoUnit.MINUTES);
+	}
+
+	public boolean hasExpired()
+	{
+		boolean isbefore = this.placeOrderTime.isBefore(this.expiry);
+		if(!isbefore)
+		{
+			this.setOrderStatus(OrderStatus.DISCARDED);
+		}
+		return isbefore;
+	}
+
 	public OrderStatus getOrderStatus()
 	{
 		return this.orderStatus;

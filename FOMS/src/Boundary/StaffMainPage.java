@@ -59,7 +59,7 @@ public class StaffMainPage {
      * displaying new orders, processing orders, or exiting the interface.
      */
 
-    public void displayStaffMainPage() {
+    public static void displayStaffMainPage() {
         while (true) {
             System.out.println("Welcome to the staff page!\n");
             System.out.println("What would you like to do today?");
@@ -106,7 +106,7 @@ public class StaffMainPage {
      * items, and total price.
      */
 
-    public void displayNewOrders() {
+    public static void displayNewOrders() {
         // TODO: switch to OrderByBranchRepo
         /*
          * System.out.println("New Orders:");
@@ -131,7 +131,7 @@ public class StaffMainPage {
      * @throws UnsupportedOperationException if the order ID is not valid.
      */
 
-    public void processOrder(int orderId) {
+    public static void processOrder(int orderId) {
         if (orderId <= 0) {
             throw new UnsupportedOperationException("OrderID is not given.");
         }
@@ -145,11 +145,24 @@ public class StaffMainPage {
             currOrder2 = (Order) fullOrderL.get(i);
             // Order orderObj = (Order) fullOrderL.get(i);
             if (currOrder2.getOrderID() == orderId && (currOrder2.getOrderStatus() == OrderStatus.ORDERPLACED
-                    || currOrder2.getOrderStatus() == OrderStatus.PROCESSING)) {
-                currOrder2.setOrderStatus(OrderStatus.READY);
-                OrderController.displayOrder(currOrder2);
-                System.out.println("Order ID " + orderId + " is now ready to pick up.");
-                TextDBOrder.writeSerializedObject("OrderRepo.txt", currOrder2);
+                    || currOrder2.getOrderStatus() == OrderStatus.PROCESSING)) 
+            {
+                System.out.println("Has the order expired? (1) Yes (2) No");
+                int hasExpired = IO.userInputInt();
+                if(hasExpired == 1)
+                {
+                    currOrder2.setOrderStatus(OrderStatus.DISCARDED);
+                    OrderController.displayOrder(currOrder2);
+                    System.out.println("Order ID " + orderId + " Has been discarded.");
+                    TextDBOrder.writeSerializedObject("OrderRepo.txt", currOrder2);
+                }
+                else
+                {  
+                    currOrder2.setOrderStatus(OrderStatus.READY);
+                    OrderController.displayOrder(currOrder2);
+                    System.out.println("Order ID " + orderId + " is now ready to pick up.");
+                    TextDBOrder.writeSerializedObject("OrderRepo.txt", currOrder2);
+                }
                 return;
             }
 
@@ -175,7 +188,7 @@ public class StaffMainPage {
      * @param orderID the ID of the order to be tracked.
      */
 
-    public void trackOrderStatus(int orderID) {
+    public static void trackOrderStatus(int orderID) {
         List fullOrderL = TextDBOrder.readSerializedObject("OrderRepo.txt");
         Order currOrder2;
         for (int i = 0; i < fullOrderL.size(); i++) {
