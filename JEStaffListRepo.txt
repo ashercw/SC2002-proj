@@ -1,2 +1,11 @@
-Alica Ang|AlicaA|M|F|27|JE|password
+Alica Ang|AlicaA|S|F|27|JE|password
 Mary lee|MaryL|S|F|44|JE|password
+Alexei|Alexei|S|M|25|NTU|password
+g|g|S|M|44|JE|password
+baba|ba|S|M|34|JE|password
+Yuu|u|S|F|88|JE|password
+Camel|cam|S|M|25|JE|password
+benn|ben|S|M|25|JE|password
+hamb|ha|S|M|66|JE|password
+a|a|S|M|45|JE|password
+b|b|S|F|90|JE|password

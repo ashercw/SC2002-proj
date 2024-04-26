@@ -62,7 +62,6 @@ public class AdminMainPage {
 			System.out.println("0. Exit.");
 			System.out.print("Please enter your choice (from 0 to 10): ");
 			choice = scanner.nextInt();
-			System.out.println("USER CHOICE " + choice);
 			scanner.nextLine();
 
 			switch (choice) {
@@ -76,7 +75,6 @@ public class AdminMainPage {
 					removeStaff();
 					break;
 				case 4:
-					System.out.println("option 4");
 					assignManagerToBranch();
 					break;
 				case 5:
@@ -173,10 +171,8 @@ public class AdminMainPage {
 	private void assignManagerToBranch() throws IOException {
 
 		String managerId = AttributeGetter.getUserID();
-		System.out.println("In admin main page " +managerId);
 		String branchName = AttributeGetter.getBranch();
 
-		System.out.println("In admin main page " +branchName);
 		AdminController.assignManagerToBranch(managerId, branchName);
 	}
 
@@ -200,7 +196,6 @@ public class AdminMainPage {
 	 * @throws IOException If an I/O error occurs.
 	 */
 	private void transferUserToBranch() throws IOException {
-		System.out.println("Enter the ID of the user to transfer:");
 		String userId = AttributeGetter.getUserID();
 
 		System.out.println("Enter the name of the new branch:");
@@ -216,8 +211,6 @@ public class AdminMainPage {
 	 * Adds a new payment method based on Admin's input.
 	 */
 	private static void addPaymentMethod() {
-		scanner.nextLine();
-	
 		System.out.print("Enter the payment method name: ");
 		String paymentMethod = scanner.nextLine();
 	
@@ -258,8 +251,6 @@ private void openBranch() throws IOException {
 	 * @throws IOException If an I/O error occurs.
 	 */
 	private void closeBranch() throws IOException {
-		scanner.nextLine();
-
 		System.out.println("Enter the name of the branch to close:");
 		String branchName = AttributeGetter.getBranch();
 		AdminController.closeBranch(branchName);
@@ -269,7 +260,6 @@ private void openBranch() throws IOException {
 	 * Displays the list of staff members based on Admin-defined criteria.
 	 */
 	private void displayStaffList() {
-		scanner.nextLine();
 
 		System.out.println("===== Display Staff List =====");
 		System.out.println("Choose filter criterion:");
@@ -290,7 +280,7 @@ private void openBranch() throws IOException {
 				filterValue = scanner.nextLine();
 				break;
 			case 3:
-				System.out.print("Enter role (STAFF/MANAGER/ADMIN/All): ");
+				System.out.print("Enter role (S/M/A): ");
 				filterValue = scanner.nextLine().toUpperCase();
 				break;
 			default:

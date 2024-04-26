@@ -18,7 +18,6 @@ public class ManagerMainPage {
 	private static MenuControllerTemp menuController;
 	private StaffMainPage staffMain;
 	private String userID;
-	private StaffMainPage staffMain;
 
 	public ManagerMainPage(String userID) {
 		this.userID = userID;

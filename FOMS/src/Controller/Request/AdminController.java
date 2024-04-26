@@ -1,5 +1,6 @@
 package Controller.Request;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -44,34 +45,38 @@ public class AdminController {
 	public AdminController() {
 	}
 
-	public static boolean addStaff(String name, String loginID, EmployeeType role, String gender, String age,
-			String branch,
-			String password) {
+	public static boolean addStaff(String name, String loginID, EmployeeType role, String gender, String age, String branch, String password) {
 		boolean added = false;
 		try {
-			@SuppressWarnings("unchecked")
-			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			for (User user : employees) {
-				if (user.getLoginID().equals(loginID)) {
-					return false;
-				}
-			}
-			if (role == EmployeeType.S) {
-				Staff newStaff = new Staff(name, loginID, role, gender, age, branch, password);
-				employees.add(newStaff);
-			} else if (role == EmployeeType.M) {
-				Manager newMan = new Manager(name, loginID, role, gender, age, branch, password);
-				employees.add(newMan);
-			} else if (role == EmployeeType.A) {
-				Admin newAd = new Admin(name, loginID, role, gender, age, password);
-				employees.add(newAd);
-			}
-
-			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-			added = true;
+		 @SuppressWarnings("unchecked")
+		 List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+		 for (User user : employees) {
+		  if (user.getLoginID().equals(loginID)) {
+		   return false;
+		  }
+		 }
+	   
+		 User newUser;
+		 if (role == EmployeeType.S) {
+		  newUser = new Staff(name, loginID, role, gender, age, branch, password);
+		 } else if (role == EmployeeType.M) {
+		  newUser = new Manager(name, loginID, role, gender, age, branch, password);
+		 } else {
+		  newUser = new Admin(name, loginID, role, gender, age, password);
+		 }
+	   
+		 employees.add(newUser);
+		 TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+	   
+		 @SuppressWarnings("unchecked")
+		 List<User> branchStaff = TextDBStaff.readEmployee(branch.concat("StaffListRepo.txt"));
+		 branchStaff.add(newUser);
+		 TextDBStaff.saveEmployee(branch.concat("StaffListRepo.txt"), branchStaff);
+	   
+		 added = true;
 		} catch (IOException e) {
-			System.out.println("Error adding staff: " + e.getMessage());
-			added = false;
+		 System.out.println("Error adding staff: " + e.getMessage());
+		 added = false;
 		}
 		return added;
 	}
@@ -86,43 +91,53 @@ public class AdminController {
 	 * @param newRole   The new role to assign to the staff member.
 	 * @param newBranch The new branch to assign to the staff member.
 	 */
-	public static void editStaff(String loginID, String newName, String newAge, String newGender, EmployeeType newRole,
-			String newBranch) {
+	public static void editStaff(String loginID, String newName, String newAge, String newGender, EmployeeType newRole, String newBranch) {
 		try {
+		@SuppressWarnings("unchecked")
+		List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+		boolean found = false;
+		for (int i = 0; i < employees.size(); i++) {
+			User user = employees.get(i);
+			if (user.getLoginID().equals(loginID) && user instanceof Staff) {
+			Staff staff = (Staff) user;
+			if (!newName.isEmpty()) {
+			staff.setEmployeeName(newName);
+			}
+			if (!newAge.isEmpty()) {
+			staff.setAge(newAge);
+			}
+			if (!newGender.isEmpty()) {
+			staff.setGender(newGender);
+			}
+			if (newRole != null) {
+			staff.setEmpType(newRole);
+			}
+			if (!newBranch.isEmpty()) {
+			staff.setBranch(newBranch);
+			}
+			employees.set(i, staff);
+			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+		
 			@SuppressWarnings("unchecked")
-			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			boolean found = false;
-			for (int i = 0; i < employees.size(); i++) {
-				User user = employees.get(i);
-				if (user.getLoginID().equals(loginID) && user instanceof Staff) {
-					Staff staff = (Staff) user;
-					if (!newName.isEmpty()) {
-						staff.setEmployeeName(newName);
-					}
-					if (!newAge.isEmpty()) {
-						staff.setAge(newAge);
-					}
-					if (!newGender.isEmpty()) {
-						staff.setGender(newGender);
-					}
-					if (newRole != null) {
-						staff.setEmpType(newRole);
-					}
-					if (!newBranch.isEmpty()) {
-						staff.setBranch(newBranch);
-					}
-					employees.set(i, staff);
-					TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-					System.out.println("Staff details updated successfully.");
-					found = true;
-					break;
-				}
+			List<User> oldBranchStaff = TextDBStaff.readEmployee(staff.getBranch().concat("StaffListRepo.txt"));
+			oldBranchStaff.removeIf(u -> u.getLoginID().equals(loginID));
+			TextDBStaff.saveEmployee(staff.getBranch().concat("StaffListRepo.txt"), oldBranchStaff);
+		
+			@SuppressWarnings("unchecked")
+			List<User> newBranchStaff = TextDBStaff.readEmployee(newBranch.concat("StaffListRepo.txt"));
+			newBranchStaff.add(staff);
+			TextDBStaff.saveEmployee(newBranch.concat("StaffListRepo.txt"), newBranchStaff);
+		
+			System.out.println("Staff details updated successfully.");
+			found = true;
+			break;
 			}
-			if (!found) {
-				System.out.println("Staff not found.");
-			}
+		}
+		if (!found) {
+			System.out.println("Staff not found.");
+		}
 		} catch (Exception e) {
-			System.out.println("Error editing staff: " + e.getMessage());
+		System.out.println("Error editing staff: " + e.getMessage());
 		}
 	}
 
@@ -133,24 +148,36 @@ public class AdminController {
 	 */
 	public static void removeStaff(String userId) {
 		try {
-			@SuppressWarnings("unchecked")
-			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			boolean found = false;
-			for (int i = 0; i < employees.size(); i++) {
-				User user = employees.get(i);
-				if (user.getLoginID().equals(userId) && user instanceof Staff) {
-					employees.remove(i);
-					TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-					System.out.println("Staff member with ID '" + userId + "' has been removed.");
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				System.out.println("Staff member with ID '" + userId + "' not found.");
-			}
+		 @SuppressWarnings("unchecked")
+		 List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+		 boolean found = false;
+		 for (int i = 0; i < employees.size(); i++) {
+		  User user = employees.get(i);
+		  if (user.getLoginID().equals(userId) && user instanceof Staff) {
+		   Staff staff = (Staff) user;
+		   String branchName = staff.getBranch();
+	   
+		   // Remove the staff member from the main staff list
+		   employees.remove(i);
+		   TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+		   System.out.println("Staff member with ID '" + userId + "' has been removed.");
+		   found = true;
+	   
+		   String staffListRepoPath = branchName.concat("StaffListRepo.txt");
+		   @SuppressWarnings("unchecked")
+		   List<User> branchStaffList = TextDBStaff.readEmployee(staffListRepoPath);
+		   branchStaffList.removeIf(u -> u.getLoginID().equals(userId));
+		   TextDBStaff.saveEmployee(staffListRepoPath, branchStaffList);
+		   System.out.println("Staff list repository for branch '" + branchName + "' has been updated.");
+	   
+		   break;
+		  }
+		 }
+		 if (!found) {
+		  System.out.println("Staff member with ID '" + userId + "' not found.");
+		 }
 		} catch (IOException e) {
-			System.out.println("Error removing staff: " + e.getMessage());
+		 System.out.println("Error removing staff: " + e.getMessage());
 		}
 	}
 
@@ -158,49 +185,69 @@ public class AdminController {
 		try {
 			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
 			Manager manager = null;
+			String oldBranchName = null;
+	
 			for (User user : employees) {
 				if (user instanceof Manager && user.getLoginID().equals(managerId)) {
 					manager = (Manager) user;
+					oldBranchName = manager.getBranch();
 					break;
 				}
 			}
+	
 			if (manager == null) {
 				System.out.println("Manager with ID " + managerId + " not found.");
 				return;
 			}
+	
+			if (branchName.equals(oldBranchName)) {
+				System.out.println("Manager is already assigned to this branch.");
+				return;
+			}
+	
+			List<User> newBranchStaff = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
+			if (newBranchStaff.stream().anyMatch(m -> m instanceof Manager)) {
+				System.out.println("The branch already has a manager assigned.");
+				return;
+			}
+	
+			// Fetch branch information to check the quota
+			@SuppressWarnings("unchecked")
+			Optional <Branch> branchOptional = TextDBBranch.readBranch("BranchRepo.txt", true).stream()
+			.filter(b -> ((Branch) b).getBranchName().equals(branchName))
+			.findFirst();
 
-			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-			Branch branch = branches.stream()
-					.filter(b -> b.getBranchName().equals(branchName))
-					.findFirst().orElse(null);
-
+			Branch branch = branchOptional.orElse(null);
+	
 			if (branch == null) {
 				System.out.println("Branch with name " + branchName + " not found.");
 				return;
 			}
-
-			ArrayList<Manager> managers = branch.getManagerList();
-			if (managers == null) {
-				managers = new ArrayList<>(); // Initialize the list if it is null
-				branch.setManagerList(managers); // Update the branch
-			}
-
-			if (managers.stream().anyMatch(m -> m.getBranch().equals(branchName))) {
-				System.out.println("The branch already has a manager assigned.");
+	
+			int quota = branch.getQuota();
+			long currentManagerCount = newBranchStaff.stream().filter(m -> m instanceof Manager).count();
+			if (currentManagerCount >= quota) {
+				System.out.println("Cannot assign manager to branch " + branchName + " as the quota (" + quota + ") is already reached.");
 				return;
 			}
-
+	
+			if (oldBranchName != null) {
+				List<User> oldBranchStaff = TextDBStaff.readEmployee(oldBranchName + "StaffListRepo.txt");
+				oldBranchStaff.removeIf(u -> u.getLoginID().equals(managerId));
+				TextDBStaff.saveEmployee(oldBranchName + "StaffListRepo.txt", oldBranchStaff);
+			}
+	
+			newBranchStaff.add(manager);
+			TextDBStaff.saveEmployee(branchName + "StaffListRepo.txt", newBranchStaff);
 			manager.setBranch(branchName);
-			managers.add(manager);
-
 			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-
-			System.out.println("Manager with ID " + managerId + " has been assigned to branch " + branchName + ".");
+	
+			System.out.println("Manager with ID " + managerId + " has been reassigned to branch " + branchName + ".");
 		} catch (IOException e) {
 			System.out.println("Error assigning manager to branch: " + e.getMessage());
 		}
 	}
+	
 
 	/**
 	 * Promotes a staff member to a branch manager.
@@ -214,36 +261,45 @@ public class AdminController {
 	public static boolean promoteStaffToManager(String staffId, String branchName, EmployeeType managerRole) {
 		boolean promoted = false;
 		try {
-			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			int staffIndex = -1;
-			for (int i = 0; i < employees.size(); i++) {
-				User user = employees.get(i);
-				if (user.getLoginID().equals(staffId) && user instanceof Staff) {
-					staffIndex = i;
-					break;
-				}
-			}
-			if (staffIndex == -1) {
-				System.out.println("Staff member with ID " + staffId + " not found.");
-				return false;
-			}
-			Staff staffToPromote = (Staff) employees.get(staffIndex);
-			Manager promotedManager = new Manager(
-					staffToPromote.getEmployeeName(),
-					staffToPromote.getLoginID(),
-					managerRole, // This should be EmployeeType.M for Manager
-					staffToPromote.getGender(),
-					staffToPromote.getAge(),
-					staffToPromote.getBranch(),
-					staffToPromote.getPassword());
-
-			employees.set(staffIndex, promotedManager); // Replace the Staff object with a new Manager object
-
-			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-			System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
-			promoted = true;
+		 @SuppressWarnings("unchecked")
+		 List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+		 int staffIndex = -1;
+		 for (int i = 0; i < employees.size(); i++) {
+		  User user = employees.get(i);
+		  if (user.getLoginID().equals(staffId) && user instanceof Staff) {
+		   staffIndex = i;
+		   break;
+		  }
+		 }
+		 if (staffIndex == -1) {
+		  System.out.println("Staff member with ID " + staffId + " not found.");
+		  return false;
+		 }
+	   
+		 Staff staffToPromote = (Staff) employees.get(staffIndex);
+		 Manager promotedManager = new Manager(
+		   staffToPromote.getEmployeeName(),
+		   staffToPromote.getLoginID(),
+		   managerRole,
+		   staffToPromote.getGender(),
+		   staffToPromote.getAge(),
+		   staffToPromote.getBranch(),
+		   staffToPromote.getPassword());
+	   
+		 employees.set(staffIndex, promotedManager);
+	   
+		 TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+	   
+		 @SuppressWarnings("unchecked")
+		 List<User> branchStaff = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
+		 branchStaff.removeIf(user -> user.getLoginID().equals(staffId));
+		 branchStaff.add(promotedManager);
+		 TextDBStaff.saveEmployee(branchName + "StaffListRepo.txt", branchStaff);
+	   
+		 System.out.println("Staff member " + staffId + " has been promoted to branch manager.");
+		 promoted = true;
 		} catch (IOException e) {
-			System.out.println("Error promoting staff: " + e.getMessage());
+		 System.out.println("Error promoting staff: " + e.getMessage());
 		}
 		return promoted;
 	}
@@ -259,49 +315,63 @@ public class AdminController {
 	 */
 	public static void transferUserToBranch(String userId, String newBranchName, String currentBranchName) {
 		try {
-			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-
-			Staff staffToTransfer = null;
-			for (User user : employees) {
-				if (user instanceof Staff && user.getLoginID().equals(userId)) {
-					staffToTransfer = (Staff) user;
-					break;
-				}
-			}
-			if (staffToTransfer == null) {
-				System.out.println("Staff with ID '" + userId + "' not found.");
-				return;
-			}
-
-			Branch currentBranch = null, newBranch = null;
-			for (Branch branch : branches) {
-				if (branch.getBranchName().equals(currentBranchName)) {
-					currentBranch = branch;
-				}
-				if (branch.getBranchName().equals(newBranchName)) {
-					newBranch = branch;
-				}
-			}
-			if (newBranch == null) {
-				System.out.println("New branch '" + newBranchName + "' not found.");
-				return;
-			}
-			if (currentBranch == null) {
-				System.out.println("Current branch '" + currentBranchName + "' not found.");
-				return;
-			}
-
-			currentBranch.getStaffList().remove(staffToTransfer);
-			newBranch.getStaffList().add(staffToTransfer);
-			staffToTransfer.setBranch(newBranchName);
-
-			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-			TextDBBranch.saveBranch("BranchRepo.txt", branches);
-
-			System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
+		 @SuppressWarnings("unchecked")
+		 List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+		 @SuppressWarnings("unchecked")
+		 List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
+		 Staff staffToTransfer = null;
+		 for (User user : employees) {
+		  if (user instanceof Staff && user.getLoginID().equals(userId)) {
+		   staffToTransfer = (Staff) user;
+		   break;
+		  }
+		 }
+		 if (staffToTransfer == null) {
+		  System.out.println("Staff with ID '" + userId + "' not found.");
+		  return;
+		 }
+	   
+		 Branch currentBranch = null, newBranch = null;
+		 for (Branch branch : branches) {
+		  if (branch.getBranchName().equals(currentBranchName)) {
+		   currentBranch = branch;
+		  }
+		  if (branch.getBranchName().equals(newBranchName)) {
+		   newBranch = branch;
+		  }
+		 }
+		 if (newBranch == null) {
+		  System.out.println("New branch '" + newBranchName + "' not found.");
+		  return;
+		 }
+		 if (currentBranch == null) {
+		  System.out.println("Current branch '" + currentBranchName + "' not found.");
+		  return;
+		 }
+	   
+		 // Read staff lists for current and new branches
+		 @SuppressWarnings("unchecked")
+		 List<User> currentBranchStaff = TextDBStaff.readEmployee(currentBranchName + "StaffListRepo.txt");
+		 @SuppressWarnings("unchecked")
+		 List<User> newBranchStaff = TextDBStaff.readEmployee(newBranchName + "StaffListRepo.txt");
+	   
+		 // Remove staff from current branch staff list
+		 currentBranchStaff.removeIf(user -> user.getLoginID().equals(userId));
+		 // Add staff to new branch staff list
+		 newBranchStaff.add(staffToTransfer);
+	   
+		 // Save updated staff lists
+		 TextDBStaff.saveEmployee(currentBranchName + "StaffListRepo.txt", currentBranchStaff);
+		 TextDBStaff.saveEmployee(newBranchName + "StaffListRepo.txt", newBranchStaff);
+	   
+		 // Update staff's branch
+		 staffToTransfer.setBranch(newBranchName);
+		 TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+		 TextDBBranch.saveBranch("BranchRepo.txt", branches);
+	   
+		 System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
 		} catch (IOException e) {
-			System.out.println("Error transferring staff: " + e.getMessage());
+		 System.out.println("Error transferring staff: " + e.getMessage());
 		}
 	}
 
@@ -336,30 +406,31 @@ public class AdminController {
 	 * @param branchName The name of the branch to be opened.
 	 */
 	public static void openBranch(String branchName, String location, int quota) throws IOException {
-		@SuppressWarnings("unchecked")
-		List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
+        @SuppressWarnings("unchecked")
+        List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
 
-		// Check if the branch already exists
-		for (Branch user : existingBranches) {
-			if (user instanceof Branch) {
-				Branch existingBranch = (Branch) user;
-				if (existingBranch.getBranchName().equalsIgnoreCase(branchName)) {
-					System.out.println("Branch '" + branchName + "' already exists.");
-					return;
-				}
-			}
-		}
+        // Check if the branch already exists
+        for (Branch branch : existingBranches) {
+            if (branch.getBranchName().equalsIgnoreCase(branchName)) {
+                System.out.println("Branch '" + branchName + "' already exists.");
+                return;
+            }
+        }
 
-		Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
-		newBranch.setLocation(location);
-		newBranch.setQuota(quota);
+        Branch newBranch = new Branch(branchName, new ArrayList<>(), new ArrayList<>(), null);
+        newBranch.setLocation(location);
+        newBranch.setQuota(quota);
+        existingBranches.add(newBranch);
+        TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
 
-		existingBranches.add(newBranch);
+        // Create new staff and menu list repo files
+        String staffListRepoFile = branchName.concat("StaffListRepo.txt");
+        String menuListRepoFile = branchName.concat("MenuListRepo.txt");
+        new File(staffListRepoFile).createNewFile();
+        new File(menuListRepoFile).createNewFile();
 
-		TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
-		System.out.println("Branch '" + branchName + "' has been opened.");
-
-	}
+        System.out.println("Branch '" + branchName + "' has been opened.");
+    }
 
 	/**
 	 * Closes an existing branch.
@@ -367,32 +438,38 @@ public class AdminController {
 	 * @param branchName The name of the branch to be closed.
 	 */
 	public static void closeBranch(String branchName) {
-		try {
-			@SuppressWarnings("unchecked")
-			List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
+        try {
+            @SuppressWarnings("unchecked")
+            List<Branch> existingBranches = TextDBBranch.readBranch("BranchRepo.txt", true);
+            Branch branchToClose = null;
+            for (Branch branch : existingBranches) {
+                if (branch.getBranchName().equals(branchName)) {
+                    branchToClose = branch;
+                    break;
+                }
+            }
 
-			Branch branchToClose = null;
-			for (Branch branch : existingBranches) {
-				if (branch.getBranchName().equals(branchName)) {
-					branchToClose = branch;
-					break;
-				}
-			}
+            if (branchToClose == null) {
+                System.out.println("Branch '" + branchName + "' not found.");
+                return;
+            }
 
-			if (branchToClose == null) {
-				System.out.println("Branch '" + branchName + "' not found.");
-				return;
-			}
+            existingBranches.remove(branchToClose);
+            TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
 
-			existingBranches.remove(branchToClose);
+            // Delete staff and menu list repo files
+            String staffListRepoFile = branchName.concat("StaffListRepo.txt");
+            String menuListRepoFile = branchName.concat("MenuListRepo.txt");
+            File staffFile = new File(staffListRepoFile);
+            File menuFile = new File(menuListRepoFile);
+            if (staffFile.exists()) staffFile.delete();
+            if (menuFile.exists()) menuFile.delete();
 
-			TextDBBranch.saveBranch("BranchRepo.txt", existingBranches);
-
-			System.out.println("Branch '" + branchName + "' has been closed.");
-		} catch (IOException e) {
-			System.out.println("Error closing branch: " + e.getMessage());
-		}
-	}
+            System.out.println("Branch '" + branchName + "' has been closed.");
+        } catch (IOException e) {
+            System.out.println("Error closing branch: " + e.getMessage());
+        }
+    }
 
 	/**
 	 * Displays a list of staff members based on specified filtering criteria.
@@ -408,60 +485,56 @@ public class AdminController {
 		System.out.println("Filter Criterion: " + filterCriterion);
 		System.out.println("Filter Value: " + filterValue);
 		System.out.println("Sort By Age: " + sortByAge);
-
 		List<User> filteredList = new ArrayList<>();
 		try {
-			@SuppressWarnings("unchecked")
-			List<User> staffList = TextDBStaff.readEmployee("EmployeeRepo.txt");
-
-			switch (filterCriterion) {
-				case 1: // Gender
-					Gender gender = Gender.valueOf(filterValue.toUpperCase());
-					filteredList = staffList.stream()
-							.filter(user -> Gender.valueOf(user.getGender().toUpperCase()) == gender)
-							.collect(Collectors.toList());
-					break;
-				case 2: // Branch
-					@SuppressWarnings("unchecked")
-					List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-
-					String finalFilterValue = filterValue;
-					filteredList = staffList.stream()
-							.filter(user -> {
-								if (user instanceof Staff) {
-									String branchName = ((Staff) user).getBranch();
-									return getBranchByName(branches, branchName).getBranchName()
-											.equals(finalFilterValue);
-								} else {
-									return false;
-								}
-							})
-							.collect(Collectors.toList());
-					break;
-				case 3: // Role
-					EmployeeType employeeType = EmployeeType.valueOf(filterValue.toUpperCase());
-					filteredList = staffList.stream()
-							.filter(user -> user.getEmployeeType() == employeeType)
-							.collect(Collectors.toList());
-					break;
-				default:
-					System.out.println("Invalid filter criterion.");
-					return;
-			}
-			if (sortByAge) {
-				filteredList.sort(Comparator.comparingInt(user -> Integer.parseInt(user.getAge())));
-			}
-
-			if (filteredList.isEmpty()) {
-				System.out.println("No staff found matching the criteria.");
-			} else {
-				System.out.println("===== Staff List =====");
-				for (User user : filteredList) {
-					System.out.println(user.getEmployeeName());
-				}
-			}
+		 @SuppressWarnings("unchecked")
+		 List<User> staffList = TextDBStaff.readEmployee("EmployeeRepo.txt");
+		 switch (filterCriterion) {
+		  case 1: // Gender
+		   Gender gender = Gender.valueOf(filterValue.toUpperCase());
+		   filteredList = staffList.stream()
+			 .filter(user -> Gender.valueOf(user.getGender().toUpperCase()) == gender)
+			 .collect(Collectors.toList());
+		   break;
+		  case 2: // Branch
+		   @SuppressWarnings("unchecked")
+		   List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
+		   String finalFilterValue = filterValue;
+		   filteredList = staffList.stream()
+			 .filter(user -> {
+			  if (user instanceof Staff) {
+			   String branchName = ((Staff) user).getBranch();
+			   return getBranchByName(branches, branchName).getBranchName()
+				 .equals(finalFilterValue);
+			  } else {
+			   return false;
+			  }
+			 })
+			 .collect(Collectors.toList());
+		   break;
+		  case 3: // Role
+		   EmployeeType employeeType = EmployeeType.valueOf(filterValue.toUpperCase());
+		   filteredList = staffList.stream()
+			 .filter(user -> user.getEmployeeType() == employeeType)
+			 .collect(Collectors.toList());
+		   break;
+		  default:
+		   System.out.println("Invalid filter criterion.");
+		   return;
+		 }
+		 if (sortByAge) {
+		  filteredList.sort(Comparator.comparingInt(user -> Integer.parseInt(user.getAge())));
+		 }
+		 if (filteredList.isEmpty()) {
+		  System.out.println("No staff found matching the criteria.");
+		 } else {
+		  System.out.println("===== Staff List =====");
+		  for (User user : filteredList) {
+		   System.out.println(user.getEmployeeName() + " (" + user.getAge() + ")"); // Print age along with name
+		  }
+		 }
 		} catch (IOException e) {
-			System.out.println("Error displaying staff list: " + e.getMessage());
+		 System.out.println("Error displaying staff list: " + e.getMessage());
 		}
 	}
 
