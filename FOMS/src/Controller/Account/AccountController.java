@@ -118,6 +118,7 @@ public class AccountController {
 	 * 
 	 */
 
+	@SuppressWarnings("static-access")
 	public static void login(EmployeeType employeeType) throws IOException {
 		// TODO - CHANGE PASSWORD OPTION
 

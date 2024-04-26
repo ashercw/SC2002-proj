@@ -1,7 +1,5 @@
 package Boundary;
 
-import Entity.Order.Payment;
-import Entity.User.Admin;
 import Entity.User.EmployeeType;
 import Others.IO;
 
@@ -24,7 +22,6 @@ import Controller.Request.AdminController;
 
 public class AdminMainPage {
 	static Scanner scanner = new Scanner(System.in);
-	private static AdminController adminController;
 	private String userID;
 
 	/**
@@ -37,8 +34,6 @@ public class AdminMainPage {
 		this.userID = userID;
 		AdminController adminController = new AdminController();
 	}
-
-
 
 	/**
 	 * Displays the main menu for the admin user interface and handles user input.
@@ -215,37 +210,37 @@ public class AdminMainPage {
 	private static void addPaymentMethod() {
 		System.out.print("Enter the payment method name: ");
 		String paymentMethod = scanner.nextLine();
-	
+
 		System.out.print("Enter the fully qualified class name of the Payment implementation: ");
 		String paymentClassName = scanner.nextLine();
-	
+
 		try {
-			AdminController.addPaymentMethod(paymentMethod, paymentClassName);  // Corrected to pass both parameters as strings
+			AdminController.addPaymentMethod(paymentMethod, paymentClassName); // Corrected to pass both parameters as
+																				// strings
 		} catch (Exception e) {
 			System.out.println("Error adding payment method: " + e.getMessage());
 		}
 	}
-	
 
 	/**
 	 * Opens a new branch based on Admin's input.
 	 * 
 	 * @throws IOException If an I/O error occurs.
 	 */
-	
-private void openBranch() throws IOException {
-	System.out.print("Enter branch name: ");
-	String branchName = scanner.nextLine();
-  
-	System.out.print("Enter branch location: ");
-	String location = scanner.nextLine();
-  
-	System.out.print("Enter branch quota: ");
-	int quota = scanner.nextInt();
-	scanner.nextLine(); // Clear the newline character from the buffer
-  
-	AdminController.openBranch(branchName, location, quota);
-   }
+
+	private void openBranch() throws IOException {
+		System.out.print("Enter branch name: ");
+		String branchName = scanner.nextLine();
+
+		System.out.print("Enter branch location: ");
+		String location = scanner.nextLine();
+
+		System.out.print("Enter branch quota: ");
+		int quota = scanner.nextInt();
+		scanner.nextLine(); // Clear the newline character from the buffer
+
+		AdminController.openBranch(branchName, location, quota);
+	}
 
 	/**
 	 * Closes an existing branch based on Admin's input.
