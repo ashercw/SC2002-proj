@@ -225,11 +225,46 @@ public class AdminController {
 			}
 	
 			int quota = branch.getQuota();
-			long currentManagerCount = newBranchStaff.stream().filter(m -> m instanceof Manager).count();
+			int managerNum = 0;
+			int staffNum = 0;
+			List newBranchStaffLIST = TextDBStaff.readEmployee(branchName + "StaffListRepo.txt");
+			//count manager
+			for(int i = 0;  i< newBranchStaffLIST.size(); i++)
+			{
+				User manObj = (User) newBranchStaffLIST.get(i);
+				if(manObj.getEmployeeType() == EmployeeType.M)
+				{
+					managerNum ++;
+				}
+				else if(manObj.getEmployeeType() == EmployeeType.S)
+				{
+					staffNum ++;
+				}
+
+			}
+			System.out.println("IN ADMIN CONTROLLER: staff num " + staffNum + " manager num " + managerNum + " in branch " + branchName);
+			
+			if(staffNum < 5 && managerNum > 1)
+			{
+				System.out.println("Cannot assign manager to branch " + branchName + " as the quota is already reached.");
+				return;
+			}
+			else if(staffNum < 9 && managerNum > 2)
+			{
+				System.out.println("Cannot assign manager to branch " + branchName + " as the quota is already reached.");
+				return;
+			}
+			else if(staffNum < 15 && managerNum > 3)
+			{
+				System.out.println("Cannot assign manager to branch " + branchName + " as the quota is already reached.");
+				return;
+			}
+
+			/*long currentManagerCount = newBranchStaff.stream().filter(m -> m instanceof Manager).count();
 			if (currentManagerCount >= quota) {
 				System.out.println("Cannot assign manager to branch " + branchName + " as the quota (" + quota + ") is already reached.");
 				return;
-			}
+			}*/
 	
 			if (oldBranchName != null) {
 				List<User> oldBranchStaff = TextDBStaff.readEmployee(oldBranchName + "StaffListRepo.txt");

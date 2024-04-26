@@ -9,3 +9,4 @@ benn|ben|S|M|25|JE|password
 hamb|ha|S|M|66|JE|password
 a|a|S|M|45|JE|password
 b|b|S|F|90|JE|password
+Tom Chan|TomC|M|M|56|JP|NEWpassword12!
