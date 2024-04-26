@@ -133,12 +133,12 @@ public class OrderController {
         }
 
         // TextDBOrder.writeSerializedObject("OrderRepo.txt", ordersList);
-        List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        /*List orderObjL = TextDBOrder.readSerializedObject("OrderRepo.txt");
         for(int i = 0; i < orderObjL.size(); i++)
         {
             Order obj = (Order)orderObjL.get(i);
             System.out.println("NEW PRICE " + obj.getTotalPrice());
-        }
+        }*/
         //Order obj = (Order)orderObjL.get(0);
         
 
@@ -241,7 +241,7 @@ public class OrderController {
     public static void displayOrder(Order orderObj) {
         IO.printNewLine(2);
         IO.displayDivider();
-        System.out.format("%15s", "YOUR ORDER");
+        System.out.format("%30s", "YOUR ORDER");
         System.out.println("");
         IO.displayDivider();
 
