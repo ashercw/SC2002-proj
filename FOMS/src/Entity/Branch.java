@@ -5,6 +5,10 @@ import Entity.Food.Menu;
 import Entity.User.Manager;
 import Entity.User.Staff;
 
+/**
+ * Represents a branch of an organization, containing staff, managers, and menu information.
+ */
+
 public class Branch {
     private String branchName;
     private String location;
