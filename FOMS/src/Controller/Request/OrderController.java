@@ -1,6 +1,9 @@
 package Controller.Request;
 
 import java.util.Scanner;
+
+import Controller.Account.Password.PasswordMasker;
+
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -445,7 +448,8 @@ public class OrderController {
                     System.out.println("Payment method does not exist!");
                 } else {
                     System.out.println("Please enter payment details for " + payMethodL.get(userChoice - 1) + ":");
-                    String userString = IO.userInpuString();
+                    //String userString = IO.userInpuString();
+                    String userString = PasswordMasker.hideString();
                     if (userString != null) {
                         System.out.println("Payment success!");
                         return true;
