@@ -17,10 +17,12 @@ public class ManagerMainPage {
 	private static Scanner scanner = new Scanner(System.in);
 	private static MenuControllerTemp menuController;
 	private String userID;
+	private StaffMainPage staffMain;
 
 	public ManagerMainPage(String userID) {
 		this.userID = userID;
 		this.menuController = new MenuControllerTemp();
+		this.staffMain = new StaffMainPage(userID);
 	}
 
 	public void displayManagerMainPage() {
@@ -50,10 +52,10 @@ public class ManagerMainPage {
 					RemoveMenuitems();
 					break;
 				case 5:
-					// DisplayOrders(); // Define this method if needed.
+					staffMain.displayStaffMainPage();
 					break;
 				case 0:
-					System.out.println("Exiting Admin Main Page...");
+					System.out.println("Exiting Manager Main Page...");
 					break;
 				default:
 					System.out.println("Invalid choice. Please enter a number between 0 and 5.");
@@ -105,7 +107,7 @@ public class ManagerMainPage {
 			// Input the details of the menu item to be edited
 			System.out.print("Enter the name of the menu item to edit: ");
 			String oldName = scanner.nextLine();
-			
+
 			System.out.print("Enter the new name of the menu item to edit: ");
 			String newName = scanner.nextLine();
 
