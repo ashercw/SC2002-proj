@@ -2,12 +2,6 @@ package Controller.Menu;
 
 import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
-import Entity.Food.Menu;
-import Entity.User.Admin;
-import Entity.User.EmployeeType;
-import Entity.User.Manager;
-import Entity.User.Staff;
-import Entity.User.User;
 
 import java.util.List;
 import java.io.IOException;
@@ -15,7 +9,6 @@ import java.util.ArrayList;
 import Others.IO;
 import Others.TextDBBranch;
 import Others.TextDBFood;
-import Others.TextDBStaff;
 
 /**
  * Temporary because idt i can run the current menucontroller coz of code issues
@@ -28,8 +21,7 @@ public class MenuControllerTemp {
 	public static String FILEPATH = "FOMS\\src\\Others\\menu_listCSV.csv";
 	public static String FOOD_REPO_FILEPATH = "FoodItemRepo.txt";
 
-	private Menu menu; // Assuming 'Menu' handles the collection of menu items.
-	// private MenuRepository menuRepository; // For persistence. NOT BEING USED
+	
 
 	/*
 	 * public MenuControllerTemp(Menu menu, MenuRepository menuRepository) {

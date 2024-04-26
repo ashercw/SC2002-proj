@@ -7,13 +7,18 @@ import Controller.Request.OrderController;
 import Others.IO;
 
 /**
+ * This page displays the Customer's main page, where they can choose between tracking their order and 
+ * selecting a branch to place an order.
  * @author Christian Asher, Saffron Lim
  */
 
 @SuppressWarnings("resource")
 public class CustomerPage {
 
-    private static List<String> branches; // A list of branch names for demonstration.
+    /**
+     * A list of branch names for demonstration for further utility.
+     */
+    private static List<String> branches; 
 
     /**
      * Constructor.
@@ -103,13 +108,14 @@ public class CustomerPage {
      * @return String representing the customer's selected branch.
      */
     public static String branchBrowsing() {
+        //if branches list is empty
         if (branches.isEmpty()) {
             System.out.println("No branches available at the moment.");
             return "";
         }
 
+        //print out available branches
         IO.printNewLine(5);
-
         System.out.println("\tAVAILABLE BRANCHES");
         IO.displayDivider();
         int index = 1;
@@ -117,8 +123,10 @@ public class CustomerPage {
             System.out.println(index++ + ". " + branch);
         }
 
+        // allow user to choose branch
         System.out.print("Enter the number of the branch you want to explore: ");
         int choice = IO.userInputInt();
+        //check if choice is valid
         if (choice < 1 || choice > branches.size()) {
             System.out.println("Invalid branch selection.\n\n");
             return "";
@@ -130,36 +138,5 @@ public class CustomerPage {
     }
 
 
-    /**
-     * Prints out the menu to allow customer to track their order.
-     */
-    public static void trackOrderDisplay()
-    {
-        IO.printNewLine(5);
-        System.out.println("\tTRACK ORDER");
-        IO.displayDivider();
-
-        // allow customer to select branch in order to track ID
-        String custBranch = branchBrowsing();
-
-        // READ ME !!!!!!!!!!!!!!!!!!!!!
-        // below should be implemented in OrderController but im writing it here
-        // so i remember -saff
-
-        // read orderByBranchRepo (orderByBranchRepo) is not done
-        // check if orderByBranchRepo is empty
-
-        // if not empty
-        System.out.print("Enter your Order ID: ");
-        int orderID = IO.userInputInt();
-
-        // check if order exists
-
-        // display order details and order status
-
-        // if order status = READY TO COLLECT
-        // get verification from customer (e.g., phone number)
-        // allow user to collect order
-
-    }
+    
 }

@@ -1,7 +1,6 @@
 package Boundary.Customer;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import Boundary.MenuDisplay;
@@ -9,14 +8,9 @@ import Controller.Request.OrderController;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import Entity.Food.FoodItem;
 import Entity.Order.Order;
-import Entity.Order.OrderStatus;
-import Entity.Order.OrderType;
 import Others.IO;
 import Others.TextDBFood;
-import Entity.Order.OrderLine;
 
 /**
  * This page allows customer to see the branch menu, place an order, customise
@@ -31,8 +25,7 @@ public class CustomerOrderUI {
     private String repoFileName;
 
     private ArrayList foodItems;
-    private Map<Integer, Order> orders;
-    private Scanner scanner;
+    //private Map<Integer, Order> orders;
 
     public String getBranch() {
         return this.branch;
@@ -89,9 +82,6 @@ public class CustomerOrderUI {
 
         ArrayList menuList = MenuDisplay.printMenu(getBranch());
         OrderController.createOrder(branch, menuList);
-
-        
-
 
 
     }

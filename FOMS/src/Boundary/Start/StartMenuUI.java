@@ -48,7 +48,7 @@ public class StartMenuUI {
 	 * wish to use: Login as Employee, Continue as Customer, Exit FOMS.
 	 * @throws IOException 
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void startMenuUI() throws IOException {
 
 		printASCIILogo();
