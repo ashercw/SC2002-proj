@@ -1,7 +1,7 @@
-package Entity.User;
-
-public enum Gender {
-    M,
-    F
-
+package Entity.User; 
+ 
+public enum Gender { 
+    M, 
+    F 
+ 
 }
