@@ -1,7 +1,1 @@
-Justin Loh|JustinL|S|M|49|JP|JustinLoh123!
-G|g|S|M|37|JE|password
-h|h|S|M|25|JE|password
-j|j|S|M|25|JE|password
-Tom Chan|TomC|M|M|56|JP|TomChan123!
-Alexei|Alexei|M|M|25|NTU|password
-GAGA|ga|M|M|33|JE|password
+Alica Ang|AlicaA|M|F|27|JE|password

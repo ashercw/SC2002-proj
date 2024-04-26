@@ -5,4 +5,4 @@ Cole Slaw|2.7|JE|SIDE|No item description.
 3pc Set Meal|10.4|JE|SETMEAL|No item description.
 Chicken Nugget|6.9|JP|SIDE|No item description.
 Chicken Nugget|6.6|NTU|SIDE|No item description.
-PEPSI|5.55|JE|DRINK|fizzy drink
+Pepsi|2.1|JE|DRINK|No item description.

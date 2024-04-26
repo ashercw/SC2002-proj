@@ -1,1 +1,8 @@
-kumar Blackmore|kumarB|M|M|32|NTU|KumarBlackM123!
+kumar Blackmore|kumarB|S|M|32|NTU|password
+Alexei|Alexei|M|M|25|NTU|password
+bob|bob|S|M|44|NTU|password
+Tom Chan|TomC|M|M|56|JP|password
+Yap|yap|S|M|22|NTU|password
+Prime|pri|S|F|43|NTU|password
+Gar|gar|M|F|59|NTU|password
+Mary lee|MaryL|S|F|44|JE|password
