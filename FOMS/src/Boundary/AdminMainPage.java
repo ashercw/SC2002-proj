@@ -3,6 +3,7 @@ package Boundary;
 import Entity.Order.Payment;
 import Entity.User.Admin;
 import Entity.User.EmployeeType;
+import Others.IO;
 
 import java.io.IOException;
 import java.util.*;
@@ -138,7 +139,8 @@ public class AdminMainPage {
 	 * Edits the information of an existing staff member.
 	 */
 	private static void editStaff() {
-		String loginID = scanner.nextLine();
+		System.out.println("Enter the userID to change:");
+		String loginID = IO.userInpuString();
 		String newName = AttributeGetter.getName();
 		String newAge = AttributeGetter.getAge();
 		String newGender = AttributeGetter.getGender();

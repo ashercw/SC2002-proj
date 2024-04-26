@@ -1,4 +1,4 @@
-kumar Blackmore|kumarB|S|M|32|NTU|password
+kumar Blackmore|kumarB|S|M|32|NTU|KumarBlackM123!
 Alexei|Alexei|M|M|25|NTU|password
 Tom Chan|TomC|M|M|56|JP|password
 Alica Ang|AlicaA|M|F|27|JE|password

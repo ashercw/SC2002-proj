@@ -105,4 +105,9 @@ public class Order implements Serializable{
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+	public void setOrderQuant(int orderQuant)
+	{
+		this.orderQuantity = orderQuant;
+	}
 }

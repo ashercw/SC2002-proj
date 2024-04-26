@@ -3,7 +3,7 @@ package Controller.Request;
 import java.util.Scanner;
 
 import Controller.Account.Password.PasswordMasker;
-
+import java.lang.Math;
 import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,9 +63,9 @@ public class OrderController {
         System.out.print("Choose: (1) Takeaway, (2) Dine In: ");
         userInputOrderType = IO.userInputInt();
         if (userInputOrderType == 1)
-            orderType = OrderType.DINEIN;
-        else if (userInputOrderType == 2)
             orderType = OrderType.TAKEAWAY;
+        else if (userInputOrderType == 2)
+            orderType = OrderType.DINEIN;
 
         while (userInputItem != -1) {
             System.out.print("Enter the item number (-1 to end ordering): ");
@@ -205,9 +205,12 @@ public class OrderController {
                     } else if (updateInput == 2) {
                         // update quantity
                         System.out.println("Enter new quantity: ");
+                        int oldOLQuant = orderL.getItemQuantity();
                         int newQuant = IO.userInputInt();
                         orderL.setItemQuantity(newQuant);
+                        int totalQuantOld = orderObj.getOrderQuantity();
                         orderObj.setTotalPrice(calcNewTotal(orderLineList));
+                        orderObj.setOrderQuant(totalQuantOld+(Math.abs(newQuant-oldOLQuant)));
                     } else if (updateInput == 3) {
                         // update customisation
                         System.out.println("Enter new customisation: ");
