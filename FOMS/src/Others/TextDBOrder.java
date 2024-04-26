@@ -80,6 +80,13 @@ public class TextDBOrder extends TextDB {
 		}
 	}
 
+	/**
+     * Checks for duplicate orders in the list and removes them.
+     *
+     * @param orderList The list of orders to check for duplicates.
+     * @param order     The order to be checked for duplication.
+     * @return A list of orders without any duplicates.
+     */
 	public static List checkDuplicates(List orderList, Order order) {
 		for (int i = 0; i < orderList.size(); i++) {
 			// List currOrder = (List)orderList.get(i);

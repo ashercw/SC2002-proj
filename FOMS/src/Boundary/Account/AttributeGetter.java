@@ -95,11 +95,23 @@ public class AttributeGetter {
 		}
 	}
 
+	/**
+     * Gets and returns the gender of the employee from user input.
+     * 
+     * @return String representing the user's gender.
+     */
+
 	public static String getGender() {
 		System.out.println("Please enter gender:");
 		String gender = IO.userInpuString();
 		return gender;
 	}
+
+	/**
+     * Gets and returns the age of the employee from user input.
+     * 
+     * @return String representing the user's age.
+     */
 
 	public static String getAge() {
 		System.out.println("Please enter age:");
@@ -107,12 +119,25 @@ public class AttributeGetter {
 		return age;
 	}
 
+    /**
+     * Gets and returns the name of the employee from user input.
+     * 
+     * @return String representing the user's name.
+     */
+
 	public static String getName() {
 		System.out.println("Please enter name:");
 		String name = IO.userInpuString();
 		return name;
 	}
 
+	/**
+     * Gets and returns the employee type (S, M, A) from user input, or null if the user presses Enter without inputting anything.
+     * This allows the user to retain the current role if no new input is provided.
+     * 
+     * @return EmployeeType representing the employee type, or null to retain the current role.
+     */
+	
 	public static EmployeeType getEmpType() {
 		System.out.println(
 				"Please enter role (S for Staff, M for Manager, A for Admin) (or press Enter to keep the current role): ");

@@ -11,7 +11,8 @@ import Others.TextDBBranch;
 import Others.TextDBFood;
 
 /**
- * Temporary because idt i can run the current menucontroller coz of code issues
+ *  Controls the operations related to menu management, including loading and updating food items from repositories,
+ * adding new items, and removing existing items from the menu.
  * 
  * @author Saffron Lim;
  */
@@ -76,6 +77,14 @@ public class MenuControllerTemp {
 
 	}
 
+	/**
+     * Saves the list of food items to the specified repository file.
+     * 
+     * @param filePath Path to the file where food items will be saved.
+     * @param al List of FoodItem objects to be saved.
+     * @throws IOException if there is an error writing to the file.
+     */
+
 	public static void addToFoodRepo(String FILEPATH, List al) throws IOException {
 		try {
 			TextDBFood.saveFood(FILEPATH, al);
@@ -83,6 +92,12 @@ public class MenuControllerTemp {
 			System.out.println("IOException > " + e.getMessage());
 		}
 	}
+
+	/**
+     * Loads menu items from the food repository for each branch.
+     * 
+     * @throws IOException if there is an error reading or writing to the files.
+     */
 
 	public static void loadMenuItemsFromFood() {
 		try {
@@ -107,6 +122,13 @@ public class MenuControllerTemp {
 		}
 	}
 
+	/**
+     * Processes and saves menu items to repository files for each branch.
+     * 
+     * @param al List of FoodItem objects to be processed.
+     * @throws IOException if there is an error writing to the files.
+     */
+
 	public static void loadMenuItems(List al) {
 		try {
 			ArrayList branchList = TextDBBranch.readBranch("BranchRepo.txt", false);
@@ -129,6 +151,19 @@ public class MenuControllerTemp {
 			System.out.println("IOException > " + e.getMessage());
 		}
 	}
+
+	/**
+ * Adds a new food item to the food repository. It checks for duplicates
+ * in the existing list of food items based on the branch and name.
+ * If a duplicate is found, it does not add the item and prints an error message.
+ * 
+ * @param name The name of the food item.
+ * @param price The price of the food item.
+ * @param branch The branch where the food item is available.
+ * @param itemType The type of the food item (e.g., DRINK, MAIN, SIDE).
+ * @param desc A description of the food item.
+ * @throws IOException If there is an issue with reading or writing to the food repository file.
+ */
 
 	public static void addToFoodRepo(String name, double price, String branch, ItemType itemType, String desc)
 			throws IOException {
@@ -153,6 +188,18 @@ public class MenuControllerTemp {
 			System.out.println("IOException > " + e.getMessage());
 		}
 	}
+
+	/**
+ * Updates the details of an existing food item in the food repository.
+ * It replaces the food item's details with new values provided if they are not empty or null.
+ * 
+ * @param oldName The current name of the food item to update.
+ * @param newName The new name for the food item, if not empty.
+ * @param newPrice The new price for the food item, if not zero.
+ * @param newDescription The new description for the food item, if not empty.
+ * @param newBranch The new branch for the food item, if not empty.
+ * @param newItemType The new type of the food item, if not null.
+ */
 
 	public static void updateMenuItem(String oldName, String newName, double newPrice, String newDescription,
 			String newBranch, ItemType newItemType) {
@@ -193,6 +240,13 @@ public class MenuControllerTemp {
 		}
 	}
 
+	/**
+ * Removes a food item from the food repository based on its name.
+ * It searches for the food item by name and removes it if found, otherwise prints an error message.
+ * 
+ * @param name The name of the food item to be removed.
+ * @throws IOException If there is an issue with reading or writing to the food repository file.
+ */
 	public static void removeMenuItem(String name) {
 		try {
 			List<FoodItem> foodItems = TextDBFood.readFoodList("FoodItemRepo.txt");

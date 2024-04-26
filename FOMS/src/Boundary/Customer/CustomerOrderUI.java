@@ -25,9 +25,23 @@ public class CustomerOrderUI {
     private ArrayList foodItems;
     //private Map<Integer, Order> orders;
 
+    /**
+     * Retrieves the name of the branch associated with this instance.
+     * 
+     * @return The name of the branch.
+     */
+
     public String getBranch() {
         return this.branch;
     }
+
+    /**
+     * Constructs a CustomerOrderUI object with specified branch.
+     * It initializes the repository file name based on the branch and loads food items from it.
+     * 
+     * @param branch The branch for which the UI is being created.
+     * @throws IOException If there is an error reading the food list from the repository.
+     */
 
     public CustomerOrderUI(String branch) {
         this.branch = branch;
@@ -74,7 +88,12 @@ public class CustomerOrderUI {
         }
     }
 
-
+/**
+     * Displays the interface for placing an order at a specific branch.
+     * It fetches the menu list for the branch and starts the order creation process.
+     *
+     * @param branch The branch at which the order is to be placed.
+     */
     public void displayPlaceOrderUI(String branch)
     {
 
