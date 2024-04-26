@@ -52,7 +52,7 @@ public class ManagerMainPage {
 					RemoveMenuitems();
 					break;
 				case 5:
-					staffMain.displayStaffMainPage();
+					StaffMainPage.displayStaffMainPage();
 					break;
 				case 0:
 					System.out.println("Exiting Manager Main Page...");
@@ -97,6 +97,7 @@ public class ManagerMainPage {
 			String desc = scanner.nextLine();
 
 			MenuControllerTemp.addToFoodRepo(name, price, branch, itemType, desc);
+			System.out.println("Item " + name + " added successfully!");
 		} catch (Exception e) {
 			System.out.println("Error occurred while adding the menu item: " + e.getMessage());
 		}
