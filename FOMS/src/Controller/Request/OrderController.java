@@ -360,8 +360,20 @@ public class OrderController {
         int orderConfirm = 0;
         System.out.println("Please enter your Order ID: ");
         int userOrderID = IO.userInputInt();
+        Order custOrder = null;
 
-        Order custOrder = getOrderById(userOrderID);
+        List orders = TextDBOrder.readSerializedObject("OrderRepo.txt");
+        for(int i = 0; i < orders.size(); i++)
+        {
+            custOrder = (Order)orders.get(i);
+            if(custOrder.getOrderID() == userOrderID)
+            {
+                System.out.println("Order " + userOrderID + " found!");
+                break;
+            }
+        }
+
+        //custOrder = getOrderById(userOrderID);
         if (custOrder == null)
             return; // search failed
 

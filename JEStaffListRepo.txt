@@ -6,3 +6,5 @@ h|h|S|M|25|JE|password
 j|j|S|M|25|JE|password
 Tom Chan|TomC|M|M|56|JP|TomChan123!
 Alexei|Alexei|M|M|25|NTU|password
+Chris|ChrisK|S|M|21|JE|password
+Ria|RiaDN|S|F|21|JE|password

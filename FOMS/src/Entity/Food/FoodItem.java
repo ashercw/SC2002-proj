@@ -68,9 +68,9 @@ public class FoodItem implements IFoodItem, Serializable{
         this.description = _d;
     }
 
-    public double setPrice(double price)
+    public void setPrice(double price)
     {
-        return this.price;
+        this.price = price;
     }
 
     public void setFoodItemName(String _n){

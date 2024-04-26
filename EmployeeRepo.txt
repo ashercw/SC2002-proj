@@ -1,7 +1,9 @@
 kumar Blackmore|kumarB|S|M|32|NTU|KumarBlackM123!
 Alexei|Alexei|M|M|25|NTU|password
-Tom Chan|TomC|M|M|56|JP|password
 Alica Ang|AlicaA|M|F|27|JE|password
 Mary lee|MaryL|S|F|44|JE|password
 Justin Loh|JustinL|S|M|49|JP|password
-Boss|boss|A|F|62|password
+Boss|boss|A|F|62|BossBoss1234!
+TomC|tomC|M|M|56|JP|TomChalemet123!
+Chris|ChrisK|S|M|21|JE|password
+Ria|RiaDN|S|F|21|JE|password

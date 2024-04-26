@@ -8,6 +8,7 @@ import Entity.Food.FoodItem;
 import Entity.Food.ItemType;
 import Entity.User.EmployeeType;
 import Entity.User.User;
+import Others.IO;
 import Others.TextDBFood;
 import Others.TextDBStaff;
 import Controller.Request.AdminController;
@@ -107,20 +108,20 @@ public class ManagerMainPage {
 		try {
 			// Input the details of the menu item to be edited
 			System.out.print("Enter the name of the menu item to edit: ");
-			String oldName = scanner.nextLine();
+			String oldName = IO.userInpuString();
 
 			System.out.print("Enter the new name of the menu item to edit: ");
-			String newName = scanner.nextLine();
+			String newName = IO.userInpuString();
 
 			System.out.print("Enter the new price of the menu item: ");
 			double newPrice = scanner.nextDouble();
 			scanner.nextLine();
 
 			System.out.print("Enter the new description of the menu item: ");
-			String newDescription = scanner.nextLine();
+			String newDescription = IO.userInpuString();
 
 			System.out.print("Enter the branch of the menu item: ");
-			String newBranch = scanner.nextLine();
+			String newBranch = IO.userInpuString();
 
 			System.out.print("Enter the new category of the menu item (BURGER/SIDE/SETMEAL/DRINK): ");
 			ItemType newItemType;
