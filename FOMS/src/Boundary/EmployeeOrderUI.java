@@ -5,13 +5,27 @@ import java.util.InputMismatchException;
 import Controller.Request.OrderController;
 import Entity.Order.Order;
 import Entity.Order.OrderStatus;
+/**
+ * This class provides the user interface for employees to manage orders.
+ * Employees can display all orders, view details of specific orders, process orders,
+ * and exit the menu.
+ */
 
 public class EmployeeOrderUI {
     private Scanner scanner;
 
+    /**
+     * Constructs an EmployeeOrderUI instance initializing the scanner used for input.
+     */
+
     public EmployeeOrderUI() {
         this.scanner = new Scanner(System.in);
     }
+
+    /**
+     * Displays the main menu to the employee and processes user input to navigate through options.
+     * The menu loops indefinitely until the user chooses to exit.
+     */
 
     public void displayMenu() {
         while (true) {
@@ -47,6 +61,11 @@ public class EmployeeOrderUI {
             }
         }
     }
+    /**
+     * Displays the details of an order specified by the order ID.
+     * 
+     * @param orderID
+     */
 
     private void displayOrderDetails(int orderID) {
         Order order = OrderController.getOrderById(orderID);
@@ -56,6 +75,11 @@ public class EmployeeOrderUI {
             System.out.println("Order not found!");
         }
     }
+
+    /**
+     * Processes an order by setting its status to READY if it is currently ORDERPLACED.
+     * The employee is prompted to enter the order ID, and the order is updated accordingly.
+     */
 
     private void processOrder() {
         System.out.print("Enter order ID: ");
