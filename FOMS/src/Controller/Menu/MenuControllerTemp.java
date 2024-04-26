@@ -181,9 +181,7 @@ public class MenuControllerTemp {
 					if (!newName.isEmpty()) {
 						foodItem.setFoodItemName(newName);
 					}
-					if (newPrice != 0.0) {
-						foodItem.setPrice(newPrice);
-					}
+					foodItem.setPrice(newPrice);
 					if (!newBranch.isEmpty()) {
 						foodItem.setFoodItemBranch(newBranch);
 					}

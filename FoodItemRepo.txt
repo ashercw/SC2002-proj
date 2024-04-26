@@ -5,4 +5,4 @@ Cole Slaw|2.7|JE|SIDE|No item description.
 3pc Set Meal|10.4|JE|SETMEAL|No item description.
 Chicken Nugget|6.9|JP|SIDE|No item description.
 Chicken Nugget|6.6|NTU|SIDE|No item description.
-Milk tea|3.5|NTU|DRINK|Less sugar
+Milk Tea|3.5|NTU|DRINK|More Sugar
