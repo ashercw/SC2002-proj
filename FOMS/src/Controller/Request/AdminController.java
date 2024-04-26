@@ -11,7 +11,6 @@ import Entity.User.Staff;
 import Entity.User.User;
 import Entity.Branch;
 import Entity.User.Manager;
-import Entity.Order.Payment;
 import java.util.stream.Collectors;
 import Others.TextDBBranch;
 import Others.TextDBStaff;
@@ -298,15 +297,15 @@ public class AdminController {
 			long currentManagerCount = branchStaff.stream().filter(u -> u instanceof Manager).count();
 			int staffNum = branchStaff.size();
 			
-			// Quota limits: defining maximum managers based on the staff count
+			// Adjusted quota limits: defining maximum managers based on the staff count
 			if (currentManagerCount >= 2 && staffNum < 5) {
-				System.out.println("Cannot promote to manager as the manager quota for less than 5 staff is already reached.");
+				System.out.println("Cannot promote to manager as the manager quota for 5 or fewer staff is already reached.");
 				return false;
 			} else if (currentManagerCount >= 3 && staffNum < 9) {
-				System.out.println("Cannot promote to manager as the manager quota for less than 9 staff is already reached.");
+				System.out.println("Cannot promote to manager as the manager quota for 9 or fewer staff is already reached.");
 				return false;
 			} else if (currentManagerCount >= 4 && staffNum < 15) {
-				System.out.println("Cannot promote to manager as the manager quota for less than 15 staff is already reached.");
+				System.out.println("Cannot promote to manager as the manager quota for 15 or fewer staff is already reached.");
 				return false;
 			}
 	
@@ -335,6 +334,7 @@ public class AdminController {
 		return promoted;
 	}
 	
+	
 
 	/**
 	 * Transfers a user (staff member) to a different branch.
@@ -347,83 +347,87 @@ public class AdminController {
 	 */
 	public static void transferUserToBranch(String userId, String newBranchName, String currentBranchName) {
 		try {
-		 @SuppressWarnings("unchecked")
-		 List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
-		 @SuppressWarnings("unchecked")
-		 List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
-		 Staff staffToTransfer = null;
-		 for (User user : employees) {
-		  if (user instanceof Staff && user.getLoginID().equals(userId)) {
-		   staffToTransfer = (Staff) user;
-		   break;
-		  }
-		 }
-		 if (staffToTransfer == null) {
-		  System.out.println("Staff with ID '" + userId + "' not found.");
-		  return;
-		 }
-		 @SuppressWarnings("unchecked")
-			List<User> branchStaff = TextDBStaff.readEmployee(currentBranchName + "StaffListRepo.txt");
+			@SuppressWarnings("unchecked")
+			List<User> employees = TextDBStaff.readEmployee("EmployeeRepo.txt");
+			@SuppressWarnings("unchecked")
+			List<Branch> branches = TextDBBranch.readBranch("BranchRepo.txt", true);
+			Staff staffToTransfer = null;
 	
-			// Count existing managers in the branch
-			long currentManagerCount = branchStaff.stream().filter(u -> u instanceof Manager).count();
-			int staffNum = branchStaff.size();
-			
-			// Quota limits: defining maximum managers based on the staff count
-			if (currentManagerCount >= 2 && staffNum < 5) {
-				System.out.println("Cannot promote to manager as the manager quota for less than 5 staff is already reached.");
-				return;
-			} else if (currentManagerCount >= 3 && staffNum < 9) {
-				System.out.println("Cannot promote to manager as the manager quota for less than 9 staff is already reached.");
-				return;
-			} else if (currentManagerCount >= 4 && staffNum < 15) {
-				System.out.println("Cannot promote to manager as the manager quota for less than 15 staff is already reached.");
+			for (User user : employees) {
+				if (user instanceof Staff && user.getLoginID().equals(userId)) {
+					staffToTransfer = (Staff) user;
+					break;
+				}
+			}
+	
+			if (staffToTransfer == null) {
+				System.out.println("Staff with ID '" + userId + "' not found.");
 				return;
 			}
-	   
-		 Branch currentBranch = null, newBranch = null;
-		 for (Branch branch : branches) {
-		  if (branch.getBranchName().equals(currentBranchName)) {
-		   currentBranch = branch;
-		  }
-		  if (branch.getBranchName().equals(newBranchName)) {
-		   newBranch = branch;
-		  }
-		 }
-		 if (newBranch == null) {
-		  System.out.println("New branch '" + newBranchName + "' not found.");
-		  return;
-		 }
-		 if (currentBranch == null) {
-		  System.out.println("Current branch '" + currentBranchName + "' not found.");
-		  return;
-		 }
-	   
-		 // Read staff lists for current and new branches
-		 @SuppressWarnings("unchecked")
-		 List<User> currentBranchStaff = TextDBStaff.readEmployee(currentBranchName + "StaffListRepo.txt");
-		 @SuppressWarnings("unchecked")
-		 List<User> newBranchStaff = TextDBStaff.readEmployee(newBranchName + "StaffListRepo.txt");
-	   
-		 // Remove staff from current branch staff list
-		 currentBranchStaff.removeIf(user -> user.getLoginID().equals(userId));
-		 // Add staff to new branch staff list
-		 newBranchStaff.add(staffToTransfer);
-	   
-		 // Save updated staff lists
-		 TextDBStaff.saveEmployee(currentBranchName + "StaffListRepo.txt", currentBranchStaff);
-		 TextDBStaff.saveEmployee(newBranchName + "StaffListRepo.txt", newBranchStaff);
-	   
-		 // Update staff's branch
-		 staffToTransfer.setBranch(newBranchName);
-		 TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
-		 TextDBBranch.saveBranch("BranchRepo.txt", branches);
-	   
-		 System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
+	
+			Branch currentBranch = null, newBranch = null;
+			for (Branch branch : branches) {
+				if (branch.getBranchName().equals(currentBranchName)) {
+					currentBranch = branch;
+				}
+				if (branch.getBranchName().equals(newBranchName)) {
+					newBranch = branch;
+				}
+			}
+	
+			if (newBranch == null) {
+				System.out.println("New branch '" + newBranchName + "' not found.");
+				return;
+			}
+	
+			if (currentBranch == null) {
+				System.out.println("Current branch '" + currentBranchName + "' not found.");
+				return;
+			}
+	
+			@SuppressWarnings("unchecked")
+			List<User> newBranchStaff = TextDBStaff.readEmployee(newBranchName + "StaffListRepo.txt");
+			long currentManagerCount = newBranchStaff.stream().filter(u -> u instanceof Manager).count();
+			int staffCount = newBranchStaff.size();
+	
+			// Check quota limit based on staff count
+			if (staffToTransfer instanceof Manager) {
+				if (staffCount < 5 && currentManagerCount >= 1) {
+					System.out.println("Cannot transfer manager as the manager quota for less than 5 staff is already reached.");
+					return;
+				} else if (staffCount < 9 && currentManagerCount >= 2) {
+					System.out.println("Cannot transfer manager as the manager quota for less than 9 staff is already reached.");
+					return;
+				} else if (staffCount < 15 && currentManagerCount >= 3) {
+					System.out.println("Cannot transfer manager as the manager quota for less than 15 staff is already reached.");
+					return;
+				}
+			}
+	
+			// Read staff list for current branch
+			List<User> currentBranchStaff = TextDBStaff.readEmployee(currentBranchName + "StaffListRepo.txt");
+	
+			// Remove staff from current branch staff list
+			currentBranchStaff.removeIf(user -> user.getLoginID().equals(userId));
+	
+			// Add staff to new branch staff list
+			newBranchStaff.add(staffToTransfer);
+	
+			// Save updated staff lists
+			TextDBStaff.saveEmployee(currentBranchName + "StaffListRepo.txt", currentBranchStaff);
+			TextDBStaff.saveEmployee(newBranchName + "StaffListRepo.txt", newBranchStaff);
+	
+			// Update staff's branch
+			staffToTransfer.setBranch(newBranchName);
+			TextDBStaff.saveEmployee("EmployeeRepo.txt", employees);
+			TextDBBranch.saveBranch("BranchRepo.txt", branches);
+	
+			System.out.println("Staff with ID '" + userId + "' transferred to branch '" + newBranchName + "'.");
 		} catch (IOException e) {
-		 System.out.println("Error transferring staff: " + e.getMessage());
+			System.out.println("Error transferring staff: " + e.getMessage());
 		}
 	}
+	
 
 	/**
 	 * Adds a new payment method to the system.
